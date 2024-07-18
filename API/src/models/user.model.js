@@ -57,7 +57,7 @@ User.init({
         validate: {
             isDate: true,
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid birthdate"
             },
             notNull: {
                 msg: "Please enter a valid birthdate"
@@ -77,7 +77,7 @@ User.init({
         type: DataTypes.STRING(255),
         allowNull: false,
         notEmpty: {
-            msg: "Please enter a valid last name"
+            msg: "Please enter a valid address"
         },
         validate: {
             notNull: {
@@ -90,7 +90,7 @@ User.init({
         allowNull: false,
         validate: {
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid phone number"
             },
             notNull: {
                 msg: "Please enter a valid phone number"
@@ -103,7 +103,7 @@ User.init({
         unique: true,
         validate: {
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid email"
             },
             notNull: {
                 msg: "Please enter a valid email"
