@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -13,6 +14,8 @@ export async function authValidator(req,res,next){
         if (!jwtSecret) {
             return res.status(500).json({ message: 'Secret token is not defined' });
         }
+        
+        jwt.verify(token, jwtSecret)
 
         next()
     } catch (error) {
