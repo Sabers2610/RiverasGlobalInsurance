@@ -1,9 +1,11 @@
 import express from 'express'
 import morgan from 'morgan'
 import { syncTables } from "./utils/syncDatabase.utils.js"
+import userRouter from "./routes/user.route.js"
 import config from './config/config.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
+import { UserType } from './models/userType.model.js';
 await syncTables(); // sincronizamos la base de datos con los modelos de ./src/models/...
 
 
@@ -31,9 +33,14 @@ APP.use((err, req, res, next) => {
 });
 
 // definir rutas de cada endpoint debajo
-
+APP.use("/api/v1/", userRouter)
 
 const PORT = config.port
 APP.listen(PORT, () => {
     console.log(`Api running in port ${PORT}`)
 })
+
+
+
+// codigo para creacion de usertypes 
+// const type = UserType.create({userTypeName: 'admin'})

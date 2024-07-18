@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize'
 import {SEQUELIZE} from '../config/database/db.js'
-import { UserType } from './userType.models.js'
+import { UserType } from './userType.model.js'
 import bcrypt from 'bcrypt'
 
 export class User extends Model {
@@ -42,7 +42,7 @@ User.init({
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-            is: /^[A-Za-z]+$/i,
+            is: /^[A-Za-zñÑ]+$/i,
             notEmpty: {
                 msg: "Please enter a valid last name"
             },
@@ -57,7 +57,7 @@ User.init({
         validate: {
             isDate: true,
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid birthdate"
             },
             notNull: {
                 msg: "Please enter a valid birthdate"
@@ -76,21 +76,22 @@ User.init({
     userAddress: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        notEmpty: {
-            msg: "Please enter a valid last name"
-        },
         validate: {
             notNull: {
                 msg: "Please enter a valid address"
             },
+            notEmpty: {
+                msg: "Please enter a valid address"
+            }
         }
     },
     userPhone: {
-        type: DataTypes.STRING(18),
+        type: DataTypes.NUMBER(18),
         allowNull: false,
         validate: {
+            isMobilePhone: true,
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid phone number"
             },
             notNull: {
                 msg: "Please enter a valid phone number"
@@ -103,7 +104,7 @@ User.init({
         unique: true,
         validate: {
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid email"
             },
             notNull: {
                 msg: "Please enter a valid email"

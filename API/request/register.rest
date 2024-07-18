@@ -1,0 +1,13 @@
+POST http://localhost:3000/api/v1/register
+content-type: application/json
+
+{
+   "firstName": "juanito", 
+   "lastName": "dios", 
+   "birthDate": "2004/09/09", 
+   "address": "asdfsafas", 
+   "phone": "9999999", 
+   "email": "juanitodios@loscielos.cl", 
+   "password":"Erwin123*", 
+   "passwordConfirmed":"Erwin123*" 
+}
