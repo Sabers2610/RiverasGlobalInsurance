@@ -4,6 +4,7 @@ import { syncTables } from "./utils/syncDatabase.utils.js"
 import config from './config/config.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
+import { ROUTER } from './routes/user.route.js';
 await syncTables(); // sincronizamos la base de datos con los modelos de ./src/models/...
 
 
@@ -31,6 +32,7 @@ APP.use((err, req, res, next) => {
 });
 
 // definir rutas de cada endpoint debajo
+APP.use("/api/v1/", ROUTER)
 
 
 const PORT = config.port
