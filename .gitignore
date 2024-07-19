@@ -3,5 +3,5 @@ WEB/.env
 API/.env
 
 # Ignorar carpetas node_modules en ambos proyectos
-WEB/node_modules/
+RiverasGlobalWeb/node_modules/
 API/node_modules/

@@ -1,3 +1,4 @@
+import Sequelize from 'sequelize'
 import {User} from '../models/user.models.js'
 import bcrypt from 'bcrypt'
 import {generateRefreshToken, generateToken} from '../utils/tokenManager.utils.js'
@@ -15,11 +16,11 @@ export class UserController {
             if (!passwordValidate) {
                 throw new CustomError("Email and/or password incorrect", 401, "API_LOGIN_VALIDATE")
             }
-            const {token, expiresIn} = generateToken(USER.employeeId)
+            const token = generateToken(USER.employeeId)
             generateRefreshToken(USER.employeeId, res)
 
             const USEROBJECT = USER.toJSON()
-            USEROBJECT.userToken = {token, expiresIn}
+            USEROBJECT.userToken = token
 
             return res.status(202).json(USEROBJECT)
         } catch (error) {
