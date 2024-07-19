@@ -1,5 +1,6 @@
 POST http://localhost:3000/api/v1/findLastName
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI4MjJlNjdiMS1iN2RkLTQ2OWItYWNkMy0zNTNmYzgyODUyNTEiLCJpYXQiOjE3MjE0MzEwMjQsImV4cCI6MTcyMTQzMTYyNH0.k-nclGa2pqCuXx_Ml4tzxYB-WlzuLjDlKSR5qQSrDtA
 
 {
     "lastName" : "Ahumada"

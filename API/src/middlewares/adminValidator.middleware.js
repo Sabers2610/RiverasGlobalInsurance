@@ -1,31 +1,38 @@
 import dotenv from 'dotenv'
+import { User } from '../models/user.model.js'
+import { UserType } from '../models/userType.model.js'
+import jwt from 'jsonwebtoken'
 dotenv.config()
 
-export async function authValidator(req,res,next){
+export async function adminValidator(req,res,next){
     try {
+
         const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-    
-        if (token == null) return res.sendStatus(401);
-    
-        const jwtSecret = process.env.JWT_SECRET_KEY;
-    
+
+        const token = authHeader.split(' ')[1];
+
+        if (!token) return res.sendStatus(401);
+
+        const jwtSecret = process.env.JWT_SECRET;
+
         if (!jwtSecret) {
             return res.status(500).json({ message: 'Secret token is not defined' });
         }
 
-        let decodedToken;
-            decodedToken = jwt.verify(token, jwtSecret);
+        const {uid} = jwt.verify(token, jwtSecret)
 
-        const uid = decodedToken.uid;
-    
-        const USER = await USER.findByPk(uid)
-        const TYPEUSER = await UserType.findByPk(USER.UserType)
+        req.uid = uid
+
+        const USER = await User.findByPk(uid)
+
+        const TYPEUSER = await UserType.findByPk(USER.userTypeId)
+
         if (TYPEUSER.userTypeName.toUpperCase() !== "ADMIN"){
             return res.status(401).json({ message: 'Access denied' });
         }
+
         next()
     } catch (error) {
-        return res.status(401).json({ message: 'Invalid token'})
+        return res.status(401).json({ message: error})
     }
 }
