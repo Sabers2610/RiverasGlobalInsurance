@@ -1,5 +1,5 @@
-import { User } from '../models/user.models.js'
-import {UserType} from '../models/userType.models.js'
+import { User } from '../models/user.model.js'
+import {UserType} from '../models/userType.model.js'
 
 
 export async function syncTables() {
