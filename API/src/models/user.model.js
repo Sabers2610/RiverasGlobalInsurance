@@ -76,9 +76,6 @@ User.init({
     userAddress: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        notEmpty: {
-            msg: "Please enter a valid last name"
-        },
         validate: {
             notNull: {
                 msg: "Please enter a valid address"
