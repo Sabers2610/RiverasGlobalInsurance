@@ -2,6 +2,6 @@ POST http://localhost:3000/api/v1/login
 content-type: application/json
 
 {
-    "email": "juanitodios@loscielos.cl", 
+    "email": "er.nunez@duocuc.cl", 
     "password":"Erwin123*"
 }
