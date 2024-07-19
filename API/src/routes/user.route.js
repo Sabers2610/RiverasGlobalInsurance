@@ -18,4 +18,7 @@ ROUTER.route("/findFirstName")
 ROUTER.route("/findLastName")
     .post(UserController.findLastName)
 
+ROUTER.route("/login")
+    .post(UserController.login)
+
 export default ROUTER; 
