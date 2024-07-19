@@ -9,3 +9,6 @@ ROUTER.route("/login")
 
 ROUTER.route("/logout")
     .post(tokenHeaderValidator, UserController.logout)
+
+ROUTER.route("/refreshToken")
+    .post(tokenCookieValidator, UserController.refreshToken)

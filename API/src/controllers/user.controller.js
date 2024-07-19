@@ -42,4 +42,26 @@ export class UserController {
         res.clearCookie("refreshToken")
         res.end()
     }
+
+    static refreshToken(req, res) {
+        try {
+            const refreshTokenClient = req.cookies.refreshToken
+    
+            if (!refreshTokenClient) {
+                throw new CustomError("No token provided", 401, "API_REFRESHTOKEN_UNAUTHORIZED")
+            }
+    
+            const { uid } = JWT.verify(refreshTokenClient, process.env.JWT_SECRET_REFRESH)
+    
+            const token = generateToken(uid)
+    
+            res.status(200).json(token)
+        } catch (error) {
+            console.log(error)
+            if (error instanceof CustomError) {
+                return res.status(error.code).json(error.toJson())
+            }
+            return res.status(401).json(error.message)
+        }
+    }
 }
