@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/v1/modifyUser 
+content-type: application/json
+
+{
+"id": "501e7900-00dd-4930-9147-afea8964e2be",
+"lastName": "Barra"
+}

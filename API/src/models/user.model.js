@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize'
 import {SEQUELIZE} from '../config/database/db.js'
-import { UserType } from './userType.models.js'
+import { UserType } from './userType.model.js'
 import bcrypt from 'bcrypt'
 
 export class User extends Model {

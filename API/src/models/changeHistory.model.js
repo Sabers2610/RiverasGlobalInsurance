@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import SEQUELIZE from '../config/database/db.js'
+import { SEQUELIZE } from '../config/database/db.js'
 
 export class ChangeHistory extends Model { } // creamos la clase sin parametros extra
 
