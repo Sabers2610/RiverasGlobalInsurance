@@ -15,14 +15,14 @@ export class UserController {
             let {firstName, lastName, birthDate, address, phone, email, password, passwordConfirmed} = request.body
             const REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()*\-_=+{};:,<.>])[A-Za-z\d!@#$%^&()*\-_=+{};:,<.>.]{8,}$/
             const USERTYPE = await UserType.findOne({where: { UserTypeName: 'operador' }})
-            console.log("entre al try")
+
             if(password !== passwordConfirmed){
                 throw new CustomError("Passwords do not match", 400, "API_REFRESHTOKEN_UNAUTHORIZED")
             }
             else if(!REGEX.test(passwordConfirmed)){
                 throw new CustomError("Invalid password format", 400, "API_REFRESHTOKEN_UNAUTHORIZED")
             }
-            console.log("antes de crear")
+
             await User.create({
                 userFirstName: firstName,
                 userLastName :lastName,
@@ -34,7 +34,7 @@ export class UserController {
                 userTypeId: USERTYPE.userTypeId
             })
             return response.status(202).json({"msg" : "User created sucessfully"})
-            console.log("creado")
+
 
         } catch (error) {
             if(error instanceof sequelize.ValidationError){
