@@ -16,8 +16,8 @@ export class UserController {
             if (!passwordValidate) {
                 throw new CustomError("Email and/or password incorrect", 401, "API_LOGIN_VALIDATE")
             }
-            const token = generateToken(USER.employeeId)
-            generateRefreshToken(USER.employeeId, res)
+            const token = generateToken(USER.userId)
+            generateRefreshToken(USER.userId, res)
 
             const USEROBJECT = USER.toJSON()
             USEROBJECT.userToken = token
