@@ -4,6 +4,10 @@ import bcrypt from 'bcrypt'
 import { generateRefreshToken, generateToken } from '../utils/tokenManager.utils.js'
 import CustomError from '../utils/exception.utils.js'
 import { Sequelize } from 'sequelize'
+import { regexPassword } from '../utils/regexPassword.utils.js'
+
+
+
 
 export class UserController {
     static async login(req, res) {
@@ -17,11 +21,11 @@ export class UserController {
             if (!passwordValidate) {
                 throw new CustomError("Email and/or password incorrect", 401, "API_LOGIN_VALIDATE")
             }
-            const { token, expiresIn } = generateToken(USER.employeeId)
-            generateRefreshToken(USER.employeeId, res)
+            const token = generateToken(USER.userId)
+            generateRefreshToken(USER.userId, res)
 
             const USEROBJECT = USER.toJSON()
-            USEROBJECT.userToken = { token, expiresIn }
+            USEROBJECT.userToken = token
 
             return res.status(202).json(USEROBJECT)
         } catch (error) {
@@ -44,12 +48,76 @@ export class UserController {
         res.end()
     }
 
+    static refreshToken(req, res) {
+        try {
+            const refreshTokenClient = req.cookies.refreshToken
+
+            if (!refreshTokenClient) {
+                throw new CustomError("No token provided", 401, "API_REFRESHTOKEN_UNAUTHORIZED")
+            }
+
+            const { uid } = JWT.verify(refreshTokenClient, process.env.JWT_SECRET_REFRESH)
+
+            const token = generateToken(uid)
+
+            res.status(200).json(token)
+        } catch (error) {
+            console.log(error)
+            if (error instanceof CustomError) {
+                return res.status(error.code).json(error.toJson())
+            }
+            return res.status(401).json(error.message)
+        }
+    }
+
+
+    static async register(request, response) {
+        try {
+
+            let { firstName, lastName, birthDate, address, phone, email, password, passwordConfirmed } = request.body
+            const REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()*\-_=+{};:,<.>])[A-Za-z\d!@#$%^&()*\-_=+{};:,<.>.]{8,}$/
+            const USERTYPE = await UserType.findOne({ where: { UserTypeName: 'operador' } })
+
+            if (password !== passwordConfirmed) {
+                throw new CustomError("Passwords do not match", 400, "API_REFRESHTOKEN_UNAUTHORIZED")
+            }
+            else if (!REGEX.test(passwordConfirmed)) {
+                throw new CustomError("Invalid password format", 400, "API_REFRESHTOKEN_UNAUTHORIZED")
+            }
+            await User.create({
+                userFirstName: firstName,
+                userLastName: lastName,
+                userBirthDate: birthDate,
+                userAddress: address,
+                userPhone: phone,
+                userEmail: email,
+                userPassword: password,
+                userTypeId: USERTYPE.userTypeId
+            })
+            return response.status(202).json({ "msg": "User created sucessfully" })
+
+        } catch (error) {
+            if (error instanceof sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
+                return response.status(ERROR.code).json(ERROR.toJson())
+            }
+            else if (error instanceof CustomError) {
+                return response.status(401).json(error.toJson())
+            }
+            else {
+                return response.status(500).json(error.message)
+            }
+        }
+    }
+
 
     static async modify(request, response) {
         try {
-            let { id, firstName, lastName, birthDate, address, phone, password, password2 } = request.body
+            let { firstName, lastName, birthDate, address, phone, password, password2 } = request.body
 
-            const USER = await User.findByPk(id)
+
+            const USER = await User.findByPk(request.uid)
+            console.log(USER.toJSON())
 
             if (!USER) {
                 throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
@@ -67,35 +135,35 @@ export class UserController {
                 userObject.userFirstName = firstName
                 changes.push(`nombre de ${OLDUSER.userFirstName} a ${firstName}`)
             } else {
-                throw new CustomError("the field first name is empty", 400, "API_LOGIN_VALIDATE")
+                userObject.userFirstName = OLDUSER.userFirstName
             }
 
             if (lastName !== "") {
                 userObject.userLastName = lastName
                 changes.push(`apellido de ${OLDUSER.userLastName} a ${lastName}`)
             } else {
-                throw new CustomError("the field last name is empty", 400, "API_LOGIN_VALIDATE")
+                userObject.userLastName = OLDUSER.userLastName
             }
 
             if (birthDate !== "") {
                 userObject.userBirthDate = birthDate
                 changes.push(`birthDate from ${OLDUSER.userBirthDate} to ${birthDate}`)
             } else {
-                throw new CustomError("the field birth date is empty", 400, "API_LOGIN_VALIDATE")
+                userObject.userBirthDate = OLDUSER.userBirthDate
             }
 
             if (address !== "") {
                 userObject.userAddress = address
                 changes.push(`address from ${OLDUSER.userAddress} to ${address}`)
             } else {
-                throw new CustomError("the field address is empty", 400, "API_LOGIN_VALIDATE")
+                userObject.userAddress = OLDUSER.userAddress
             }
 
             if (phone !== "") {
                 userObject.userPhone = phone
                 changes.push(`telefono de ${OLDUSER.userPhone} a ${phone}`)
             } else {
-                throw new CustomError("the field phone is empty", 400, "API_LOGIN_VALIDATE")
+                userObject.userPhone = OLDUSER.userPhone
             }
 
             if (password && password !== OLDUSER.userPassword) {
@@ -105,7 +173,10 @@ export class UserController {
                 }
                 userObject.userPassword = password
                 changes.push(`password updated`)
+            } else {
+                userObject.userPassword = OLDUSER.userPassword
             }
+
             await USER.update(userObject)
 
             await ChangeHistory.create({
@@ -116,6 +187,7 @@ export class UserController {
             return response.status(202).json({ "msg": "Usuario modificado correctamente" })
 
         } catch (error) {
+            console.log(error)
             if (error instanceof Sequelize.ValidationError) {
                 const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
                 return response.status(ERROR.code).json(ERROR.toJson())
