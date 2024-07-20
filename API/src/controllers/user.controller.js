@@ -118,13 +118,15 @@ export class UserController {
 
             const USER = await User.findByPk(request.uid)
             console.log(USER.toJSON())
+            console.log("esta es la password")
+            console.log(USER.userPassword)
 
             if (!USER) {
                 throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
             }
 
             if (password !== password2) {
-                throw new CustomError("las contraseñas no coinciden", 400, "API_LOGIN_VALIDATE")
+                throw new CustomError("Passwords do not match", 400, "API_LOGIN_VALIDATE")
             }
 
             const OLDUSER = USER.toJSON()
@@ -166,17 +168,16 @@ export class UserController {
                 userObject.userPhone = OLDUSER.userPhone
             }
 
-            if (password && password !== OLDUSER.userPassword) {
-                const validation = await regexPassword(password)
+            if (password !== "") {
+                const validation = regexPassword(password)
                 if (!validation) {
                     throw new CustomError("Invalid password format", 400, "API_LOGIN_VALIDATE")
+                } else {
+                    userObject.userPassword = password
+                    changes.push(`password updated`)
                 }
-                userObject.userPassword = password
-                changes.push(`password updated`)
-            } else {
-                userObject.userPassword = OLDUSER.userPassword
             }
-
+            console.log(userObject)
             await USER.update(userObject)
 
             await ChangeHistory.create({

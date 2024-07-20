@@ -1,0 +1,14 @@
+POST http://localhost:3000/api/v1/register 
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI4MjJlNjdiMS1iN2RkLTQ2OWItYWNkMy0zNTNmYzgyODUyNTEiLCJpYXQiOjE3MjE0OTYwOTQsImV4cCI6MTcyMTQ5NjY5NH0.gsxClPO0LAdtV-qHzYb64FITQbs38f67MthqFUbqkZU
+
+{
+"firstName": "Giovanni",
+"lastName": "Barra",
+"birthDate": "1992/04/24",
+"address": "mi casita",
+"phone": "9999999",
+"email": "gio.barra@duocuc.cl",
+"password":"Giovanni#10",
+"passwordConfirmed":"Giovanni#10"
+}
