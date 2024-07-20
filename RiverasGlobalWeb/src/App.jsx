@@ -7,14 +7,14 @@ import RequireAuth from './components/RequireAuth.component.jsx'
 
 
 function App() {
-    const location = useLocation()
+    const location = useLocation() // usamos el location para saber en que url esta
     return (
         <>
-            {location.pathname !== "/login" && <Navbar />}
+            {location.pathname !== "/login" && <Navbar />} {/* Verificamos si no esta en el login para cargar la navbar*/}
             <Routes>
                 <Route path='/' element={
                     <RequireAuth>
-                        <Home />
+                        <Home /> {/* Creamos la ruta de home y le seteamos el require auth para que deba estar logueado*/}
                     </RequireAuth>
                 } />
                 <Route path='/login' element={<Login />} />

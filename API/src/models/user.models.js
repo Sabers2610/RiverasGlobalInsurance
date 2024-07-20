@@ -29,7 +29,7 @@ User.init({
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-            is: /^[A-Za-z]+$/i,
+            is: /^[A-Za-zñÑ]+$/i,
             notEmpty: {
                 msg: "Please enter a valid first name"
             },
@@ -42,7 +42,7 @@ User.init({
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-            is: /^[A-Za-z]+$/i,
+            is: /^[A-Za-zñÑ]+$/i,
             notEmpty: {
                 msg: "Please enter a valid last name"
             },

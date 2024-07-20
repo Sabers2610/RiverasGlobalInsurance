@@ -6,15 +6,15 @@ import { userContext } from "../context/userProvider.context";
 import { useContext } from "react";
 
 function Navbar() {
-    const { user, setUser } = useContext(userContext)
-    const navigate = useNavigate()
+    const { user, setUser } = useContext(userContext) // extraemos el contexto para poder hacer logout (cerrar sesion)
+    const navigate = useNavigate() // Creamos el navigate para poder redireccionar a los usuarios
     const handleLogout = async () => {
-        const response = await logoutServices(user.userToken);
+        const response = await logoutServices(user.userToken); // llamamos el servicio para hacer logout desde la api
 
         if(response.status === 200){
             setUser(null)
         }
-        return navigate("/login")
+        return navigate("/login") // al cerrar sesion lo mandamos al login
     }
     return (
         <div className="header">

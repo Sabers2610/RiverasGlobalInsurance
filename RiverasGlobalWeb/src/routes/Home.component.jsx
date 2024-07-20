@@ -3,10 +3,8 @@ import { userContext } from "../context/userProvider.context"
 
 
 function Home() {
-    const {user} = useContext(userContext)
+    const {user} = useContext(userContext) // llmamos el contexto para acceder a los datos del usuario
 
-    console.log("Se imprimira al usuario del context en el home...")
-    console.log(user)
     return (
         <h1>Home</h1>
     )
