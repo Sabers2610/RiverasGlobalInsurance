@@ -3,30 +3,35 @@ import {User} from '../models/user.models.js'
 import bcrypt from 'bcrypt'
 import {generateRefreshToken, generateToken} from '../utils/tokenManager.utils.js'
 import CustomError from '../utils/exception.utils.js'
+import { regexPassword } from '../utils/regexPassword.utils.js'
 
 export class UserController {
     static async login(req, res){
         try {
             let { email, password } = req.body
-            const USER = await User.findOne({ where: { userEmail: email } })
+            const USER = await User.findOne({ where: {
+                userEmail: email,
+                userEnabled: true
+            } })
+
             if (USER === null) {
-                throw new CustomError("Email and/or password incorrect", 401, "API_LOGIN_VALIDATE")
+                throw new CustomError("Email and/or password incorrect", 401, "API_AUTHENTICATION_VALIDATE")
             }
             let passwordValidate = await bcrypt.compare(password, USER.userPassword)
             if (!passwordValidate) {
-                throw new CustomError("Email and/or password incorrect", 401, "API_LOGIN_VALIDATE")
+                throw new CustomError("Email and/or password incorrect", 401, "API_AUTHENTICATION_VALIDATE")
             }
-            const token = generateToken(USER.userId)
+            const {token, expireIn} = generateToken(USER.userId)
             generateRefreshToken(USER.userId, res)
 
             const USEROBJECT = USER.toJSON()
-            USEROBJECT.userToken = token
+            USEROBJECT.userToken = {token, expireIn}
 
             return res.status(202).json(USEROBJECT)
         } catch (error) {
             console.log(error)
             if (error instanceof Sequelize.ValidationError) {
-                const ERROR = new CustomError(error.message, 400, "API_LOGIN_VALIDATE")
+                const ERROR = new CustomError(error.message, 400, "API_AUTHENTICATION_VALIDATE")
                 return res.status(ERROR.code).json(ERROR.toJson())
             }
             else if (error instanceof CustomError) {
@@ -43,12 +48,44 @@ export class UserController {
         res.end()
     }
 
+    static async firstSession(req, res){
+        try {
+            let { password, password2 } = request.body
+            const USER = await User.findOne({where: {
+                userId: req.uid,
+                userEnabled: true
+            }})
+
+            if(!USER){
+                return res.sendStatus(401)
+            }
+            const VALIDPASSWORD = regexPassword(password)
+            if(!VALIDPASSWORD) {
+                throw new CustomError("Password format invalid", 401, "API_AUTHENTICATION_ERROR")
+            }
+            else if(password !== password2){
+                throw new CustomError("passwords don't match", 401, "API_AUTHENTICATION_ERROR")
+            }
+
+            USER.userpassword = password
+            await USER.save()
+            return res.status(200).json({message: "Password changed successfully"})
+        } catch (error) {
+            if (error instanceof CustomError) {
+                return res.status(error.code).json(error.toJson())
+            }
+            else {
+                return res.status(500).json(error.message)
+            }
+        }
+    }
+
     static refreshToken(req, res) {
         try {
             const refreshTokenClient = req.cookies.refreshToken
     
             if (!refreshTokenClient) {
-                throw new CustomError("No token provided", 401, "API_REFRESHTOKEN_UNAUTHORIZED")
+                throw new CustomError("No refresh token provided", 401, "API_AUTHENTICATION_ERROR")
             }
     
             const { uid } = JWT.verify(refreshTokenClient, process.env.JWT_SECRET_REFRESH)

@@ -8,7 +8,7 @@ export function generateToken(uid){
     try {
         const token = JWT.sign({uid}, process.env.JWT_SECRET, {expiresIn: expireIn})
 
-        return token
+        return {token, expireIn}
     } catch (error) {
         console.log(error)
         throw new CustomError(error.message, 500, "API_GENERATE_TOKEN_ERROR")
