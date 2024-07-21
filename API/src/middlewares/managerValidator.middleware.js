@@ -24,6 +24,20 @@ export const loginBodyValidator = [
         validationResultExpress
 ]
 
+export const passwordBodyValidator = [
+    body("password", "Invalid format password")
+        .trim()
+        .isLength({min: 8, max: 16})
+        .notEmpty()
+        .escape(),
+    body("password2", "invalid format password2")
+        .trim()
+        .isLength({min: 8, max: 16})
+        .notEmpty()
+        .escape(),
+        validationResultExpress
+]
+
 export const tokenHeaderValidator = [
     header("authorization", "Invalid Token")
         .trim()

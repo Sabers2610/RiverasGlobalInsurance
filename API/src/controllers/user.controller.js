@@ -26,7 +26,8 @@ export class UserController {
 
             const USEROBJECT = USER.toJSON()
             USEROBJECT.userToken = {token, expireIn}
-
+            USER.userPasswordChanged = false
+            await USER.save()
             return res.status(202).json(USEROBJECT)
         } catch (error) {
             console.log(error)
@@ -48,7 +49,7 @@ export class UserController {
         res.end()
     }
 
-    static async firstSession(req, res){
+    static async changePassword(req, res){
         try {
             let { password, password2 } = request.body
             const USER = await User.findOne({where: {
@@ -68,6 +69,8 @@ export class UserController {
             }
 
             USER.userpassword = password
+            USER.userFirstSession = false,
+            userPasswordChanged = false
             await USER.save()
             return res.status(200).json({message: "Password changed successfully"})
         } catch (error) {

@@ -32,3 +32,19 @@ export async function logoutServices(userToken) {
         return error
     }
 }
+
+export async function changePasswordServices(userToken, password, password2){
+    try {
+        let data = { password, password2}
+        const response = await axios.post("http://localhost:3000/api/v1/changePassword", data, {
+            headers: {
+                "Authorization": `Bearer ${userToken}`,
+                "Content-Type": "application/json"
+            },
+            withCredentials: true,
+        })
+        return response
+    } catch (error) {
+        return error
+    }
+}

@@ -3,6 +3,12 @@ import {SEQUELIZE} from '../config/database/db.js'
 import { UserType } from './userType.models.js'
 import bcrypt from 'bcrypt'
 
+
+function capitalizeAndTrim(string) {
+    string = string.trim(); // Elimina los espacios en blanco
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
 export class User extends Model {
     // modificamos el metodo de la clase Model del toJson() para eliminar la contraseña del query
     toJSON() {
@@ -134,6 +140,12 @@ User.init({
     sequelize: SEQUELIZE,
     modelName: "User",
     hooks: {
+        beforeCreate: async (user, options) => {
+            user.userFirstName = capitalizeAndTrim(user.userFirstName)
+            user.userLastName = capitalizeAndTrim(user.userLastName)
+            user.userPassword = `${user.userFirstName}${user.userLastName}Insurance`
+        },
+
         beforeSave: async (user, options) => {
             const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
             user.userPassword = HASHPASSWORD

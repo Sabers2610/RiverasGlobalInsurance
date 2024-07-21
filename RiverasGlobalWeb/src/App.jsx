@@ -4,6 +4,8 @@ import Home from './routes/Home.component.jsx'
 import Navbar from './components/Narvbar.component.jsx'
 import Policy from './routes/Policy.component.jsx'
 import RequireAuth from './components/RequireAuth.component.jsx'
+import ChangePassword from './routes/ChangePassword.component.jsx'
+import RequireChange from './components/RequireChange.components.jsx'
 
 
 function App() {
@@ -17,6 +19,12 @@ function App() {
                         <Home /> {/* Creamos la ruta de home y le seteamos el require auth para que deba estar logueado*/}
                     </RequireAuth>
                 } />
+                
+                <Route path='/changePassword' element={
+                    <RequireChange>
+                        <ChangePassword />
+                    </RequireChange>
+                }/>
                 <Route path='/login' element={<Login />} />
                 <Route path='/policies' element={<Policy />} />
             </Routes>
