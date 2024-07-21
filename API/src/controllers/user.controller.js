@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize'
-import {User} from '../models/user.models.js'
+import {User} from '../models/user.model.js'
 import bcrypt from 'bcrypt'
 import {generateRefreshToken, generateToken} from '../utils/tokenManager.utils.js'
 import CustomError from '../utils/exception.utils.js'
