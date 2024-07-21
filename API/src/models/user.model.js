@@ -3,6 +3,12 @@ import {SEQUELIZE} from '../config/database/db.js'
 import { UserType } from './userType.model.js'
 import bcrypt from 'bcrypt'
 
+
+function capitalizeAndTrim(string) {
+    string = string.trim(); // Elimina los espacios en blanco
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
 export class User extends Model {
     // modificamos el metodo de la clase Model del toJson() para eliminar la contraseña del query
     toJSON() {
@@ -29,7 +35,7 @@ User.init({
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-            is: /^[A-Za-z]+$/i,
+            is: /^[A-Za-zñÑ]+$/i,
             notEmpty: {
                 msg: "Please enter a valid first name"
             },
@@ -57,7 +63,7 @@ User.init({
         validate: {
             isDate: true,
             notEmpty: {
-                msg: "Please enter a valid birthdate"
+                msg: "Please enter a valid last name"
             },
             notNull: {
                 msg: "Please enter a valid birthdate"
@@ -76,22 +82,21 @@ User.init({
     userAddress: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        notEmpty: {
+            msg: "Please enter a valid last name"
+        },
         validate: {
             notNull: {
                 msg: "Please enter a valid address"
             },
-            notEmpty: {
-                msg: "Please enter a valid address"
-            }
         }
     },
     userPhone: {
-        type: DataTypes.NUMBER(18),
+        type: DataTypes.STRING(18),
         allowNull: false,
         validate: {
-            isMobilePhone: true,
             notEmpty: {
-                msg: "Please enter a valid phone number"
+                msg: "Please enter a valid last name"
             },
             notNull: {
                 msg: "Please enter a valid phone number"
@@ -104,7 +109,7 @@ User.init({
         unique: true,
         validate: {
             notEmpty: {
-                msg: "Please enter a valid email"
+                msg: "Please enter a valid last name"
             },
             notNull: {
                 msg: "Please enter a valid email"
@@ -114,17 +119,28 @@ User.init({
     },
     userPassword: {
         type: DataTypes.STRING(500),
+        allowNull: true
+    },
+    userFirstSession: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        validate: {
-            notNull: {
-                msg: "Please enter a valid password"
-            }
-        }
+        defaultValue: true
+    },
+    userPasswordChanged: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     sequelize: SEQUELIZE,
     modelName: "User",
     hooks: {
+        beforeCreate: async (user, options) => {
+            user.userFirstName = capitalizeAndTrim(user.userFirstName)
+            user.userLastName = capitalizeAndTrim(user.userLastName)
+            user.userPassword = `GlobalInsurance#2024`
+        },
+
         beforeSave: async (user, options) => {
             const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
             user.userPassword = HASHPASSWORD

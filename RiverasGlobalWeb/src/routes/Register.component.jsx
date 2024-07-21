@@ -14,7 +14,8 @@ function Register() {
         "address": "",
         "phone": "",
         "email": "",
-        "password": ""
+        "password": "",
+        "passwordConfirmed": ""
     })
 
     const [formErrors, setFormErrors] = useState({
@@ -121,6 +122,16 @@ function Register() {
             default:
                 break
         }
+        if(value.passwordConfirmed !== value.password){
+            setFormErrors(prev => (
+                { ...prev, passwordConfirmed: { ...prev, activate: true } })
+            )
+        }
+        if(!pass.test(value.passwordConfirmed)){
+            setFormErrors(prev => (
+                { ...prev, passwordConfirmed: { ...prev, activate: true } })
+            )
+        }
     }
 
     function alert() {
@@ -133,7 +144,6 @@ function Register() {
 
             let regex = /^[A-Za-z]+$/i
             let today = new Date()
-            let pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()*\-_=+{};:,<.>])[A-Za-z\d!@#$%^&()*\-_=+{};:,<.>.]{8,}$/
             switch (formData) {
                 case "firstName":
                     if (!regex.test(value) || value.length > 50) {
@@ -177,24 +187,17 @@ function Register() {
                         )
                     }
                     break;
-                case "password":
-                    if (!pass.test(value) || value.length > 500) {
-                        setFormErrors(prev => (
-                            { ...prev, password: { ...prev, activate: true } })
-                        )
-                    }
-                    break;
                 }
 
             if (!formErrors.activate) {
                 const data = await registerServices(
+                    user.userToken.token,
                     formData.firstName, 
                     formData.lastName, 
                     formData.birthDate, 
                     formData.address, 
                     formData.phone, 
-                    formData.email, 
-                    formData.password)
+                    formData.email)
                     
                 if (data instanceof AxiosError) {
                     if (data.response.status === 500) {
@@ -233,7 +236,6 @@ function Register() {
                     <input type="text" name="address" placeholder="Address" required onChange={handleChange} value={formData.address} />
                     <input type="tel" name="phone" placeholder="Phone" required onChange={handleChange} value={formData.phone} />
                     <input type="email" name="email" placeholder="Email" required onChange={handleChange} value={formData.email} />
-                    <input type="password" name="password" placeholder="Password" required onChange={handleChange} value={formData.password} />
                     <button type="submit">Create an account</button>
                 </form>
             </div>

@@ -8,10 +8,10 @@ export async function adminValidator(req,res,next){
     try {
 
         const authHeader = req.headers['authorization'];
-
+        
         const token = authHeader.split(' ')[1];
-
-        if (!token) return res.sendStatus(401);
+        
+        if (!token) return res.sendStatus(401)
 
         const jwtSecret = process.env.JWT_SECRET;
 
@@ -21,11 +21,19 @@ export async function adminValidator(req,res,next){
 
         const {uid} = jwt.verify(token, jwtSecret)
 
+        const USER = User.findOne({where: {
+            userId: uid,
+            userEnabled: true
+        }})
+
+        if(!USER){
+            return res.sendStatus(401)
+        }
         req.uid = uid
 
-        const USER = await User.findByPk(uid)
-
-        const TYPEUSER = await UserType.findByPk(USER.userTypeId)
+        const TYPEUSER = await UserType.findOne({where:{
+            userTypeId: USER.userTypeId
+        }})
 
         if (TYPEUSER.userTypeName.toUpperCase() !== "ADMIN"){
             return res.status(401).json({ message: 'Access denied' });

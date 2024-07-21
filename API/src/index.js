@@ -43,4 +43,5 @@ APP.listen(PORT, () => {
 
 
 // codigo para creacion de usertypes 
-// const type = UserType.create({userTypeName: 'admin'})
+//const type = UserType.create({userTypeName: 'admin'})
+//const typ = UserType.create({userTypeName: 'operador'})

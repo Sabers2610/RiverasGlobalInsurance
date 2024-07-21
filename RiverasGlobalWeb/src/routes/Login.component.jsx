@@ -10,13 +10,15 @@ function Login() {
     const [formData, setFormData] = useState({
         email: "",
         password: ""
-    })
+    }) // creamos los campos del formulario como un estado de react para poder almacenar lo que ingrese el usuario
+
     const [formErrors, setFormErrors] = useState({
         message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
         activate: false,
         sessionError: false
-    })
-    const { setUser } = useContext(userContext)
+    }) // creamos los errores para el formulario, tambien como un state de react
+
+    const { setUser } = useContext(userContext) // sacamos el setuser del context para poder registrar al usuario una vez se loguee
     const navigate = useNavigate()
 
     const handleChange = (event) => {
@@ -25,25 +27,30 @@ function Login() {
         setFormData({
             ...formData,
             [name]: value
-        })
-        // validamos los campos
+        }) // lo que hacemos con el operador de propagacion "..." es que cree nuevamente el objeto, cambiando lo que ingreso el usuario
+        // pero sin borrar lo que ya este generado en otros campos
 
-        if(name === "email") {
-            if(!value){
-                setFormErrors({...formErrors, activate: true})
-            }
-            else if(!validator.isEmail(value)) {
-                setFormErrors({...formErrors, activate: true})
-            }
-            else {
-                setFormErrors({...formErrors, activate: false})
-            }
+        // validamos los campos
+        switch(name) { // el switch es un multi if, cada case es un if que se evalua en la variable que pasaste en el switch, como el name
+            case "email":
+                if(validator.isEmpty(value)){
+                    setFormErrors({...formErrors, activate: true})
+                }
+                else if(!validator.isEmail(value)){
+                    setFormErrors({...formErrors, activate: true})
+                }
+                else {
+                    setFormErrors({...formErrors, activate: false})
+                }
+                break
+            default:
+                break
         }
     }
 
     const login = async (event) => {
         try {
-            event.preventDefault();
+            event.preventDefault(); // cancelamos el evento predeterminado del formulario para que no recargue la pagina
 
             if(formData.email === "") {
                 setFormErrors({...formErrors, activate: true})
@@ -53,7 +60,7 @@ function Login() {
             }
 
             if(!formErrors.activate) {
-                const data = await loginServices(formData.email, formData.password)
+                const data = await loginServices(formData.email, formData.password) // llamamos al servicio y capturamos los posibles errores
                 if(data instanceof AxiosError){
                     if(data.response.status === 500){
                         setFormErrors({
@@ -71,8 +78,7 @@ function Login() {
                     }
                 }
                 else{
-                    console.log(".......")
-                    setUser(data.token)
+                    setUser(data) // si el servicio respondio bien, registramos al usuario dentro del context y lo mandamos al home
                     return navigate("/")
                 }
             }

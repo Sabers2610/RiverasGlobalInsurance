@@ -1,14 +1,12 @@
 POST http://localhost:3000/api/v1/register
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjE0MTcyMTQsImV4cCI6MTcyMTQxNzgxNH0.dmABKnIwgzCop-JyYIV4WQaKdAgQXlIBicn53FeNGg0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI4MjJlNjdiMS1iN2RkLTQ2OWItYWNkMy0zNTNmYzgyODUyNTEiLCJpYXQiOjE3MjE1MDM5MDQsImV4cCI6MTcyMTUwNDUwNH0.r0h9dsinVYDb_UsPpGUzRh9muTF0aPZcaWslbNJv_Ac
 
 {
-   "firstName": "wuacoldo", 
-   "lastName": "java", 
-   "birthDate": "2004/09/09", 
-   "address": "asdfsafas", 
+   "firstName": "juanito", 
+   "lastName": "dios", 
+   "birthDate": "1992/04/24", 
+   "address": "mi casita", 
    "phone": "9999999", 
-   "email": "wuacoldo@duocuc.cl", 
-   "password":"Erwin123*", 
-   "passwordConfirmed":"Erwin123*"
+   "email": "juanito.dios@duocuc.cl" 
 }
