@@ -1,5 +1,6 @@
 GET http://localhost:3000/api/v1/getAll
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI4MjJlNjdiMS1iN2RkLTQ2OWItYWNkMy0zNTNmYzgyODUyNTEiLCJpYXQiOjE3MjE1MTAxMTMsImV4cCI6MTcyMTUxMDcxM30.1zhHgif-l42Z_v2zu0rF6H0Fl2VeLNC1LvLy0pQFcm0
 
 {
 

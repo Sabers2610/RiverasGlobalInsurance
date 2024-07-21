@@ -1,5 +1,7 @@
 POST http://localhost:3000/api/v1/findFirstName
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI4MjJlNjdiMS1iN2RkLTQ2OWItYWNkMy0zNTNmYzgyODUyNTEiLCJpYXQiOjE3MjE0OTAzNjksImV4cCI6MTcyMTQ5MDk2OX0.yjCXqVRvN-GgAvROYnJO5xVsOcv6PQW4HSbiby5eOy4
+
 
 {
     "firstName" : "Felipe"

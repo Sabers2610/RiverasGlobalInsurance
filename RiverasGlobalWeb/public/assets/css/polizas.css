@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #00aaff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 50px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav ul li a .icon {
+    height: 20px;
+    vertical-align: middle;
+}
+
+main {
+    display: flex;
+    padding: 20px;
+}
+
+aside.filters {
+    width: 200px;
+    padding: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+aside.filters h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #00aaff;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.filter-group input {
+    width: 180px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+aside.filters button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+aside.filters button:hover {
+    background-color: #008fcc;
+}
+
+section.policies {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    height: 120px;
+    padding: 0 20px;
+}
+
+.policy-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.policy-card h3 {
+    margin-top: 0;
+}
+
+.policy-card .icons {
+    display: flex;
+    justify-content: right;
+    margin-top: 10px;
+    
+}
+
+.policy-card .icons .icon {
+    height: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
