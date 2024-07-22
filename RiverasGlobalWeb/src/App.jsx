@@ -27,7 +27,7 @@ function App() {
           </RequireChange>
         } />
 
-        <Route path='/rsgiter' element={
+        <Route path='/register' element={
           <RequireAuth>
             <Register />
           </RequireAuth>

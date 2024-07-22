@@ -7,6 +7,9 @@ import validator from "validator"
 import { AxiosError } from "axios";
 
 function Register() {
+
+    const { user, setUser } = useContext(userContext);
+
     const [formData, setFormData] = useState({
         "firstName": "",
         "lastName": "",
@@ -16,7 +19,7 @@ function Register() {
         "email": "",
         "password": "",
         "passwordConfirmed": ""
-    })
+    });
 
     const [formErrors, setFormErrors] = useState({
         firstName: {
@@ -54,87 +57,69 @@ function Register() {
             activate: false,
             internalError: false
         }
-    })
+    });
+
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
-        const { name, value } = event.target
-        if(name === "birthDate"){
-            
-        }
+        const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value
-        })
+        });
+
         // validamos los campos
-        let regex = /^[A-Za-z]+$/i
-        let today = new Date()
-        let pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()*\-_=+{};:,<.>])[A-Za-z\d!@#$%^&()*\-_=+{};:,<.>.]{8,}$/
+        let regex = /^[A-Za-z]+$/i;
+        let today = new Date();
         switch (name) {
             case "firstName":
                 if (!regex.test(value) || value.length > 50) {
                     setFormErrors(prev => (
                         { ...prev, firstName: { ...prev, activate: true } })
-                    )
+                    );
                 }
                 break;
             case "lastName":
                 if (!regex.test(value) || value.length > 50) {
                     setFormErrors(prev => (
                         { ...prev, lastName: { ...prev, activate: true } })
-                    )
+                    );
                 }
                 break;
             case "birthDate":
-                if (!validator.isDate(value) || value > today) {
+                if (!validator.isDate(value) || new Date(value) > today) {
                     setFormErrors(prev => (
                         { ...prev, birthDate: { ...prev, activate: true } })
-                    )
+                    );
                 }
                 break;
             case "address":
                 if (value.length > 255) {
                     setFormErrors(prev => (
                         { ...prev, address: { ...prev, activate: true } })
-                    )
+                    );
                 }
                 break;
             case "phone":
                 if (value.length > 10 || !validator.isNumeric(value)) {
                     setFormErrors(prev => (
                         { ...prev, phone: { ...prev, activate: true } })
-                    )
+                    );
                 }
                 break;
             case "email":
                 if (value.length > 100 || !validator.isEmail(value)) {
                     setFormErrors(prev => (
                         { ...prev, email: { ...prev, activate: true } })
-                    )
-                }
-                break;
-            case "password":
-                if (!pass.test(value) || value.length > 500) {
-                    setFormErrors(prev => (
-                        { ...prev, password: { ...prev, activate: true } })
-                    )
+                    );
                 }
                 break;
             default:
-                break
+                break;
         }
-        if(value.passwordConfirmed !== value.password){
-            setFormErrors(prev => (
-                { ...prev, passwordConfirmed: { ...prev, activate: true } })
-            )
-        }
-        if(!pass.test(value.passwordConfirmed)){
-            setFormErrors(prev => (
-                { ...prev, passwordConfirmed: { ...prev, activate: true } })
-            )
-        }
-    }
+    };
 
-    function alert() {
+    function alertUserCreated() {
         alert("¡User created successfully!");
     }
 
@@ -142,104 +127,60 @@ function Register() {
         try {
             event.preventDefault();
 
-            let regex = /^[A-Za-z]+$/i
-            let today = new Date()
-            switch (formData) {
-                case "firstName":
-                    if (!regex.test(value) || value.length > 50) {
-                        setFormErrors(prev => (
-                            { ...prev, firstName: { ...prev, activate: true } })
-                        )
-                    }
-                    break;
-                case "lastName":
-                    if (!regex.test(value) || value.length > 50) {
-                        setFormErrors(prev => (
-                            { ...prev, lastName: { ...prev, activate: true } })
-                        )
-                    }
-                    break;
-                case "birthDate":
-                    if (!validator.isDate(value) || value > today) {
-                        setFormErrors(prev => (
-                            { ...prev, birthDate: { ...prev, activate: true } })
-                        )
-                    }
-                    break;
-                case "address":
-                    if (value.length > 255) {
-                        setFormErrors(prev => (
-                            { ...prev, address: { ...prev, activate: true } })
-                        )
-                    }
-                    break;
-                case "phone":
-                    if (value.length > 10 || !validator.isNumeric(value)) {
-                        setFormErrors(prev => (
-                            { ...prev, phone: { ...prev, activate: true } })
-                        )
-                    }
-                    break;
-                case "email":
-                    if (value.length > 100 || !validator.isEmail(value)) {
-                        setFormErrors(prev => (
-                            { ...prev, email: { ...prev, activate: true } })
-                        )
-                    }
-                    break;
-                }
-
-            if (!formErrors.activate) {
-                const data = await registerServices(
+            if (!Object.values(formErrors).some(error => error.activate)) {
+                const data = await loginServices.register(
                     user.userToken.token,
                     formData.firstName, 
                     formData.lastName, 
                     formData.birthDate, 
                     formData.address, 
                     formData.phone, 
-                    formData.email)
-                    
+                    formData.email
+                );
+
                 if (data instanceof AxiosError) {
                     if (data.response.status === 500) {
-                        setFormErrors({
+                        setFormErrors(prev => ({
+                            ...prev,
                             message: "Server internal error... please contact support",
                             activate: true,
                             sessionError: true
-                        })
-                    }
-                    else if (data.response.status === 401) {
-                        setFormErrors({
+                        }));
+                    } else if (data.response.status === 401) {
+                        setFormErrors(prev => ({
+                            ...prev,
                             message: "Data entered incorrectly",
                             activate: true,
                             sessionError: true
-                        })
+                        }));
                     }
-                }
-                else {
-                    alert()
+                } else {
+                    alertUserCreated();
+                    navigate("/login");
                 }
             }
-            } catch (error) {
-                console.log("ERROR")
-                console.log(error)
-            }
+        } catch (error) {
+            console.log("ERROR");
+            console.log(error);
         }
+    };
 
     return (
-            <div className="register-container">
-                <img src="../assets/img/logo.png" alt="Register Logo" className="register-logo" />
-                <h2>Register</h2>
-                <form id="registerForm" onSubmit={register}>
-                    <input type="text" name="firstName" placeholder="First name" required onChange={handleChange} value={formData.firstName} />
-                    <input type="text" name="lastName" placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
-                    <input type="date" name="birthdate" placeholder="Birthdate" required onChange={handleChange} value={formData.birthDate} />
-                    <input type="text" name="address" placeholder="Address" required onChange={handleChange} value={formData.address} />
-                    <input type="tel" name="phone" placeholder="Phone" required onChange={handleChange} value={formData.phone} />
-                    <input type="email" name="email" placeholder="Email" required onChange={handleChange} value={formData.email} />
-                    <button type="submit">Create an account</button>
-                </form>
-            </div>
-        )
-    }
+        <div className="register-container">
+            <img src="../assets/img/logo.png" alt="Register Logo" className="register-logo" />
+            <h2>Register</h2>
+            <form id="registerForm" onSubmit={register}>
+                <input type="text" name="firstName" placeholder="First name" required onChange={handleChange} value={formData.firstName} />
+                <input type="text" name="lastName" placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
+                <input type="date" name="birthDate" placeholder="Birth date" required onChange={handleChange} value={formData.birthDate} />
+                <input type="text" name="address" placeholder="Address" required onChange={handleChange} value={formData.address} />
+                <input type="tel" name="phone" placeholder="Phone" required onChange={handleChange} value={formData.phone} />
+                <input type="email" name="email" placeholder="Email" required onChange={handleChange} value={formData.email} />
+                {formErrors.activate && <p className="error-message">{formErrors.message}</p>}
+                <button type="submit">Create an account</button>
+            </form>
+        </div>
+    );
+}
 
-    export default Register
+export default Register;
