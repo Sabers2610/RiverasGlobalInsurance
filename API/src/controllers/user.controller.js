@@ -126,10 +126,12 @@ export class UserController {
     
             const OLDUSER = USER.toJSON()
             let changes = []
+            const USEROBJECT = {}
     
             if (firstName !== "" && firstName !== OLDUSER.userFirstName) {
                 USER.userFirstName = firstName
                 changes.push(`first name from ${OLDUSER.userFirstName} to ${firstName}`)
+                
             }
     
             if (lastName !== "" && lastName !== OLDUSER.userLastName) {
