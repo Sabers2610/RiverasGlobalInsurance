@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import "../../public/assets/css/registro.css"
 import { registerServices } from "../services/session.services";
 import { userContext } from "../context/userProvider.context";
@@ -11,52 +11,23 @@ function Register() {
     const { user, setUser } = useContext(userContext);
 
     const [formData, setFormData] = useState({
-        "firstName": "",
-        "lastName": "",
-        "birthDate": "",
-        "address": "",
-        "phone": "",
-        "email": "",
-        "password": "",
-        "passwordConfirmed": ""
+        firstName: "",
+        lastName: "",
+        birthDate: "",
+        address: "",
+        phone: "",
+        email: "",
+        password: "",
+        passwordConfirmed: ""
     });
 
     const [formErrors, setFormErrors] = useState({
-        firstName: {
-            message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
-            activate: false,
-            internalError: false
-        },
-        lastName: {
-            message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
-            activate: false,
-            internalError: false
-        },
-        birthDate: {
-            message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
-            activate: false,
-            internalError: false
-        },
-        address: {
-            message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
-            activate: false,
-            internalError: false
-        },
-        phone: {
-            message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
-            activate: false,
-            internalError: false
-        },
-        email: {
-            message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
-            activate: false,
-            internalError: false
-        },
-        password: {
-            message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
-            activate: false,
-            internalError: false
-        },
+        firstName: { message: "The entered firstName is not valid. Please enter a valid firstName", activate: false },
+        lastName: { message: "The entered lastName is not valid. Please enter a valid lastName", activate: false },
+        birthDate: { message: "The entered birthDate is not valid. Please enter a valid birthDate, e.g., 2004/08/11", activate: false },
+        address: { message: "The entered address is not valid. Please enter a valid address", activate: false },
+        phone: { message: "The entered phone is not valid. Please enter a valid phone", activate: false },
+        email: { message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.", activate: false },
         errors: false
     });
 
@@ -69,75 +40,54 @@ function Register() {
             [name]: value
         });
 
-        // validamos los campos
-        let regex = /^[A-Za-z]+$/i;
+        let regex = /^[A-Za-zñÑ]+$/i;
         let today = new Date();
+
+        let newFormErrors = { ...formErrors };
+
         switch (name) {
             case "firstName":
-                if (!regex.test(value) || value.length > 50) {
-                    setFormErrors(prev => (
-                        { ...prev, firstName: { ...prev, activate: true } })
-                    );
-                }
+                newFormErrors.firstName.activate = !regex.test(value) || value.length > 50;
                 break;
             case "lastName":
-                if (!regex.test(value) || value.length > 50) {
-                    setFormErrors(prev => (
-                        { ...prev, lastName: { ...prev, activate: true } })
-                    );
-                }
+                newFormErrors.lastName.activate = !regex.test(value) || value.length > 50;
                 break;
             case "birthDate":
-                if (!validator.isDate(value) || new Date(value) > today) {
-                    setFormErrors(prev => (
-                        { ...prev, birthDate: { ...prev, activate: true } })
-                    );
-                }
+                newFormErrors.birthDate.activate = !validator.isDate(value) || new Date(value) > today;
                 break;
             case "address":
-                if (value.length > 255) {
-                    setFormErrors(prev => (
-                        { ...prev, address: { ...prev, activate: true } })
-                    );
-                }
+                newFormErrors.address.activate = value.length > 255;
                 break;
             case "phone":
-                if (value.length > 10 || !validator.isNumeric(value)) {
-                    setFormErrors(prev => (
-                        { ...prev, phone: { ...prev, activate: true } })
-                    );
-                }
+                newFormErrors.phone.activate = value.length > 10 || !validator.isNumeric(value);
                 break;
             case "email":
-                if (value.length > 100 || !validator.isEmail(value)) {
-                    setFormErrors(prev => (
-                        { ...prev, email: { ...prev, activate: true } })
-                    );
-                }
+                newFormErrors.email.activate = value.length > 100 || !validator.isEmail(value);
                 break;
             default:
                 break;
         }
-    };
 
-    function alertUserCreated() {
+        newFormErrors.errors = Object.values(newFormErrors).some(error => error.activate);
+        setFormErrors(newFormErrors);
+    }
+
+    const alertUserCreated = () => {
         alert("¡User created successfully!");
     }
 
     const register = async (event) => {
-        try {
-            console.log("register metodo")
-            event.preventDefault();
+        event.preventDefault();
 
-            if (!formErrors.errors) {
-                console.log("dentro del if")
+        if (!formErrors.errors) {
+            try {
                 const data = await registerServices(
                     user.userToken.token,
-                    formData.firstName, 
-                    formData.lastName, 
-                    formData.birthDate, 
-                    formData.address, 
-                    formData.phone, 
+                    formData.firstName,
+                    formData.lastName,
+                    formData.birthDate,
+                    formData.address,
+                    formData.phone,
                     formData.email
                 );
 
@@ -161,10 +111,9 @@ function Register() {
                     alertUserCreated();
                     navigate("/");
                 }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log("ERROR");
-            console.log(error);
         }
     };
 
@@ -173,13 +122,24 @@ function Register() {
             <img src="../assets/img/logo.png" alt="Register Logo" className="register-logo" />
             <h2>Register</h2>
             <form id="registerForm" onSubmit={register}>
-                <input type="text" name="firstName" placeholder="First name" required onChange={handleChange} value={formData.firstName} />
-                <input type="text" name="lastName" placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
-                <input type="date" name="birthDate" placeholder="Birth date" required onChange={handleChange} value={formData.birthDate} />
-                <input type="text" name="address" placeholder="Address" required onChange={handleChange} value={formData.address} />
-                <input type="tel" name="phone" placeholder="Phone" required onChange={handleChange} value={formData.phone} />
-                <input type="email" name="email" placeholder="Email" required onChange={handleChange} value={formData.email} />
-                {formErrors.activate && <p className="error-message">{formErrors.message}</p>}
+                <input type="text" name="firstName" style={formErrors.firstName.activate ? {border: "1px solid #fe0202"} : {}} placeholder="First name" required onChange={handleChange} value={formData.firstName} />
+                {formErrors.firstName.activate && <p style={{color: "red"}}> {formErrors.firstName.message} </p>}
+                
+                <input type="text" name="lastName" style={formErrors.lastName.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
+                {formErrors.lastName.activate && <p style={{color: "red"}}> {formErrors.lastName.message} </p>}
+                
+                <input type="date" name="birthDate" style={formErrors.birthDate.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Birth date" required onChange={handleChange} value={formData.birthDate} />
+                {formErrors.birthDate.activate && <p style={{color: "red"}}> {formErrors.birthDate.message} </p>}
+                
+                <input type="text" name="address" style={formErrors.address.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Address" required onChange={handleChange} value={formData.address} />
+                {formErrors.address.activate && <p style={{color: "red"}}> {formErrors.address.message} </p>}
+                
+                <input type="tel" name="phone" style={formErrors.phone.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Phone" required onChange={handleChange} value={formData.phone} />
+                {formErrors.phone.activate && <p style={{color: "red"}}> {formErrors.phone.message} </p>}
+                
+                <input type="email" name="email" style={formErrors.email.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Email" required onChange={handleChange} value={formData.email} />
+                {formErrors.email.activate && <p style={{color: "red"}}> {formErrors.email.message} </p>}
+                
                 <button type="submit">Create an account</button>
             </form>
         </div>
