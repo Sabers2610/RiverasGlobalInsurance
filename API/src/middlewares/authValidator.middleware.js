@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import {User} from '../models/user.model.js'
 dotenv.config()
 
 export async function authValidator(req,res,next){
@@ -9,7 +10,7 @@ export async function authValidator(req,res,next){
         
         const token = authHeader.split(' ')[1];
         
-        if (!token) return res.sendStatus(401);
+        if (!token) return res.sendStatus(401)
 
         const jwtSecret = process.env.JWT_SECRET;
 
@@ -19,6 +20,14 @@ export async function authValidator(req,res,next){
 
         const {uid} = jwt.verify(token, jwtSecret)
 
+        const USER = User.findOne({where: {
+            userId: uid,
+            userEnabled: true
+        }})
+
+        if(!USER){
+            return res.sendStatus(401)
+        }
         req.uid = uid
 
         next()

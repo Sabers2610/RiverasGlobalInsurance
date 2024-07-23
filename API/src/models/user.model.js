@@ -124,12 +124,15 @@ User.init({
     sequelize: SEQUELIZE,
     modelName: "User",
     hooks: {
+        beforeCreate: async (user, options) => {
+            user.userFirstName = capitalizeAndTrim(user.userFirstName)
+            user.userLastName = capitalizeAndTrim(user.userLastName)
+            user.userPassword = `GlobalInsurance`
+        },
+
         beforeSave: async (user, options) => {
-            console.log(`password ${user.userPassword}`)
-            if (user.changed('userPassword')) {
-                const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
-                user.userPassword = HASHPASSWORD
-            }
+            const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
+            user.userPassword = HASHPASSWORD
         }
     }
 })

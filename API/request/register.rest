@@ -9,6 +9,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI4MjJlNjdiM
 "address": "mi casita",
 "phone": "9999999",
 "email": "gio.barra@duocuc.cl",
-"password":"Giovanni#10",
-"passwordConfirmed":"Giovanni#10"
 }
