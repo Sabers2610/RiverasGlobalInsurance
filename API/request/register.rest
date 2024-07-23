@@ -1,12 +1,12 @@
 POST http://localhost:3000/api/v1/register
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI4MjJlNjdiMS1iN2RkLTQ2OWItYWNkMy0zNTNmYzgyODUyNTEiLCJpYXQiOjE3MjE1MDM5MDQsImV4cCI6MTcyMTUwNDUwNH0.r0h9dsinVYDb_UsPpGUzRh9muTF0aPZcaWslbNJv_Ac
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0MzVjNjQxNS0xMmQxLTRlZWMtYTU0OS1hODJjZjdjOGY5ZTAiLCJpYXQiOjE3MjE3MTEwNzcsImV4cCI6MTcyMTcxMTY3N30.5x0uMfiL_qoZD5jVVpmN_dObY72Z1Q31_uMPL1JiVL8
 
 {
-   "firstName": "juanito", 
-   "lastName": "dios", 
+   "firstName": "giovanni", 
+   "lastName": "barra", 
    "birthDate": "1992/04/24", 
    "address": "mi casita", 
    "phone": "9999999", 
-   "email": "juanito.dios@duocuc.cl" 
+   "email": "gio.barra@duocuc.cl" 
 }
