@@ -166,6 +166,8 @@ function ModifyUser() {
         event.preventDefault();
 
         try {
+            console.log(formData)
+            console.log("aqui estoy")
             const data = await updateUserService(
                 
                 user.userToken.token,

@@ -114,79 +114,65 @@ export class UserController {
     static async modify(request, response) {
         try {
             let { firstName, lastName, birthDate, address, phone, password, password2 } = request.body
-
-
+    
             const USER = await User.findByPk(request.uid)
-            console.log(USER.toJSON())
-            console.log("esta es la password")
-            console.log(USER.userPassword)
-
             if (!USER) {
                 throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
             }
-
+    
             if (password !== password2) {
                 throw new CustomError("Passwords do not match", 400, "API_LOGIN_VALIDATE")
             }
-
+    
             const OLDUSER = USER.toJSON()
-            let userObject = {}
             let changes = []
-
-            if (firstName !== "") {
-                userObject.userFirstName = firstName
-                changes.push(`nombre de ${OLDUSER.userFirstName} a ${firstName}`)
-            } else {
-                userObject.userFirstName = OLDUSER.userFirstName
+    
+            if (firstName !== "" && firstName !== OLDUSER.userFirstName) {
+                USER.userFirstName = firstName
+                changes.push(`first name from ${OLDUSER.userFirstName} to ${firstName}`)
             }
-
-            if (lastName !== "") {
-                userObject.userLastName = lastName
-                changes.push(`apellido de ${OLDUSER.userLastName} a ${lastName}`)
-            } else {
-                userObject.userLastName = OLDUSER.userLastName
+    
+            if (lastName !== "" && lastName !== OLDUSER.userLastName) {
+                USER.userLastName = lastName
+                changes.push(`last name from ${OLDUSER.userLastName} to ${lastName}`)
             }
-
-            if (birthDate !== "") {
-                userObject.userBirthDate = birthDate
-                changes.push(`birthDate from ${OLDUSER.userBirthDate} to ${birthDate}`)
-            } else {
-                userObject.userBirthDate = OLDUSER.userBirthDate
+    
+            if (birthDate !== "" && birthDate !== OLDUSER.userBirthDate) {
+                USER.userBirthDate = birthDate
+                changes.push(`birth date from ${OLDUSER.userBirthDate} to ${birthDate}`)
             }
-
-            if (address !== "") {
-                userObject.userAddress = address
+    
+            if (address !== "" && address !== OLDUSER.userAddress) {
+                USER.userAddress = address
                 changes.push(`address from ${OLDUSER.userAddress} to ${address}`)
-            } else {
-                userObject.userAddress = OLDUSER.userAddress
             }
-
-            if (phone !== "") {
-                userObject.userPhone = phone
-                changes.push(`telefono de ${OLDUSER.userPhone} a ${phone}`)
-            } else {
-                userObject.userPhone = OLDUSER.userPhone
+    
+            if (phone !== "" && phone !== OLDUSER.userPhone) {
+                USER.userPhone = phone
+                changes.push(`phone from ${OLDUSER.userPhone} to ${phone}`)
             }
-
+    
             if (password !== "") {
                 const validation = regexPassword(password)
                 if (!validation) {
                     throw new CustomError("Invalid password format", 400, "API_LOGIN_VALIDATE")
                 } else {
-                    userObject.userPassword = password
+                    USER.userPassword = password
                     changes.push(`password updated`)
                 }
             }
-            console.log(userObject)
-            await USER.update(userObject)
-
-            await ChangeHistory.create({
-                changeUserEmail: USER.userEmail,
-                changeDescription: `El usuario con email ${USER.userEmail} ha modificado los siguientes campos: ${changes.join(", ")}`
-            })
-
-            return response.status(202).json({ "msg": "Usuario modificado correctamente" })
-
+    
+            await USER.save()
+    
+            if (changes.length > 0) {
+                await ChangeHistory.create({
+                    changeUserEmail: USER.userEmail,
+                    changeDescription: `The user with email ${USER.userEmail} has modified the following fields: ${changes.join(", ")}`
+                })
+            }
+    
+            return response.status(202).json({ "msg": "User successfully modified" })
+    
         } catch (error) {
             console.log(error)
             if (error instanceof Sequelize.ValidationError) {
