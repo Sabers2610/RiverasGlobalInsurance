@@ -3,7 +3,6 @@ import "../../public/assets/css/login.css"
 import { changePasswordServices, loginServices } from "../services/session.services";
 import { userContext } from "../context/userProvider.context";
 import { useNavigate } from "react-router-dom";
-import validator from "validator"
 import { AxiosError } from "axios";
 
 function ChangePassword() {
@@ -110,7 +109,7 @@ function ChangePassword() {
                         <p style={{color: "red"}}>{formError.password.message}</p>
                 )}
 
-                <input type="password" name="password2" style={formError.password2.error ? {border: "1px solid #fe0202"} : {}} id="password" placeholder="password" value={formData.password2} onChange={handleChange} required />
+                <input type="password" name="password2" style={formError.password2.error ? {border: "1px solid #fe0202"} : {}} id="password2" placeholder="password" value={formData.password2} onChange={handleChange} required />
 
                 {formError.password2.error && (
                         <p style={{color: "red"}}>{formError.password2.message}</p>

@@ -18,7 +18,7 @@ export const loginBodyValidator = [
         .escape(),
     body("password", "Invalid format password")
         .trim()
-        .isLength({min: 8, max: 16})
+        .isLength({min: 8, max: 20})
         .notEmpty()
         .escape(),
         validationResultExpress

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import { User } from '../models/user.models';
+import { User } from '../models/user.model.js';
 dotenv.config()
 
 export async function authValidator(req,res,next){
@@ -28,8 +28,9 @@ export async function authValidator(req,res,next){
         if(!USER){
             return res.sendStatus(401)
         }
+        console.log(uid)
         req.uid = uid
-
+        console.log(req.uid)
         next()
     } catch (error) {
         console.log(error)

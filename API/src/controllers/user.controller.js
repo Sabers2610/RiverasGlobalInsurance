@@ -13,12 +13,13 @@ export class UserController {
                 userEmail: email,
                 userEnabled: true
             } })
-
+            console.log(USER.toJSON())
             if (USER === null) {
                 throw new CustomError("Email and/or password incorrect", 401, "API_AUTHENTICATION_VALIDATE")
             }
             let passwordValidate = await bcrypt.compare(password, USER.userPassword)
             if (!passwordValidate) {
+                console.log("password incorrect")
                 throw new CustomError("Email and/or password incorrect", 401, "API_AUTHENTICATION_VALIDATE")
             }
             const {token, expireIn} = generateToken(USER.userId)
@@ -51,7 +52,10 @@ export class UserController {
 
     static async changePassword(req, res){
         try {
-            let { password, password2 } = request.body
+            console.log(".")
+            console.log(req.body)
+            console.log(req.uid)
+            let { password, password2 } = req.body
             const USER = await User.findOne({where: {
                 userId: req.uid,
                 userEnabled: true
@@ -60,6 +64,7 @@ export class UserController {
             if(!USER){
                 return res.sendStatus(401)
             }
+            console.log("..")
             const VALIDPASSWORD = regexPassword(password)
             if(!VALIDPASSWORD) {
                 throw new CustomError("Password format invalid", 401, "API_AUTHENTICATION_ERROR")
@@ -67,10 +72,12 @@ export class UserController {
             else if(password !== password2){
                 throw new CustomError("passwords don't match", 401, "API_AUTHENTICATION_ERROR")
             }
-
-            USER.userpassword = password
+            console.log("...")
+            USER.userPassword = password
             USER.userFirstSession = false,
-            userPasswordChanged = false
+            USER.userPasswordChanged = false
+            console.log(password)
+            console.log(USER.toJSON())
             await USER.save()
             return res.status(200).json({message: "Password changed successfully"})
         } catch (error) {

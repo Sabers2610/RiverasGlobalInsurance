@@ -18,7 +18,7 @@ function Login() {
         sessionError: false
     }) // creamos los errores para el formulario, tambien como un state de react
 
-    const { setUser } = useContext(userContext) // sacamos el setuser del context para poder registrar al usuario una vez se loguee
+    const { user, setUser } = useContext(userContext) // sacamos el setuser del context para poder registrar al usuario una vez se loguee
     const navigate = useNavigate()
 
     const handleChange = (event) => {
@@ -77,8 +77,11 @@ function Login() {
                         })
                     }
                 }
-                else{
+                else {
                     setUser(data) // si el servicio respondio bien, registramos al usuario dentro del context y lo mandamos al home
+                    if(!data.userFirstSession || !data.userPasswordChanged){
+                        return navigate("/changePassword")
+                    }
                     return navigate("/")
                 }
             }

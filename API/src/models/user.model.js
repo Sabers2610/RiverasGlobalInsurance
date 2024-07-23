@@ -143,13 +143,15 @@ User.init({
         beforeCreate: async (user, options) => {
             user.userFirstName = capitalizeAndTrim(user.userFirstName)
             user.userLastName = capitalizeAndTrim(user.userLastName)
-            user.userPassword = `${user.userFirstName}${user.userLastName}Insurance`
+            user.userPassword = `GlobalInsurance`
         },
 
         beforeSave: async (user, options) => {
-            const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
-            user.userPassword = HASHPASSWORD
-        }
+            if(user.changed("userPassword")) {
+                const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
+                user.userPassword = HASHPASSWORD
+            }
+        },
     }
 })
 

@@ -5,8 +5,11 @@ import config from './config/config.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import { ROUTER } from './routes/user.route.js';
+import bcrypt from 'bcrypt'
 await syncTables(); // sincronizamos la base de datos con los modelos de ./src/models/...
 
+const validate = await bcrypt.compare("GlobalInsurance#2024", "$2b$10$XfNQmGaJUxzaeCs56XEl.ezg8OHzs4y2xQVPhjvXg.YxJmuEMBVDi")
+console.log(validate)
 
 const APP = express()
 APP.use(morgan("tiny"))
