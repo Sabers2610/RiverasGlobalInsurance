@@ -37,37 +37,42 @@ function ModifyUser() {
 
     const [formErrors, setFormErrors] = useState({
         firstName: {
-            message: "error en el nombre",
+            message: "error in the first name",
             activate: false,
             internalError: false
         },
         lastName: {
-            message: "error en el apellido",
+            message: "error in the last name",
             activate: false,
             internalError: false
         },
         birthDate: {
-            message: "error en el cumple",
+            message: "birthday mistake",
             activate: false,
             internalError: false
         },
         address: {
-            message: "error en la direccion",
+            message: "error in address",
             activate: false,
             internalError: false
         },
         phone: {
-            message: "error en el celu",
+            message: "error on the phone",
             activate: false,
             internalError: false
         },
         email: {
-            message: "error en el correo",
+            message: "error in email",
             activate: false,
             internalError: false
         },
         password: {
-            message: "error en la pasword",
+            message: "pasword error",
+            activate: false,
+            internalError: false
+        },
+        password2: {
+            message: "password confirmation error ",
             activate: false,
             internalError: false
         }
@@ -87,7 +92,7 @@ function ModifyUser() {
             case "firstName":
                 if (!value) {
                     setFormErrors({ ...formErrors, firstName: { message: "First Name is required", activate: true } });
-                } else {
+                }else {
                     setFormErrors({ ...formErrors, firstName: { message: "", activate: false } });
                 }
                 break;
@@ -101,16 +106,8 @@ function ModifyUser() {
                 break;
 
             case "birthDate":
-                const TODAY = new Date();
-                const LOWERLIMIT = new Date().setFullYear(TODAY.getFullYear() - 65);
-                const UPPERLIMIT = new Date().setFullYear(TODAY.getFullYear() - 16);
-
                 if (!value) {
                     setFormErrors({ ...formErrors, birthDate: { message: "BirthDate is required", activate: true } });
-                } else if (!validator.isDate(value)) {
-                    setFormErrors({ ...formErrors, birthDate: { message: "Invalid date format", activate: true } });
-                } else if (new Date(value) < LOWERLIMIT || new Date(value) > UPPERLIMIT) {
-                    setFormErrors({ ...formErrors, birthDate: { message: "The worker must be adult", activate: true } });
                 } else {
                     setFormErrors({ ...formErrors, birthDate: { message: "", activate: false } });
                 }
@@ -166,8 +163,6 @@ function ModifyUser() {
         event.preventDefault();
 
         try {
-            console.log(formData)
-            console.log("aqui estoy")
             const data = await updateUserService(
                 
                 user.userToken.token,
@@ -190,8 +185,6 @@ function ModifyUser() {
                         internalError: true
                     });
                 } else if (data.response.status === 401) {
-                    console.log(user.userToken)
-                    console.log("Aqui estoy ctm")
                     setFormErrors({
                         ...formErrors,
                         message: "Data entered incorrectly",
@@ -200,7 +193,6 @@ function ModifyUser() {
                     });
                 }
             } else {
-                console.log("llege aqui")
                 setUser({
                     ...user,
                     firstName: formData.firstName,
@@ -224,15 +216,35 @@ function ModifyUser() {
             <h2>Edit User</h2>
             <form id="editUserForm" onSubmit={modifyUser}>
                 <input type="text" name="firstName" id="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} required />
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} required />
-                <input type="date" name="birthDate" id="birthDate" placeholder="Birth Date" value={formData.birthDate} onChange={handleChange} required />
-                <input type="text" name="address" id="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
-                <input type="tel" name="phone" id="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} required />
-                <input type="email" name="email" id="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                <input type="password" name="password" id="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                <input type="password" name="password2" id="password2" placeholder="Confirm Password" value={formData.password2} onChange={handleChange} />
+                {formErrors.firstName.activate && <p className="error-message">{formErrors.firstName.message}</p>}
+                <br />
 
-                {formErrors.activate && <p className="error-message">{formErrors.message}</p>}
+                <input type="text" name="lastName" id="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} required />
+                {formErrors.lastName.activate && <p className="error-message">{formErrors.message}</p>}
+                <br />
+
+                <input type="date" name="birthDate" id="birthDate" placeholder="Birth Date" value={formData.birthDate} onChange={handleChange} required />
+                <br />
+
+                <input type="text" name="address" id="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
+                {formErrors.address.activate && <p className="error-message">{formErrors.message}</p>}
+                <br />
+
+                <input type="tel" name="phone" id="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} required />
+                {formErrors.phone.activate && <p className="error-message">{formErrors.message}</p>}
+                <br />
+
+                <input type="email" name="email" id="email" placeholder="Email" disabled value={formData.email} onChange={handleChange} required />
+                {formErrors.email.activate && <p className="error-message">{formErrors.message}</p>}
+                <br />
+
+                <input type="password" name="password" id="password" placeholder="Password" value={formData.password} onChange={handleChange} />
+                {formErrors.password.activate && <p className="error-message">{formErrors.message}</p>}
+                <br />
+
+                <input type="password" name="password2" id="password2" placeholder="Confirm Password" value={formData.password2} onChange={handleChange} />
+                {formErrors.password2.activate && <p className="error-message">{formErrors.message}</p>}
+                <br />
 
                 <button type="submit">Save Changes</button>
             </form>

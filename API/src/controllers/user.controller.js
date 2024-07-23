@@ -1,5 +1,6 @@
 import { User } from '../models/user.model.js'
 import { ChangeHistory } from '../models/changeHistory.model.js'
+import { UserType } from '../models/userType.model.js'
 import bcrypt from 'bcrypt'
 import { generateRefreshToken, generateToken } from '../utils/tokenManager.utils.js'
 import CustomError from '../utils/exception.utils.js'
@@ -97,7 +98,7 @@ export class UserController {
             return response.status(202).json({ "msg": "User created sucessfully" })
 
         } catch (error) {
-            if (error instanceof sequelize.ValidationError) {
+            if (error instanceof Sequelize.ValidationError) {
                 const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
                 return response.status(ERROR.code).json(ERROR.toJson())
             }
@@ -131,7 +132,6 @@ export class UserController {
             if (firstName !== "" && firstName !== OLDUSER.userFirstName) {
                 USER.userFirstName = firstName
                 changes.push(`first name from ${OLDUSER.userFirstName} to ${firstName}`)
-                
             }
     
             if (lastName !== "" && lastName !== OLDUSER.userLastName) {

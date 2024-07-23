@@ -61,15 +61,6 @@ User.init({
             },
             notNull: {
                 msg: "Please enter a valid birthdate"
-            },
-            isAdult(value) {
-                const TODAY = new Date()
-                const LOWERLIMIT = new Date().setFullYear(TODAY.getFullYear - 65)
-                const UPPERLIMIT = new Date().setFullYear(TODAY.getFullYear - 16)
-
-                if (value < LOWERLIMIT || value > UPPERLIMIT) {
-                    throw new Error("The worker must be adult")
-                }
             }
         }
     },
@@ -127,20 +118,15 @@ User.init({
         beforeCreate: async (user, options) => {
             user.userFirstName = capitalizeAndTrim(user.userFirstName)
             user.userLastName = capitalizeAndTrim(user.userLastName)
-            user.userPassword = `GlobalInsurance`
+            user.userPassword = `GlobalInsurance#2024`
         },
 
         beforeSave: async (user, options) => {
-            const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
-            user.userPassword = HASHPASSWORD
-        },
-
-        beforeUpdate: async (user, options) => {
-            if(user.changed("userPassword")) {
+            if (user.changed("userPassword")) {
                 const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
                 user.userPassword = HASHPASSWORD
             }
-        }
+        },
     }
 })
 

@@ -45,7 +45,6 @@ export async function updateUserService(userToken, firstName, lastName, birthDat
             password,
             password2
         }
-        console.log(data)
         const response = await axios.post("http://localhost:3000/api/v1/modifyUser", data, {
             headers: {
                 "Authorization": `Bearer ${userToken}`,
