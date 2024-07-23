@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import "../../public/assets/css/registro.css"
-import { loginServices } from "../services/session.services";
+import { registerServices } from "../services/session.services";
 import { userContext } from "../context/userProvider.context";
 import { useNavigate } from "react-router-dom";
 import validator from "validator"
@@ -56,7 +56,8 @@ function Register() {
             message: "The entered email is not valid. Please enter a valid email, e.g., user@gmail.com.",
             activate: false,
             internalError: false
-        }
+        },
+        errors: false
     });
 
     const navigate = useNavigate();
@@ -125,10 +126,12 @@ function Register() {
 
     const register = async (event) => {
         try {
+            console.log("register metodo")
             event.preventDefault();
 
-            if (!Object.values(formErrors).some(error => error.activate)) {
-                const data = await loginServices.register(
+            if (!formErrors.errors) {
+                console.log("dentro del if")
+                const data = await registerServices(
                     user.userToken.token,
                     formData.firstName, 
                     formData.lastName, 
@@ -156,7 +159,7 @@ function Register() {
                     }
                 } else {
                     alertUserCreated();
-                    navigate("/login");
+                    navigate("/");
                 }
             }
         } catch (error) {

@@ -20,14 +20,17 @@ export async function loginServices(email, password) {
 
 export async function registerServices(userToken, firstName,lastName,birthDate,address,phone,email){
     try {
+        console.log("Entre al services")
         const data ={
-            firstName: firstName,
-            lastName: lastName,
-            birthDate: birthDate,
-            address: address,
-            phone: phone,
-            email: email,
+            firstName,
+            lastName,
+            birthDate,
+            address,
+            phone,
+            email,
         }
+        console.log(data)
+        console.log(userToken)
         const response = await axios.post("http://localhost:3000/api/v1/register", data, {
             headers: {
                 "Authorization": `Bearer ${userToken}`,
