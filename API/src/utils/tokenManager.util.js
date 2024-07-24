@@ -1,10 +1,10 @@
 import JWT from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import CustomError from './exception.utils.js'
+import CustomError from './exception.util.js'
 dotenv.config()
 
-export function generateToken(uid){
-    const expireIn = 60 * 10 // 10 minutos
+export function generateToken(uid, timeout){
+    const expireIn = 60 * timeout // 10 minutos
     try {
         const token = JWT.sign({uid}, process.env.JWT_SECRET, {expiresIn: expireIn})
 

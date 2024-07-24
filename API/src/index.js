@@ -1,6 +1,6 @@
 import express from 'express'
 import morgan from 'morgan'
-import { syncTables } from "./utils/syncDatabase.utils.js"
+import { syncTables } from "./utils/syncDatabase.util.js"
 import config from './config/config.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'

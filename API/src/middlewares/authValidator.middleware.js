@@ -28,9 +28,11 @@ export async function authValidator(req,res,next){
         if(!USER){
             return res.sendStatus(401)
         }
-        console.log(uid)
+
+        if(USER.userRecoveryToken && USER.userRecoveryToken === token) {
+            return res.status(401).json({ message: 'Invalid Token' });
+        }
         req.uid = uid
-        console.log(req.uid)
         next()
     } catch (error) {
         console.log(error)

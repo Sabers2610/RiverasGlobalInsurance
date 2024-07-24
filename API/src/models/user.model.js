@@ -130,6 +130,11 @@ User.init({
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true
+    },
+    userRecoveryToken: {
+        type: DataTypes.STRING(500),
+        allowNull: true,
+        defaultValue: null
     }
 }, {
     sequelize: SEQUELIZE,

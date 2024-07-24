@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { UserController } from '../controllers/user.controller.js'
-import {loginBodyValidator, tokenCookieValidator, tokenHeaderValidator, passwordBodyValidator} from '../middlewares/managerValidator.middleware.js'
+import {loginBodyValidator, tokenCookieValidator, tokenHeaderValidator, passwordBodyValidator, verifyEmailBodyValidator} from '../middlewares/managerValidator.middleware.js'
 import { authValidator } from '../middlewares/authValidator.middleware.js';
 
 export const ROUTER = Router();
@@ -16,3 +16,6 @@ ROUTER.route("/refreshToken")
 
 ROUTER.route("/changePassword")
     .post(authValidator, passwordBodyValidator, UserController.changePassword)
+
+ROUTER.route("/verifyEmail")
+    .post(verifyEmailBodyValidator, UserController.verifyEmail)
