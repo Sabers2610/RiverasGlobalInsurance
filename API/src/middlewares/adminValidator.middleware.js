@@ -29,6 +29,11 @@ export async function adminValidator(req,res,next){
         if(!USER){
             return res.sendStatus(401)
         }
+
+        if(USER.userRecoveryToken && USER.userRecoveryToken === token) {
+            return res.status(401).json({ message: 'Invalid Token' });
+        }
+
         req.uid = uid
 
         const TYPEUSER = await UserType.findOne({where:{

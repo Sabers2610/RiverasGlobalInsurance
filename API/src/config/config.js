@@ -9,4 +9,7 @@ export default {
     dbName: process.env.NAME_DATABASE,
     dbHost: process.env.HOST_DATABASE,
     redisconfig: process.env.REDIS,
+    url_base: process.env.URL_BASE,
+    user_gmail: process.env.USER_GMAIL,
+    gmail_key: process.env.GMAIL_KEY
 }

@@ -1,11 +1,14 @@
 import { User } from '../models/user.model.js'
 import { UserType } from '../models/userType.model.js'
-import CustomError from '../utils/exception.utils.js'
+import CustomError from '../utils/exception.util.js'
 import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
 import Sequelize from 'sequelize'
-import {generateRefreshToken, generateToken} from '../utils/tokenManager.utils.js'
-import { regexPassword } from '../utils/regexPassword.utils.js'
+import {generateRefreshToken, generateToken} from '../utils/tokenManager.util.js'
+import { regexPassword } from '../utils/regexPassword.util.js'
+import config from '../config/config.js'
+import { sendEmail } from '../utils/sendEmail.util.js'
+
 dotenv.config()
 
 export class UserController {
@@ -57,7 +60,7 @@ export class UserController {
             if (!passwordValidate) {
                 throw new CustomError("Email and/or password incorrect", 401, "API_AUTHENTICATION_VALIDATE")
             }
-            const {token, expireIn} = generateToken(USER.userId)
+            const { token, expireIn } = generateToken(USER.userId, 10, false)
             generateRefreshToken(USER.userId, res)
 
             const USEROBJECT = USER.toJSON()
@@ -116,7 +119,7 @@ export class UserController {
         }
     }
 
-    static refreshToken(req, res) {
+    static async refreshToken(req, res) {
         try {
             const refreshTokenClient = req.cookies.refreshToken
     
@@ -124,7 +127,7 @@ export class UserController {
                 throw new CustomError("No refresh token provided", 401, "API_AUTHENTICATION_ERROR")
             }
     
-            const { uid } = JWT.verify(refreshTokenClient, process.env.JWT_SECRET_REFRESH)
+            const { uid } = await JWT.verify(refreshTokenClient, process.env.JWT_SECRET_REFRESH)
     
             const token = generateToken(uid)
     
@@ -173,4 +176,37 @@ export class UserController {
             }
         }
     }
+
+    static async verifyEmail(req, res) {
+        try {
+            let { email } = req.body
+
+            const USER = await User.findOne({where: {userEmail: email}})
+
+            if(!USER) {
+                throw new CustomError("The email address doesn't exist", 401, "API_VERIFYEMAIL_ERROR")
+            }
+            const { token } = generateToken(USER.userId, 10, true)
+            let text = `
+Dear ${USER.userFirstName} ${USER.userLastName},
+We have received a request to reset your password. Please click the link below to reset your password. This link will expire in 10 minutes for security reasons.
+${config.url_base}/recovery-password/${token}
+If you did not request a password reset, please ignore this email or contact our support team for assistance.
+Thank you,
+Rivera's Global Insurance Support Team
+            `;
+
+            await sendEmail(USER.userEmail, "Password Recovery Request", text)
+            USER.userRecoveryToken = token
+            await USER.save()
+            return res.status(200).json({message: "Email send successfully"})
+        } catch (error) {
+            if(error instanceof CustomError){
+                return res.status(error.code).json(error.toJson())
+            }
+            error = new CustomError(error.message, 500, "API_SENDEMAIL_EMAIL")
+            return res.status(error.code).json(error.toJson())
+        }
+    }
 }
+

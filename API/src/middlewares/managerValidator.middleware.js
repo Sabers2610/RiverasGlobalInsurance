@@ -24,6 +24,15 @@ export const loginBodyValidator = [
         validationResultExpress
 ]
 
+export const verifyEmailBodyValidator = [
+    body("email", "Invalid email")
+        .trim()
+        .isEmail()
+        .normalizeEmail()
+        .escape(),
+        validationResultExpress
+]
+
 export const passwordBodyValidator = [
     body("password", "Invalid format password")
         .trim()

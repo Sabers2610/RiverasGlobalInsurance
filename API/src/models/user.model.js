@@ -126,10 +126,10 @@ User.init({
         allowNull: false,
         defaultValue: true
     },
-    userPasswordChanged: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
+    userRecoveryToken: {
+        type: DataTypes.STRING(500),
+        allowNull: true,
+        defaultValue: null
     }
 }, {
     sequelize: SEQUELIZE,

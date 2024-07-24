@@ -22,8 +22,8 @@ function Register() {
     });
 
     const [formErrors, setFormErrors] = useState({
-        firstName: { message: "The entered firstName is not valid. Please enter a valid firstName", activate: false },
-        lastName: { message: "The entered lastName is not valid. Please enter a valid lastName", activate: false },
+        firstName: { message: "The entered firstName is not valid. Please enter a valid firstName (do not enter blank spaces)", activate: false },
+        lastName: { message: "The entered lastName is not valid. Please enter a valid lastName (do not enter blank spaces)", activate: false },
         birthDate: { message: "The entered birthDate is not valid. Please enter a valid birthDate, e.g., 2004/08/11", activate: false },
         address: { message: "The entered address is not valid. Please enter a valid address", activate: false },
         phone: { message: "The entered phone is not valid. Please enter a valid phone", activate: false },
