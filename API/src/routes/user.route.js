@@ -24,5 +24,16 @@ ROUTER.route("/changePassword")
 ROUTER.route("/verifyEmail")
     .post(verifyEmailBodyValidator, UserController.verifyEmail)
 
+ROUTER.route("/getAll")
+    .get(adminValidator ,UserController.getAll)
+
+ROUTER.route("/findEmail")
+    .post(adminValidator ,UserController.findEmail)
+
+ROUTER.route("/findFirstName")
+    .post(adminValidator ,UserController.findFirstName)
+
+ROUTER.route("/findLastName")
+    .post(adminValidator ,UserController.findLastName)
 
 export default ROUTER; 

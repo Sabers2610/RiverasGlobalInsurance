@@ -10,6 +10,7 @@ function Navbar() {
                 <NavLink to="/">Home</NavLink>
                 <NavLink to="/policies">Policies</NavLink>
                 <NavLink to="/register">register</NavLink>
+                <NavLink to="/GetAll">Users</NavLink>
             </div>
         </div>
     )

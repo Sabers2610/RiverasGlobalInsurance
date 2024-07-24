@@ -75,3 +75,19 @@ export async function changePasswordServices(userToken, password, password2){
         return error
     }
 }
+
+export async function fetchUsersService(userToken) {
+    try {
+        const response = await axios.get("http://localhost:3000/api/v1/getAll",  {
+            headers: {
+                "authorization": `Bearer ${userToken}`, 
+                "Content-Type": "application/json"
+            },
+            withCredentials: true,
+        });
+        return response.data; 
+    } catch (error) {
+        console.error('Error fetching users:', error.response ? error.response.data : error.message);
+        return error;
+    }
+}

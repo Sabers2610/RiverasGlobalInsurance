@@ -208,5 +208,80 @@ Rivera's Global Insurance Support Team
             return res.status(error.code).json(error.toJson())
         }
     }
+
+    //felipe
+
+    static async getAll(request, response) {
+        try {
+            const USERLIST = await User.findAll()
+
+            if (USERLIST.length === 0) {
+                throw new Error("No hay usuarios registrados")
+            }
+            return response.status(200).json(USERLIST)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    static async findEmail(request, response) {
+        try {
+            const { email } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
+            const USERMAIl = await User.findOne({ where: { userEmail: email } });
+            if (!USERMAIl) {
+                throw new CustomError("Email not found", 401, "API_FINDONE_VALIDATE");
+            }
+            return response.status(200).json(USERMAIl);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json(error.message);
+            }
+        }
+    }
+    static async findFirstName(request, response) {
+        try {
+            const { firstName } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
+            const USERFIRSTNAME = await User.findOne({ where: { userFirstName: firstName } });
+            console.log(USERFIRSTNAME)
+            if (!USERFIRSTNAME) {
+                throw new CustomError("First Name not found", 401, "API_FINDONE_VALIDATE");
+            }
+            return response.status(200).json(USERFIRSTNAME);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json(error.message);
+            }
+        }
+    }
+    static async findLastName(request, response) {
+        try {
+            const { lastName } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
+            const USERLASTNAME = await User.findOne({ where: { userLastName: lastName } });
+            console.log(USERLASTNAME)
+            if (!USERLASTNAME) {
+                throw new CustomError("First Name not found", 401, "API_FINDONE_VALIDATE");
+            }
+            return response.status(200).json(USERLASTNAME);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json(error.message);
+            }
+        }
+    }
+
 }
 
