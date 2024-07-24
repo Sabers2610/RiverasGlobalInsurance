@@ -27,8 +27,6 @@ export class UserController {
 
             const USEROBJECT = USER.toJSON()
             USEROBJECT.userToken = {token, expireIn}
-            USER.userPasswordChanged = false
-            await USER.save()
             return res.status(202).json(USEROBJECT)
         } catch (error) {
             console.log(error)
@@ -64,7 +62,6 @@ export class UserController {
             if(!USER){
                 return res.sendStatus(401)
             }
-            console.log("..")
             const VALIDPASSWORD = regexPassword(password)
             if(!VALIDPASSWORD) {
                 throw new CustomError("Password format invalid", 401, "API_AUTHENTICATION_ERROR")
@@ -72,12 +69,8 @@ export class UserController {
             else if(password !== password2){
                 throw new CustomError("passwords don't match", 401, "API_AUTHENTICATION_ERROR")
             }
-            console.log("...")
             USER.userPassword = password
             USER.userFirstSession = false,
-            USER.userPasswordChanged = false
-            console.log(password)
-            console.log(USER.toJSON())
             await USER.save()
             return res.status(200).json({message: "Password changed successfully"})
         } catch (error) {

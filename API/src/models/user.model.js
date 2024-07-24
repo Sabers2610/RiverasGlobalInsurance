@@ -130,11 +130,6 @@ User.init({
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true
-    },
-    userPasswordChanged: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
     }
 }, {
     sequelize: SEQUELIZE,
