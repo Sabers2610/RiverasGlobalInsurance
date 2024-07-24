@@ -2,19 +2,20 @@ import "../../public/assets/css/index.css"
 import {NavLink} from 'react-router-dom'
 import { logoutServices } from "../services/session.services"
 import { useNavigate } from "react-router-dom";
-import { userContext } from "../context/userProvider.context";
-import { useContext } from "react";
+import {useUser} from '../context/userProvider.context.jsx'
 
 function Navbar() {
-    const { user, setUser } = useContext(userContext) // extraemos el contexto para poder hacer logout (cerrar sesion)
+    const { user, setUser, setIsAuth } = useUser() // extraemos el contexto para poder hacer logout (cerrar sesion)
     const navigate = useNavigate() // Creamos el navigate para poder redireccionar a los usuarios
     const handleLogout = async () => {
-        const response = await logoutServices(user.userToken); // llamamos el servicio para hacer logout desde la api
+        const response = await logoutServices(user.userToken.token); // llamamos el servicio para hacer logout desde la api
 
         if(response.status === 200){
-            setUser(null)
+            await setUser(null)
+            await setIsAuth(false)
+            navigate("/login") // al cerrar sesion lo mandamos al login
         }
-        return navigate("/login") // al cerrar sesion lo mandamos al login
+        
     }
     return (
         <div className="header">

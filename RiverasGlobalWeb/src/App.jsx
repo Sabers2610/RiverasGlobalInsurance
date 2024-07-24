@@ -5,8 +5,6 @@ import Navbar from './components/Narvbar.component.jsx'
 import Policy from './routes/Policy.component.jsx'
 import RequireAuth from './components/RequireAuth.component.jsx'
 import ChangePassword from './routes/ChangePassword.component.jsx'
-import RequireChange from './components/RequireChange.components.jsx'
-
 
 function App() {
     const location = useLocation() // usamos el location para saber en que url esta
@@ -21,10 +19,11 @@ function App() {
                 } />
                 
                 <Route path='/changePassword' element={
-                    <RequireChange>
-                        <ChangePassword />
-                    </RequireChange>
+                    <RequireAuth>
+                        <ChangePassword/>
+                    </RequireAuth>
                 }/>
+
                 <Route path='/login' element={<Login />} />
                 <Route path='/policies' element={<Policy />} />
             </Routes>
