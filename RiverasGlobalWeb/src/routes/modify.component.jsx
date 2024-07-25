@@ -15,7 +15,7 @@ function ModifyUser() {
         birthDate: "",
         address: "",
         phone: "",
-        email: "",  
+        email: "",
         password: "",
         password2: ""
     });
@@ -37,46 +37,38 @@ function ModifyUser() {
 
     const [formErrors, setFormErrors] = useState({
         firstName: {
-            message: "error in the first name",
-            activate: false,
-            internalError: false
+            message: "The entered firstName is not valid. Please enter a valid firstName",
+            activate: false
         },
+
         lastName: {
-            message: "error in the last name",
-            activate: false,
-            internalError: false
+            message: "The entered lastName is not valid. Please enter a valid lastName",
+            activate: false
         },
-        birthDate: {
-            message: "birthday mistake",
-            activate: false,
-            internalError: false
-        },
+
         address: {
-            message: "error in address",
-            activate: false,
-            internalError: false
+            message: "The entered address is not valid. Please enter a valid address",
+            activate: false
         },
+
         phone: {
-            message: "error on the phone",
-            activate: false,
-            internalError: false
+            message: "The entered phone is not valid. Please enter a valid phone",
+            activate: false
         },
-        email: {
-            message: "error in email",
-            activate: false,
-            internalError: false
-        },
+
         password: {
-            message: "pasword error",
-            activate: false,
-            internalError: false
+            message: "Invalida password format. Your password must include at least one uppercase letter, one lowercase letter, numbers, and special characters. Additionally, it should be between 8 and 20 characters in length.",
+            activate: false
         },
+
         password2: {
-            message: "password confirmation error ",
-            activate: false,
-            internalError: false
-        }
-    })
+            message: "The passwords don't match",
+            activate: false
+        },
+
+        errors: false
+    });
+
 
     const navigate = useNavigate();
 
@@ -88,162 +80,153 @@ function ModifyUser() {
             [name]: value
         });
 
+        let regex = /^[A-Za-zñÑ]+$/i;
+
+        let regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()*\-_=+{};:,<.>])[A-Za-z\d!@#$%^&()*\-_=+{};:,<.>.]{8,}$/;
+
+        let newFormErrors = { ...formErrors };
+
         switch (name) {
             case "firstName":
-                if (!value) {
-                    setFormErrors({ ...formErrors, firstName: { message: "First Name is required", activate: true } });
-                }else {
-                    setFormErrors({ ...formErrors, firstName: { message: "", activate: false } });
-                }
+                newFormErrors.firstName.activate = !regex.test(value) || value.length > 50;
                 break;
 
             case "lastName":
-                if (!value) {
-                    setFormErrors({ ...formErrors, lastName: { message: "Last Name is required", activate: true } });
-                } else {
-                    setFormErrors({ ...formErrors, lastName: { message: "", activate: false } });
-                }
-                break;
-
-            case "birthDate":
-                if (!value) {
-                    setFormErrors({ ...formErrors, birthDate: { message: "BirthDate is required", activate: true } });
-                } else {
-                    setFormErrors({ ...formErrors, birthDate: { message: "", activate: false } });
-                }
+                newFormErrors.lastName.activate = !regex.test(value) || value.length > 50;
                 break;
 
             case "address":
-                if (!value) {
-                    setFormErrors({ ...formErrors, address: { message: "Address is required", activate: true } });
-                } else {
-                    setFormErrors({ ...formErrors, address: { message: "", activate: false } });
-                }
+                newFormErrors.address.activate = value.length > 255;
                 break;
 
             case "phone":
-                if (!value) {
-                    setFormErrors({ ...formErrors, phone: { message: "Phone is required", activate: true } });
-                } else {
-                    setFormErrors({ ...formErrors, phone: { message: "", activate: false } });
-                }
-                break;
-
-            case "email":
-                if (!value) {
-                    setFormErrors({ ...formErrors, email: { message: "Email is required", activate: true } });
-                } else if (!validator.isEmail(value)) {
-                    setFormErrors({ ...formErrors, email: { message: "Invalid email format", activate: true } });
-                } else {
-                    setFormErrors({ ...formErrors, email: { message: "", activate: false } });
-                }
+                newFormErrors.phone.activate = value.length > 10 || !validator.isNumeric(value);
                 break;
 
             case "password":
             case "password2":
-                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+{};:,<.>])[A-Za-z\d!@#$%^&*()-_=+{};:,<.>.]{8,}$/;
 
-                if (!formData.password) {
-                    setFormErrors({ ...formErrors, password: { message: "Password is required", activate: true } });
-                } else if (!passwordRegex.test(formData.password)) {
-                    setFormErrors({ ...formErrors, password: { message: "Invalid password format", activate: true } });
-                } else if (formData.password !== formData.password2) {
-                    setFormErrors({ ...formErrors, password: { message: "Passwords do not match", activate: true } });
-                } else {
-                    setFormErrors({ ...formErrors, password: { message: "", activate: false } });
-                }
+            console.log(password.value)
+            console.log(password2.value)
+
+                const passwordsMatch = password.value === password2.value;
+                const passwordIsValid = regexPassword.test(value);
+
+                newFormErrors.password.activate = !(passwordIsValid);
+                newFormErrors.password2.activate = !(passwordsMatch);
                 break;
 
             default:
                 break;
         }
-    };
+
+        newFormErrors.errors = Object.values(newFormErrors).some(error => error.activate);
+        setFormErrors(newFormErrors);
+
+    }
+
+    const alertUserModified = () => {
+        alert("¡User modified successfully!");
+    }
 
     const modifyUser = async (event) => {
         event.preventDefault();
 
-        try {
-            const data = await updateUserService(
-                
-                user.userToken.token,
-                formData.firstName,
-                formData.lastName,
-                formData.birthDate,
-                formData.address,
-                formData.phone,
-                formData.email,
-                formData.password,
-                formData.password2
-            );
+        if (!formErrors.errors) {
 
-            if (data instanceof AxiosError) {
-                if (data.response.status === 500) {
-                    setFormErrors({
-                        ...formErrors,
-                        message: "Server internal error... please contact support",
-                        activate: true,
-                        internalError: true
+            try {
+                const data = await updateUserService(
+
+                    user.userToken.token,
+                    formData.firstName,
+                    formData.lastName,
+                    formData.birthDate,
+                    formData.address,
+                    formData.phone,
+                    formData.email,
+                    formData.password,
+                    formData.password2
+                );
+
+                if (data instanceof AxiosError) {
+                    if (data.response.status === 500) {
+                        setFormErrors(prev => ({
+                            ...prev,
+                            message: "Server internal error... please contact support",
+                            activate: true,
+                            sessionError: true
+                        }));
+                    } else if (data.response.status === 401) {
+                        setFormErrors(prev => ({
+                            ...prev,
+                            message: "Data entered incorrectly",
+                            activate: true,
+                            sessionError: true
+                        }));
+                    }
+                } else {
+
+                    setUser({
+                        ...user,
+                        userFirstName: formData.firstName,
+                        userLastName: formData.lastName,
+                        userBirthDate: formData.birthDate,
+                        userAddress: formData.address,
+                        userPhone: formData.phone,
+                        userEmail: formData.email,
+                        userPassword: formData.password
                     });
-                } else if (data.response.status === 401) {
-                    setFormErrors({
-                        ...formErrors,
-                        message: "Data entered incorrectly",
-                        activate: true,
-                        internalError: true
-                    });
+
+                    alertUserModified();
+                    navigate("/");
                 }
-            } else {
-                setUser({
-                    ...user,
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    birthDate: formData.birthDate,
-                    address: formData.address,
-                    phone: formData.phone,
-                    email: formData.email,
-                    password: formData.password
-                });
-
-                navigate("/");
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.error("Error modifying user:", error);
         }
-    };
+    }
+
 
     return (
         <div className="edit-user-container">
             <h2>Edit User</h2>
             <form id="editUserForm" onSubmit={modifyUser}>
-                <input type="text" name="firstName" id="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} required />
-                {formErrors.firstName.activate && <p className="error-message">{formErrors.firstName.message}</p>}
+                <input type="text" name="firstName" style={formErrors.firstName.activate ? { border: "1px solid #fe0202" } : {}} placeholder="First name" required onChange={handleChange} value={formData.firstName} />
+                {formErrors.firstName.activate && <p style={{ color: "red" }}> {formErrors.firstName.message} </p>}
+                <br />
                 <br />
 
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} required />
-                {formErrors.lastName.activate && <p className="error-message">{formErrors.message}</p>}
+                <input type="text" name="lastName" style={formErrors.lastName.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
+                {formErrors.lastName.activate && <p style={{ color: "red" }}> {formErrors.lastName.message} </p>}
+                <br />
                 <br />
 
                 <input type="date" name="birthDate" id="birthDate" placeholder="Birth Date" value={formData.birthDate} onChange={handleChange} required />
                 <br />
-
-                <input type="text" name="address" id="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
-                {formErrors.address.activate && <p className="error-message">{formErrors.message}</p>}
                 <br />
 
-                <input type="tel" name="phone" id="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} required />
-                {formErrors.phone.activate && <p className="error-message">{formErrors.message}</p>}
+                <input type="text" name="address" style={formErrors.address.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Address" required onChange={handleChange} value={formData.address} />
+                {formErrors.address.activate && <p style={{ color: "red" }}> {formErrors.address.message} </p>}
+                <br />
                 <br />
 
-                <input type="email" name="email" id="email" placeholder="Email" disabled value={formData.email} onChange={handleChange} required />
-                {formErrors.email.activate && <p className="error-message">{formErrors.message}</p>}
+                <input type="tel" name="phone" style={formErrors.phone.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Phone" required onChange={handleChange} value={formData.phone} />
+                {formErrors.phone.activate && <p style={{ color: "red" }}> {formErrors.phone.message} </p>}
+                <br />
+                <br />
+
+                <input type="email" name="email" disabled placeholder="Email" required onChange={handleChange} value={formData.email} />
+                <br />
                 <br />
 
                 <input type="password" name="password" id="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                {formErrors.password.activate && <p className="error-message">{formErrors.message}</p>}
+                <br />
                 <br />
 
                 <input type="password" name="password2" id="password2" placeholder="Confirm Password" value={formData.password2} onChange={handleChange} />
-                {formErrors.password2.activate && <p className="error-message">{formErrors.message}</p>}
+                {formErrors.password.activate && <p style={{ color: "red" }}> {formErrors.password.message} </p>}
+                {formErrors.password2.activate && <p style={{ color: "red" }}> {formErrors.password2.message} </p>}
+                <br />
                 <br />
 
                 <button type="submit">Save Changes</button>

@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import { SEQUELIZE } from '../config/database/db.js'
+import {SEQUELIZE} from '../config/database/db.js'
 import { UserType } from './userType.model.js'
 import bcrypt from 'bcrypt'
 
@@ -18,18 +18,18 @@ User.init({
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-
-    userEnabled: {
+    
+    userEnabled:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true
+        defaultValue:true
     },
 
     userFirstName: {
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-            is: /^[A-Za-zñÑ]+$/i,
+            is: /^[A-Za-z]+$/i,
             notEmpty: {
                 msg: "Please enter a valid first name"
             },
@@ -42,7 +42,7 @@ User.init({
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-            is: /^[A-Za-zñÑ]+$/i,
+            is: /^[A-Za-z]+$/i,
             notEmpty: {
                 msg: "Please enter a valid last name"
             },
@@ -57,10 +57,19 @@ User.init({
         validate: {
             isDate: true,
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid birthdate"
             },
             notNull: {
                 msg: "Please enter a valid birthdate"
+            },
+            isAdult(value) {
+                const TODAY = new Date()
+                const LOWERLIMIT = new Date().setFullYear(TODAY.getFullYear - 65)
+                const UPPERLIMIT = new Date().setFullYear(TODAY.getFullYear - 16)
+
+                if (value < LOWERLIMIT || value > UPPERLIMIT) {
+                    throw new Error("The worker must be adult")
+                }
             }
         }
     },
@@ -68,7 +77,7 @@ User.init({
         type: DataTypes.STRING(255),
         allowNull: false,
         notEmpty: {
-            msg: "Please enter a valid last name"
+            msg: "Please enter a valid address"
         },
         validate: {
             notNull: {
@@ -81,7 +90,7 @@ User.init({
         allowNull: false,
         validate: {
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid phone number"
             },
             notNull: {
                 msg: "Please enter a valid phone number"
@@ -94,7 +103,7 @@ User.init({
         unique: true,
         validate: {
             notEmpty: {
-                msg: "Please enter a valid last name"
+                msg: "Please enter a valid email"
             },
             notNull: {
                 msg: "Please enter a valid email"
@@ -115,18 +124,10 @@ User.init({
     sequelize: SEQUELIZE,
     modelName: "User",
     hooks: {
-        beforeCreate: async (user, options) => {
-            user.userFirstName = capitalizeAndTrim(user.userFirstName)
-            user.userLastName = capitalizeAndTrim(user.userLastName)
-            user.userPassword = `GlobalInsurance#2024`
-        },
-
         beforeSave: async (user, options) => {
-            if (user.changed("userPassword")) {
-                const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
-                user.userPassword = HASHPASSWORD
-            }
-        },
+            const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
+            user.userPassword = HASHPASSWORD
+        }
     }
 })
 

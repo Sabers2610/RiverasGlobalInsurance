@@ -1,14 +1,14 @@
 POST http://localhost:3000/api/v1/modifyUser 
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJkZDc5N2EwNi0wOTU2LTQ2ZmQtYWJiNC0yOWE0ZGFkMjM4ODgiLCJpYXQiOjE3MjE0Mjk0ODIsImV4cCI6MTcyMTQzMDA4Mn0.n6BZM3cey9NXqNe6d2fH_IA3b9XpPrkpdusZSkehfms
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIzNjNmN2MyNC1jZmQ3LTQxNDctYmI4NS0zMDY3OTI4ZmU4MjciLCJpYXQiOjE3MjE3NzQ2NTQsImV4cCI6MTcyMTc3NTI1NH0.uQ7UWMtSjIDHdOSkZV4f7_ntsqojzkmtl8AzLtc1OEU
 
 {
-"firstName": "",
-"lastName": "Nuñez",
+"firstName": "1111111",
+"lastName": "Barra",
 "birthDate": "",
 "address": "",
 "phone": "",
 "email": "",
-"password": "Erwin123*",
-"password2": "Erwin123*"
+"password": "",
+"password2": ""
 }

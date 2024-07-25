@@ -127,7 +127,6 @@ export class UserController {
     
             const OLDUSER = USER.toJSON()
             let changes = []
-            const USEROBJECT = {}
     
             if (firstName !== "" && firstName !== OLDUSER.userFirstName) {
                 USER.userFirstName = firstName
@@ -176,7 +175,6 @@ export class UserController {
             return response.status(202).json({ "msg": "User successfully modified" })
     
         } catch (error) {
-            console.log(error)
             if (error instanceof Sequelize.ValidationError) {
                 const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
                 return response.status(ERROR.code).json(ERROR.toJson())

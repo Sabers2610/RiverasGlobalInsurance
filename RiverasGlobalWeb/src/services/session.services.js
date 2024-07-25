@@ -35,7 +35,7 @@ export async function logoutServices(userToken) {
 
 export async function updateUserService(userToken, firstName, lastName, birthDate, address, phone, email, password, password2) {
     try {
-        const data= {
+        const data = {
             firstName,
             lastName,
             birthDate,
@@ -56,6 +56,9 @@ export async function updateUserService(userToken, firstName, lastName, birthDat
 
         return response.data;
     } catch (error) {
-        return error
+        if (error.response && error.response.data) {
+            return { error: true, messages: error.response.data.errors };
+        }
+        return { error: true, messages: [{ msg: 'Server error, please try again later.' }] };
     }
 }
