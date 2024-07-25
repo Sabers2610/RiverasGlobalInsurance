@@ -5,12 +5,14 @@ import Navbar from './components/Narvbar.component.jsx'
 import Policy from './routes/Policy.component.jsx'
 import RequireAuth from './components/RequireAuth.component.jsx'
 import ChangePassword from './routes/ChangePassword.component.jsx'
+import VerifyEmail from './routes/VerifyEmail.component.jsx'
 
+const navbarBanned = ["/login", "/changePassword", "/verifyEmail"]
 function App() {
     const location = useLocation() // usamos el location para saber en que url esta
     return (
         <>
-            {location.pathname !== "/login" && <Navbar />} {/* Verificamos si no esta en el login para cargar la navbar*/}
+            {!navbarBanned.includes((location.pathname)) && <Navbar />} {/* Verificamos si no esta en el login para cargar la navbar*/}
             <Routes>
                 <Route path='/' element={
                     <RequireAuth>
@@ -26,6 +28,7 @@ function App() {
 
                 <Route path='/login' element={<Login />} />
                 <Route path='/policies' element={<Policy />} />
+                <Route path='/verifyEmail' element={<VerifyEmail/>}/>
             </Routes>
         </>
     )

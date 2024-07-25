@@ -1,4 +1,4 @@
-import "../../public/assets/css/index.css"
+import cssNav from "../assets/css/index.module.css"
 import {NavLink} from 'react-router-dom'
 import { logoutServices } from "../services/session.services"
 import { useNavigate } from "react-router-dom";
@@ -18,9 +18,9 @@ function Navbar() {
         
     }
     return (
-        <div className="header">
-            <img src="/assets/img/logo.png" alt="Logo"/>
-            <div className="nav">
+        <div className={cssNav.header}>
+            <img src="/img/logo.png" alt="Logo"/>
+            <div className={cssNav.nav}>
                 <NavLink to="/">Home</NavLink>
                 <NavLink to="/policies">Policies</NavLink>
                 <button onClick={handleLogout}>Logout</button>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import "../../public/assets/css/login.css";
+import cssLogin from "../assets/css/login.module.css";
 import {useUser} from '../context/userProvider.context.jsx'
 import {isEmpty, isEmail} from 'validator'
 import { loginServices } from "../services/session.services.js";
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, NavLink} from 'react-router-dom'
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -63,9 +63,10 @@ function Login() {
     }
 
     return (
-        <div className="login-container">
-            <img src="/assets/img/logo.png" alt="Logo" />
+        <div className={cssLogin.loginContainer}>
+            <img src="/img/logo.png" alt="Logo" />
             <form id="loginForm" onSubmit={handleSubmit}>
+                <label>Email:</label>
                 <input
                     type="text"
                     name="email"
@@ -79,6 +80,7 @@ function Login() {
                 {errors.email && (
                     <p style={{ color: "red" }}>{errors.email}</p>
                 )}
+                <label>Password:</label>
                 <input
                     type="password"
                     name="password"
@@ -94,7 +96,7 @@ function Login() {
                     <p style={{ color: "red" }}>{errors.loginError}</p>
                 )}
                 <button type="submit">Enter</button>
-                <a href="#">¿Problems with your password?</a>
+                <NavLink to="/verifyEmail">¿Problems with your password?</NavLink>
             </form>
         </div>
     );

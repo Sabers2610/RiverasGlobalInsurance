@@ -17,15 +17,14 @@ header {
     align-items: center;
 }
 
-.logo-container {
+.logoContainer {
     display: flex;
     align-items: center;
 }
 
 .logo {
     height: 50px;
-    width: 50px;
-    border-radius: 50%;
+    
 }
 
 nav ul {
@@ -52,63 +51,44 @@ main {
     height: 80vh;
 }
 
-.content-container {
+.contentContainer {
     text-align: center;
 }
 
-.main-image {
+.mainImage {
     height: 100px;
     width: 100px;
     border-radius: 50%;
     margin-bottom: 20px;
 }
 
-.message-box {
+.messageBox {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 400px;
-    text-align: left;
 }
 
-.message-box h2 {
-    text-align: center;
+.messageBox h2 {
     margin-bottom: 15px;
 }
 
-.message-box form {
-    display: flex;
-    flex-direction: column;
-}
-
-.message-box input {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.password-requirements {
-    list-style: none;
-    color: #777;
+.messageBox p {
     margin-bottom: 15px;
+    color: #333;
 }
 
-.password-requirements li {
-    margin-bottom: 5px;
-}
-
-.message-box button {
+.messageBox button {
     background-color: #3ea9f5;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
 }
 
-.message-box button:hover {
+.messageBox button:hover {
     background-color: #359ed8;
 }
