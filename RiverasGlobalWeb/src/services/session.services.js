@@ -33,7 +33,7 @@ export async function logoutServices(userToken) {
     }
 }
 
-export async function updateUserService(userToken, firstName, lastName, birthDate, address, phone, email, password, password2) {
+export async function updateUserService(userToken, firstName, lastName, birthDate, address, phone, email, currentPassword, password, password2) {
     try {
         const data = {
             firstName,
@@ -42,6 +42,7 @@ export async function updateUserService(userToken, firstName, lastName, birthDat
             address,
             phone,
             email,
+            currentPassword,
             password,
             password2
         }

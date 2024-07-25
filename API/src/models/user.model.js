@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import {SEQUELIZE} from '../config/database/db.js'
+import { SEQUELIZE } from '../config/database/db.js'
 import { UserType } from './userType.model.js'
 import bcrypt from 'bcrypt'
 
@@ -18,11 +18,11 @@ User.init({
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    
-    userEnabled:{
+
+    userEnabled: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue:true
+        defaultValue: true
     },
 
     userFirstName: {
@@ -124,10 +124,18 @@ User.init({
     sequelize: SEQUELIZE,
     modelName: "User",
     hooks: {
+        beforeCreate: async (user, options) => {
+            user.userFirstName = capitalizeAndTrim(user.userFirstName)
+            user.userLastName = capitalizeAndTrim(user.userLastName)
+            user.userPassword = `GlobalInsurance`
+        },
+
         beforeSave: async (user, options) => {
-            const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
-            user.userPassword = HASHPASSWORD
-        }
+            if (user.changed("userPassword")) {
+                const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
+                user.userPassword = HASHPASSWORD
+            }
+        },
     }
 })
 

@@ -114,8 +114,8 @@ export class UserController {
 
     static async modify(request, response) {
         try {
-            let { firstName, lastName, birthDate, address, phone, password, password2 } = request.body
-    
+            let { firstName, lastName, birthDate, address, phone, currentPassword, password, password2 } = request.body
+
             const USER = await User.findByPk(request.uid)
             if (!USER) {
                 throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
@@ -124,6 +124,8 @@ export class UserController {
             if (password !== password2) {
                 throw new CustomError("Passwords do not match", 400, "API_LOGIN_VALIDATE")
             }
+
+            const match = await bcrypt.compare(currentPassword, USER.userPassword)
     
             const OLDUSER = USER.toJSON()
             let changes = []
@@ -157,6 +159,11 @@ export class UserController {
                 const validation = regexPassword(password)
                 if (!validation) {
                     throw new CustomError("Invalid password format", 400, "API_LOGIN_VALIDATE")
+                } else if (!match) {
+                    console.log(currentPassword)
+                    console.log("arriba esta el current abajo el passdel usuario")
+                    console.log(USER.userPassword)
+                    throw new CustomError("Invalid password", 401, "API_LOGIN_VALIDATE")
                 } else {
                     USER.userPassword = password
                     changes.push(`password updated`)
@@ -175,6 +182,7 @@ export class UserController {
             return response.status(202).json({ "msg": "User successfully modified" })
     
         } catch (error) {
+            console.log(error)
             if (error instanceof Sequelize.ValidationError) {
                 const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
                 return response.status(ERROR.code).json(ERROR.toJson())

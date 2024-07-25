@@ -16,6 +16,7 @@ function ModifyUser() {
         address: "",
         phone: "",
         email: "",
+        currentPassword: "",
         password: "",
         password2: ""
     });
@@ -29,6 +30,7 @@ function ModifyUser() {
                 address: user.userAddress || "",
                 phone: user.userPhone || "",
                 email: user.userEmail || "",
+                currentPassword: "",
                 password: "",
                 password2: ""
             });
@@ -53,6 +55,11 @@ function ModifyUser() {
 
         phone: {
             message: "The entered phone is not valid. Please enter a valid phone",
+            activate: false
+        },
+
+        currentPassword: {
+            message: "Invalid password",
             activate: false
         },
 
@@ -106,9 +113,6 @@ function ModifyUser() {
             case "password":
             case "password2":
 
-            console.log(password.value)
-            console.log(password2.value)
-
                 const passwordsMatch = password.value === password2.value;
                 const passwordIsValid = regexPassword.test(value);
 
@@ -136,7 +140,6 @@ function ModifyUser() {
 
             try {
                 const data = await updateUserService(
-
                     user.userToken.token,
                     formData.firstName,
                     formData.lastName,
@@ -144,6 +147,7 @@ function ModifyUser() {
                     formData.address,
                     formData.phone,
                     formData.email,
+                    formData.currentPassword,
                     formData.password,
                     formData.password2
                 );
@@ -156,7 +160,7 @@ function ModifyUser() {
                             activate: true,
                             sessionError: true
                         }));
-                    } else if (data.response.status === 401) {
+                    } else if (data.response.status === 400 || data.response.status === 401) {
                         setFormErrors(prev => ({
                             ...prev,
                             message: "Data entered incorrectly",
@@ -216,6 +220,10 @@ function ModifyUser() {
                 <br />
 
                 <input type="email" name="email" disabled placeholder="Email" required onChange={handleChange} value={formData.email} />
+                <br />
+                <br />
+
+                <input type="password" name="currentPassword" id="currentPassword" placeholder="Current Password" value={formData.currentPassword} onChange={handleChange} />
                 <br />
                 <br />
 
