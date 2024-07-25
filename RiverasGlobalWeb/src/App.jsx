@@ -8,6 +8,7 @@ import ChangePassword from './routes/ChangePassword.component.jsx'
 import RequireChange from './components/RequireChange.components.jsx'
 import Register from './routes/Register.component.jsx'
 import GetAll from './routes/GetAll.component.jsx'
+import VerifyEmail from './routes/VerifyEmail.component.jsx'
 
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
         <Route path='/GetAll' element={<GetAll />} />
         <Route path='/login' element={<Login />} />
         <Route path='/policies' element={<Policy />} />
-
+        <Route path='/verifyEmail' element={<VerifyEmail/>}/>
 
 
       </Routes>

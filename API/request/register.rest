@@ -3,10 +3,10 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0MzVjNjQxNS0xMmQxLTRlZWMtYTU0OS1hODJjZjdjOGY5ZTAiLCJpYXQiOjE3MjE4NTA2NjUsImV4cCI6MTcyMTg1MTI2NX0.mSl4MYc6hDOdxPWVsPP3C9jvmitJiO9S1-vIAWFUwbc
 
 {
-   "firstName": "juanito", 
-   "lastName": "dios", 
+   "firstName": "Andres", 
+   "lastName": "Garcia", 
    "birthDate": "1992/04/24", 
    "address": "mi casita", 
    "phone": "9999999", 
-   "email": "juan@duocuc.cl" 
+   "email": "giovannibarra31@gmail.com" 
 }

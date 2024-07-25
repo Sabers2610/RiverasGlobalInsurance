@@ -14,7 +14,7 @@ header {
     background-color: #00a3ff;
     color: white;
 }
-.logo-container {
+.logoContainer {
     display: flex;
     align-items: center;
 }
@@ -45,17 +45,17 @@ nav ul li a .icon {
     vertical-align: middle;
 }
 
-.search-profile {
+.searchProfile {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.search-profile input {
+.searchProfile input {
     padding: 5px;
 }
 
-.search-profile button {
+.searchProfile button {
     background: none;
     border: none;
     cursor: pointer;
@@ -98,7 +98,7 @@ aside {
     cursor: pointer;
 }
 
-.policy-details {
+.policyDetails {
     background: white;
     color: rgb(111, 109, 109);
     padding: 80px;
@@ -109,7 +109,7 @@ aside {
     justify-content: center;
 }
 
-.details-header {
+.detailsHeader {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -127,11 +127,11 @@ aside {
     color: white;
 }
 
-.details-header h2 {
+.detailsHeader h2 {
     margin: 0;
 }
 
-.details-content {
+.detailsContent {
     margin-top: 20px;
 }
 

@@ -1,124 +1,118 @@
-import { useContext, useState } from "react";
-import "../../public/assets/css/login.css"
-import { changePasswordServices, loginServices } from "../services/session.services";
-import { userContext } from "../context/userProvider.context";
-import { useNavigate } from "react-router-dom";
-import validator from "validator"
-import { AxiosError } from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom'
+import { useUser } from '../context/userProvider.context.jsx'
+import { changePasswordServices } from '../services/session.services.js'
+import cssLogin from '../assets/css/login.module.css'
 
 function ChangePassword() {
-    const [formData, setFormaData] = useState({
+    const [formData, setFormData] = useState({
         password: "",
         password2: ""
     })
-
-    const [formError,  setFormError] = useState({
-        password: {
-            message: "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, 1 symbol (e.g., !@#$%^&*), and be at least 8 characters long.",
-            error: false
-        },
-        password2: {
-            message: "The passwords don't  match.",
-            error: false,
-        },
-        services: {
-            message: "Server internal error... please contact support",
-            error: false,
-        }
-    })
-
+    const { user, isAuth, setUser } = useUser()
     const navigate = useNavigate()
 
-    const { user, setUser } = useContext(userContext)
+    useEffect(() => {
+        if (!isAuth) {
+            return navigate("/login")
+        }
+    }, [isAuth])
+
+    const [errors, setErrors] = useState({})
 
     const handleChange = (event) => {
-        const {name, value} = event.target
-        let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()*\-_=+{};:,<.>])[A-Za-z\d!@#$%^&()*\-_=+{};:,<.>.]{8,}$/;
+        let { name, value } = event.target
 
-        setFormaData({
-            ...formData,
-            [name]: value
-        })
-        switch(name){
-            case "password": 
-                if(!regex.test(value) || value === ""){
-                    setFormError(prev => ({
-                        ...prev,
-                        password: {...prev, error: true}
-                    }))
-                }
-                else {
-                    setFormError(prev => ({
-                        ...prev,
-                        password: {...prev, error: false}
-                    }))
-                }
-                break
-            case "password2":
-                if(password2 !== formData.password || value === ""){
-                    setFormError(prev => ({
-                        ...prev,
-                        password2: {...prev, error: true}
-                    }))
-                }
-                else {
-                    setFormError(prev => ({
-                        ...prev,
-                        password2: {...prev, error: false}
-                    }))
-                }
-                break
-            default: 
-                break
-        }
+        setFormData({ ...formData, [name]: value })
+
     }
 
-    const changePassword = async (event) => {
+    const onValidate = () => {
+        let isErrors = false
+
+        let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()*\-_=+{};:,<.>])[A-Za-z\d!@#$%^&()*\-_=+{};:,<.>.]{8,}$/;
+        if (!regex.test(formData.password)) {
+            isErrors = true
+            setErrors({ password: "Your password must include at least one uppercase letter, one lowercase letter, numbers, and special characters. Additionally, it should be between 8 and 20 characters in length." })
+        }
+        else if (formData.password !== formData.password2) {
+            isErrors = true
+            setErrors({ password2: "the passwords don't match" })
+        }
+        else {
+            isErrors = false
+            setErrors({})
+        }
+
+        return isErrors
+    }
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if(!formError.password.error || !formError.password2.error){
-            const data = await changePasswordServices(user.userToken.token, formData.password, formData.password2)
-            if(data instanceof AxiosError){
-                if(data.response.status === 500){
-                    setFormError(prev => ({
-                        ...prev, services: {...prev, error: true}
-                    }))
+        let validate = onValidate();
+
+        if (!validate) {
+            const response = await changePasswordServices(user.userToken.token, formData.password, formData.password2)
+            if (!response.success) {
+                if (response.status === 401) {
+                    navigate("/login")
                 }
-                else if(data.response.status === 401){
-                    setFormError(prev => ({
-                        ...prev, services: {...prev, error: true}
-                    }))
+                else {
+                    setErrors({ changePassordError: response.message })
                 }
+
             }
-            else { 
-                setUser({
-                    ...user,
-                    userFirstSession: false,
-                    userPasswordChanged: false
-                })
-                return navigate("/")
+            else {
+                alert("Password changed successfully")
+                setUser({...user, userFirstSession: false})
+                navigate("/")
             }
         }
     }
+
+    
     return (
-        <div className="login-container">
-            <img src="/assets/img/logo.png" alt="Logo" />
-            <form id="loginForm" onSubmit={changePassword}>
-                <input type="password" name="password" style={formError.password.error ? {border: "1px solid #fe0202"} : {}} id="password" placeholder="password" value={formData.password} onChange={handleChange} required />
-                
-                {formError.password.error && (
-                        <p style={{color: "red"}}>{formError.password.message}</p>
+        <div className={cssLogin.loginContainer}>
+            <img src="../../public/img/logo.png" alt="Logo" />
+            <form id="loginForm" onSubmit={handleSubmit}>
+                <label>New password:</label>
+                <input
+                    type="password"
+                    name="password"
+                    style={errors.email || errors.changePassordError ? { border: "1px solid #fe0202" } : {}}
+                    id="password"
+                    placeholder="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+                {errors.password && (
+                    <p style={{ color: "red" }}>{errors.password}</p>
+                )}
+                <label>Repeat new password:</label>
+                <input
+                    type="password"
+                    name="password2"
+                    style={errors.password2 || errors.changePassordError ? { border: "1px solid #fe0202" } : {}}
+                    id="password2"
+                    placeholder="password"
+                    value={formData.password2}
+                    onChange={handleChange}
+                    required
+                />
+
+                {errors.password2 && (
+                    <p style={{ color: "red" }}>{errors.password2}</p>
                 )}
 
-                <input type="password" name="password2" style={formError.password2.error ? {border: "1px solid #fe0202"} : {}} id="password" placeholder="password" value={formData.password2} onChange={handleChange} required />
-
-                {formError.password2.error && (
-                        <p style={{color: "red"}}>{formError.password2.message}</p>
+                {errors.changePassordError && (
+                    <p style={{ color: "red" }}>{errors.changePassordError}</p>
                 )}
-                <button type="submit">submit</button>
+                <button type="submit">Save</button>
             </form>
         </div>
     )
 }
 
-export default ChangePassword
+export default ChangePassword;

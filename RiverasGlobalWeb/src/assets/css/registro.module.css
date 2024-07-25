@@ -13,7 +13,7 @@ header {
     align-items: center;
 }
 
-.logo-container {
+.logoContainer {
     display: flex;
     align-items: center;
 }
@@ -53,7 +53,7 @@ main {
     background-color: #fff;
 }
 
-.register-container {
+.registerContainer {
     background-color: #f0f0f0;
     padding: 20px;
     border-radius: 10px;
@@ -62,7 +62,7 @@ main {
     width: 300px;
 }
 
-.register-logo {
+.registerLogo {
     height: 80px;
     margin-bottom: 10px;
 }

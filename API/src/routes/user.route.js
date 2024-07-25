@@ -20,7 +20,7 @@ ROUTER.route("/refreshToken")
 
 ROUTER.route("/changePassword")
     .post(passwordBodyValidator, authValidator, UserController.changePassword)
-
+    
 ROUTER.route("/verifyEmail")
     .post(verifyEmailBodyValidator, UserController.verifyEmail)
 

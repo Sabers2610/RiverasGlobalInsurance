@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import "../../public/assets/css/registro.css"
+import cssRegister from "../assets/css/registro.module.css"
 import { registerServices } from "../services/session.services";
 import { userContext } from "../context/userProvider.context";
 import { useNavigate } from "react-router-dom";
@@ -118,31 +118,33 @@ function Register() {
     };
 
     return (
-        <div className="register-container">
-            <img src="../assets/img/logo.png" alt="Register Logo" className="register-logo" />
-            <h2>Register</h2>
-            <form id="registerForm" onSubmit={register}>
-                <input type="text" name="firstName" style={formErrors.firstName.activate ? {border: "1px solid #fe0202"} : {}} placeholder="First name" required onChange={handleChange} value={formData.firstName} />
-                {formErrors.firstName.activate && <p style={{color: "red"}}> {formErrors.firstName.message} </p>}
-                
-                <input type="text" name="lastName" style={formErrors.lastName.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
-                {formErrors.lastName.activate && <p style={{color: "red"}}> {formErrors.lastName.message} </p>}
-                
-                <input type="date" name="birthDate" style={formErrors.birthDate.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Birth date" required onChange={handleChange} value={formData.birthDate} />
-                {formErrors.birthDate.activate && <p style={{color: "red"}}> {formErrors.birthDate.message} </p>}
-                
-                <input type="text" name="address" style={formErrors.address.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Address" required onChange={handleChange} value={formData.address} />
-                {formErrors.address.activate && <p style={{color: "red"}}> {formErrors.address.message} </p>}
-                
-                <input type="tel" name="phone" style={formErrors.phone.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Phone" required onChange={handleChange} value={formData.phone} />
-                {formErrors.phone.activate && <p style={{color: "red"}}> {formErrors.phone.message} </p>}
-                
-                <input type="email" name="email" style={formErrors.email.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Email" required onChange={handleChange} value={formData.email} />
-                {formErrors.email.activate && <p style={{color: "red"}}> {formErrors.email.message} </p>}
-                
-                <button type="submit">Create an account</button>
-            </form>
-        </div>
+        <main>
+            <div className={cssRegister.registerContainer}>
+                <img src="../../public/img/logo.png" alt="Register Logo" className={cssRegister.registerLogo} />
+                <h2>Register</h2>
+                <form id="registerForm" onSubmit={register}>
+                    <input type="text" name="firstName" style={formErrors.firstName.activate ? {border: "1px solid #fe0202"} : {}} placeholder="First name" required onChange={handleChange} value={formData.firstName} />
+                    {formErrors.firstName.activate && <p style={{color: "red"}}> {formErrors.firstName.message} </p>}
+                    
+                    <input type="text" name="lastName" style={formErrors.lastName.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
+                    {formErrors.lastName.activate && <p style={{color: "red"}}> {formErrors.lastName.message} </p>}
+                    
+                    <input type="date" name="birthDate" style={formErrors.birthDate.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Birth date" required onChange={handleChange} value={formData.birthDate} />
+                    {formErrors.birthDate.activate && <p style={{color: "red"}}> {formErrors.birthDate.message} </p>}
+                    
+                    <input type="text" name="address" style={formErrors.address.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Address" required onChange={handleChange} value={formData.address} />
+                    {formErrors.address.activate && <p style={{color: "red"}}> {formErrors.address.message} </p>}
+                    
+                    <input type="tel" name="phone" style={formErrors.phone.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Phone" required onChange={handleChange} value={formData.phone} />
+                    {formErrors.phone.activate && <p style={{color: "red"}}> {formErrors.phone.message} </p>}
+                    
+                    <input type="email" name="email" style={formErrors.email.activate ? {border: "1px solid #fe0202"} : {}} placeholder="Email" required onChange={handleChange} value={formData.email} />
+                    {formErrors.email.activate && <p style={{color: "red"}}> {formErrors.email.message} </p>}
+                    
+                    <button type="submit">Create an account</button>
+                </form>
+            </div>
+        </main> 
     );
 }
 
