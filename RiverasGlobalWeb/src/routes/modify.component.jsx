@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import { updateUserService } from "../services/session.services.js";
 import { userContext } from "../context/userProvider.context.jsx";
-import { AxiosError } from "axios";
 
 function ModifyUser() {
 
@@ -111,12 +110,12 @@ function ModifyUser() {
                 break;
 
             case "password":
-            case "password2":
-
-                const passwordsMatch = password.value === password2.value;
                 const passwordIsValid = regexPassword.test(value);
-
                 newFormErrors.password.activate = !(passwordIsValid);
+                break;
+
+            case "password2":
+                const passwordsMatch = password.value === password2.value;
                 newFormErrors.password2.activate = !(passwordsMatch);
                 break;
 
@@ -152,20 +151,24 @@ function ModifyUser() {
                     formData.password2
                 );
 
-                if (data instanceof AxiosError) {
-                    if (data.response.status === 500) {
+                if (data.error) {
+                    if (data.status === 500) {
                         setFormErrors(prev => ({
                             ...prev,
-                            message: "Server internal error... please contact support",
-                            activate: true,
-                            sessionError: true
+                            currentPassword: {
+                                ...prev.currentPassword,
+                                message: "Server internal error... please contact support", 
+                                activate: true,
+                            }
                         }));
-                    } else if (data.response.status === 400 || data.response.status === 401) {
+                    } else if (data.status === 400 || data.status === 401) {
                         setFormErrors(prev => ({
                             ...prev,
-                            message: "Data entered incorrectly",
-                            activate: true,
-                            sessionError: true
+                            currentPassword: {
+                                ...prev.currentPassword,
+                                message: "Data entered incorrectly",
+                                activate: true, 
+                            }
                         }));
                     }
                 } else {
@@ -185,7 +188,6 @@ function ModifyUser() {
                     navigate("/");
                 }
             } catch (error) {
-                console.log(error);
             }
         }
     }
@@ -223,7 +225,8 @@ function ModifyUser() {
                 <br />
                 <br />
 
-                <input type="password" name="currentPassword" id="currentPassword" placeholder="Current Password" value={formData.currentPassword} onChange={handleChange} />
+                <input type="password" name="currentPassword" id="currentPassword" style={formErrors.currentPassword.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Current Password" value={formData.currentPassword} onChange={handleChange} />
+                {formErrors.currentPassword.activate && <p style={{ color: "red" }}> {formErrors.currentPassword.message} </p>}
                 <br />
                 <br />
 

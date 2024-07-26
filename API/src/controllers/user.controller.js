@@ -120,77 +120,71 @@ export class UserController {
             if (!USER) {
                 throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
             }
-    
+
             if (password !== password2) {
                 throw new CustomError("Passwords do not match", 400, "API_LOGIN_VALIDATE")
             }
 
-            const match = await bcrypt.compare(currentPassword, USER.userPassword)
-    
+            const MATCH = await bcrypt.compare(currentPassword, USER.userPassword)
+
             const OLDUSER = USER.toJSON()
             let changes = []
-    
+
             if (firstName !== "" && firstName !== OLDUSER.userFirstName) {
                 USER.userFirstName = firstName
                 changes.push(`first name from ${OLDUSER.userFirstName} to ${firstName}`)
             }
-    
+
             if (lastName !== "" && lastName !== OLDUSER.userLastName) {
                 USER.userLastName = lastName
                 changes.push(`last name from ${OLDUSER.userLastName} to ${lastName}`)
             }
-    
+
             if (birthDate !== "" && birthDate !== OLDUSER.userBirthDate) {
                 USER.userBirthDate = birthDate
                 changes.push(`birth date from ${OLDUSER.userBirthDate} to ${birthDate}`)
             }
-    
+
             if (address !== "" && address !== OLDUSER.userAddress) {
                 USER.userAddress = address
                 changes.push(`address from ${OLDUSER.userAddress} to ${address}`)
             }
-    
+
             if (phone !== "" && phone !== OLDUSER.userPhone) {
                 USER.userPhone = phone
                 changes.push(`phone from ${OLDUSER.userPhone} to ${phone}`)
             }
-    
+
             if (password !== "") {
-                const validation = regexPassword(password)
-                if (!validation) {
+                const VALIDATION = regexPassword(password)
+                if (!VALIDATION) {
                     throw new CustomError("Invalid password format", 400, "API_LOGIN_VALIDATE")
-                } else if (!match) {
-                    console.log(currentPassword)
-                    console.log("arriba esta el current abajo el passdel usuario")
-                    console.log(USER.userPassword)
+                } else if (!MATCH) {
                     throw new CustomError("Invalid password", 401, "API_LOGIN_VALIDATE")
                 } else {
                     USER.userPassword = password
                     changes.push(`password updated`)
                 }
             }
-    
+
             await USER.save()
-    
+
             if (changes.length > 0) {
                 await ChangeHistory.create({
                     changeUserEmail: USER.userEmail,
                     changeDescription: `The user with email ${USER.userEmail} has modified the following fields: ${changes.join(", ")}`
                 })
             }
-    
+
             return response.status(202).json({ "msg": "User successfully modified" })
-    
+
         } catch (error) {
-            console.log(error)
             if (error instanceof Sequelize.ValidationError) {
                 const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
                 return response.status(ERROR.code).json(ERROR.toJson())
-            }
-            else if (error instanceof CustomError) {
+            } else if (error instanceof CustomError) {
                 return response.status(error.code).json(error.toJson())
-            }
-            else {
+            } else {
                 return response.status(500).json(error.message)
             }
         }

@@ -35,7 +35,7 @@ export async function logoutServices(userToken) {
 
 export async function updateUserService(userToken, firstName, lastName, birthDate, address, phone, email, currentPassword, password, password2) {
     try {
-        const data = {
+        const DATA = {
             firstName,
             lastName,
             birthDate,
@@ -46,7 +46,7 @@ export async function updateUserService(userToken, firstName, lastName, birthDat
             password,
             password2
         }
-        const response = await axios.post("http://localhost:3000/api/v1/modifyUser", data, {
+        const RESPONSE = await axios.post("http://localhost:3000/api/v1/modifyUser", DATA, {
             headers: {
                 "Authorization": `Bearer ${userToken}`,
                 "Content-Type": "application/json"
@@ -55,11 +55,11 @@ export async function updateUserService(userToken, firstName, lastName, birthDat
             withCredentials: true,
         })
 
-        return response.data;
+        return RESPONSE.data;
     } catch (error) {
         if (error.response && error.response.data) {
-            return { error: true, messages: error.response.data.errors };
+            return { error: true, messages: error.response.data.errors, status: error.response.status };
         }
-        return { error: true, messages: [{ msg: 'Server error, please try again later.' }] };
+        return { error: true, messages: 'Server error, please try again later.', status: error.response.status };
     }
 }
