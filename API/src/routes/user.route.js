@@ -12,7 +12,7 @@ ROUTER.route("/logout")
     .post(tokenHeaderValidator, UserController.logout)
 
 ROUTER.route("/refreshToken")
-    .post(tokenCookieValidator, UserController.refreshToken)
+    .get(tokenCookieValidator, UserController.refreshToken)
 
 ROUTER.route("/changePassword")
     .post(authValidator, passwordBodyValidator, UserController.changePassword)
@@ -20,8 +20,11 @@ ROUTER.route("/changePassword")
 ROUTER.route("/verifyEmail")
     .post(verifyEmailBodyValidator, UserController.verifyEmail)
 
-ROUTER.route("/recoveryPassord/:resetToken")
+ROUTER.route("/recoveryPassword/:resetToken")
     .post(passwordBodyValidator, UserController.recoveryPassword)
 
 ROUTER.route("/verifyToken/:resetToken")
     .get(UserController.verifyToken)
+
+ROUTER.route("/autoLogin/")
+    .get(tokenHeaderValidator, authValidator, UserController.autoLogin)

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import cssLogin from "../assets/css/login.module.css";
 import {useUser} from '../context/userProvider.context.jsx'
 import {isEmpty, isEmail} from 'validator'
-import { loginServices } from "../services/session.services.js";
+import sessionServices from "../services/session.services.js";
 import {useNavigate, NavLink} from 'react-router-dom'
 
 function Login() {
@@ -43,7 +43,7 @@ function Login() {
         const validate = onValidate();
 
         if(!validate){
-            const response = await loginServices(formData.email, formData.password)
+            const response = await sessionServices.loginServices(formData.email, formData.password)
             //console.log(response.success)
             if(!response.success) {
                 if(response.status === 401 || response.status === 400){

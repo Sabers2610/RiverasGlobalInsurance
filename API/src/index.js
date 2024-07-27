@@ -16,7 +16,6 @@ APP.use(cors({
     origin: "http://localhost:5173",
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials:true
 }))
 
 APP.get("/", (req, res) => {

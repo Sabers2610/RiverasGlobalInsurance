@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {useUser} from '../context/userProvider.context.jsx'
 import {isEmail} from 'validator'
-import { verifyEmailServices } from "../services/session.services.js";
+import sessionServices from "../services/session.services.js";
 import cssLogin from '../assets/css/login.module.css'
 
 
@@ -44,8 +44,7 @@ function VerifyEmail() {
         let validate = onValidate();
 
         if(!validate) {
-            const response = await verifyEmailServices(formData.email)
-            console.log(response.message)
+            const response = await sessionServices.verifyEmailServices(formData.email)
             if(!response.success){
                 setErrors({verifyEmail: response.message})
             }

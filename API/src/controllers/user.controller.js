@@ -92,9 +92,9 @@ export class UserController {
                 throw new CustomError("No refresh token provided", 401, "API_AUTHENTICATION_ERROR")
             }
 
-            const { uid } = await JWT.verify(refreshTokenClient, process.env.JWT_SECRET_REFRESH)
+            const { uid } = jwt.verify(refreshTokenClient, config.jwt_secret)
 
-            const token = generateToken(uid)
+            const token = generateToken(uid, 10)
 
             res.status(200).json(token)
         } catch (error) {
@@ -147,8 +147,6 @@ Rivera's Global Insurance Support Team
             let { password, password2 } = req.body
             let { resetToken } = req.params
 
-            console.log(resetToken)
-
             const SECRET = config.jwt_secret
 
             if (password !== password2) {
@@ -158,18 +156,14 @@ Rivera's Global Insurance Support Team
                 throw new CustomError("Secret token is not defined", 500, "API_SECRETOKEN_ERROR")
             }
             let { uid } = jwt.verify(resetToken, SECRET)
-            console.log("pase el verify")
 
             const USER = await User.findByPk(uid)
             if (!USER) {
-                console.log("pase el user")
                 throw new CustomError("Invalid reset token", 401, "API_RESETTOKEN_ERROR")
             }
             else if (USER.userRecoveryToken !== resetToken) {
-                console.log("pase el control del user y token")
                 throw new CustomError("Invalid reset token", 401, "API_RESETTOKEN_ERROR")
             }
-
             USER.userPassword = password
             USER.userRecoveryToken = null
             await USER.save()
@@ -185,7 +179,8 @@ Rivera's Global Insurance Support Team
 
     static async verifyToken(req, res) {
         try {
-            let { resetToken } = req.body
+            let { resetToken } = req.params
+            console.log(resetToken)
 
             if (!resetToken) {
                 throw new CustomError("No resetToken provided", 401, "API_RESETTOKEN_ERROR")
@@ -193,16 +188,36 @@ Rivera's Global Insurance Support Team
 
             jwt.verify(resetToken, config.jwt_secret)
 
-            return res.status(200).json({message: "OK"})
+            return res.status(200).json({ message: "OK" })
         } catch (error) {
-            if(error instanceof CustomError){
+            console.log(error)
+            if (error instanceof CustomError) {
                 return res.status(error.code).json(error.toJson())
             }
-            else if(error.name === 'TokenExpiredError' || error.name === "JsonWebTokenError") {
+            else if (error.name === 'TokenExpiredError' || error.name === "JsonWebTokenError") {
                 error = new CustomError("Invalid token", 401, "API_RESETTOKEN_ERROR")
                 return res.status(error.code).json(error.toJson())
             }
             error = new CustomError(error.message, 500, "API_RESETTOKEN_ERROR")
+            return res.status(error.code).json(error.toJson())
+        }
+    }
+
+    static async autoLogin(req, res) {
+        try {
+            const USER = await User.findByPk(req.uid)
+
+            if (!USER) {
+                throw new CustomError("User not finded", 500, "API_AUTOLOGIN_ERROR")
+            }
+            const USEROBJECT = USER.toJSON()
+            USEROBJECT.userToken = req.sessionToken
+            return res.status(200).json(USEROBJECT)
+        } catch (error) {
+            if(error instanceof CustomError){
+                return res.status(error.code).json(error.toJson())
+            }
+            error = new CustomError(error.message, 500, "API_AUTOLOGIN_ERROR")
             return res.status(error.code).json(error.toJson())
         }
     }

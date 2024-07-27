@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '../context/userProvider.context.jsx'
-import { changePasswordServices } from '../services/session.services.js'
+import sessionServices from '../services/session.services.js'
 import cssLogin from '../assets/css/login.module.css'
 
 function ChangePassword() {
@@ -53,7 +53,7 @@ function ChangePassword() {
         let validate = onValidate();
 
         if (!validate) {
-            const response = await changePasswordServices(user.userToken.token, formData.password, formData.password2)
+            const response = await sessionServices.changePasswordServices(user.userToken.token, formData.password, formData.password2)
             if (!response.success) {
                 if (response.status === 401) {
                     navigate("/login")

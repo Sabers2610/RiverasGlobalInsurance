@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../context/userProvider.context";
-import { recoveryPasswordServices, validateTokenServices } from "../services/session.services";
+import sessionServices from "../services/session.services";
+import cssLogin from "../assets/css/login.module.css";
 
 
 
@@ -21,18 +22,21 @@ function RecoveryPassword() {
     useEffect(() => {
         if (isAuth) {
             navigate("/")
+            return
         }
         else if (!resetToken) {
             navigate("/login")
+            return 
         }
         const validate = async () => {
-            const response = await validateTokenServices(resetToken)
+            const response = await sessionServices.validateTokenServices(resetToken)
             if (!response.success) {
                 navigate("/login")
+                return
             }
         }
         validate();
-    }, [navigate])
+    }, [resetToken, isAuth, navigate])
 
     const handleChange = (event) => {
         let { name, value } = event.target
@@ -64,7 +68,7 @@ function RecoveryPassword() {
 
         const validate = onValidate()
         if (!validate) {
-            const response = recoveryPasswordServices(resetToken, formData.password, formData.password2)
+            const response = await sessionServices.recoveryPasswordServices(resetToken, formData.password, formData.password2)
             if (!response.success) {
                 setErrors({ recoveryPasswordError: response.message })
             }
@@ -117,3 +121,5 @@ function RecoveryPassword() {
         </div>
     )
 }
+
+export default RecoveryPassword
