@@ -6,6 +6,7 @@ import CustomError from '../utils/exception.util.js'
 import { regexPassword } from '../utils/regexPassword.util.js'
 import config from '../config/config.js'
 import { sendEmail } from '../utils/sendEmail.util.js'
+import jwt from 'jsonwebtoken'
 
 export class UserController {
     static async login(req, res) {
@@ -109,9 +110,9 @@ export class UserController {
         try {
             let { email } = req.body
 
-            const USER = await User.findOne({where: {userEmail: email}})
+            const USER = await User.findOne({ where: { userEmail: email } })
 
-            if(!USER) {
+            if (!USER) {
                 throw new CustomError("The email address doesn't exist", 401, "API_VERIFYEMAIL_ERROR")
             }
             const { token } = generateToken(USER.userId, 10, true)
@@ -131,12 +132,77 @@ Rivera's Global Insurance Support Team
             await sendEmail(USER.userEmail, "Password Recovery Request", text)
             USER.userRecoveryToken = token
             await USER.save()
-            return res.status(200).json({message: "Email send successfully"})
+            return res.status(200).json({ message: "Email send successfully" })
+        } catch (error) {
+            if (error instanceof CustomError) {
+                return res.status(error.code).json(error.toJson())
+            }
+            error = new CustomError(error.message, 500, "API_SENDEMAIL_EMAIL")
+            return res.status(error.code).json(error.toJson())
+        }
+    }
+
+    static async recoveryPassword(req, res) {
+        try {
+            let { password, password2 } = req.body
+            let { resetToken } = req.params
+
+            console.log(resetToken)
+
+            const SECRET = config.jwt_secret
+
+            if (password !== password2) {
+                throw new CustomError("Passwords don't match", 400, "API_RESETPASS_ERROR")
+            }
+            if (!SECRET) {
+                throw new CustomError("Secret token is not defined", 500, "API_SECRETOKEN_ERROR")
+            }
+            let { uid } = jwt.verify(resetToken, SECRET)
+            console.log("pase el verify")
+
+            const USER = await User.findByPk(uid)
+            if (!USER) {
+                console.log("pase el user")
+                throw new CustomError("Invalid reset token", 401, "API_RESETTOKEN_ERROR")
+            }
+            else if (USER.userRecoveryToken !== resetToken) {
+                console.log("pase el control del user y token")
+                throw new CustomError("Invalid reset token", 401, "API_RESETTOKEN_ERROR")
+            }
+
+            USER.userPassword = password
+            USER.userRecoveryToken = null
+            await USER.save()
+            return res.status(200).json({ message: "Password changed successfully" })
+        } catch (error) {
+            if (error instanceof CustomError) {
+                return res.status(error.code).json(error.toJson())
+            }
+            error = new CustomError(error.message, 500, "API_INTERNAL_ERROR")
+            return res.status(error.code).json(error.toJson())
+        }
+    }
+
+    static async verifyToken(req, res) {
+        try {
+            let { resetToken } = req.body
+
+            if (!resetToken) {
+                throw new CustomError("No resetToken provided", 401, "API_RESETTOKEN_ERROR")
+            }
+
+            jwt.verify(resetToken, config.jwt_secret)
+
+            return res.status(200).json({message: "OK"})
         } catch (error) {
             if(error instanceof CustomError){
                 return res.status(error.code).json(error.toJson())
             }
-            error = new CustomError(error.message, 500, "API_SENDEMAIL_EMAIL")
+            else if(error.name === 'TokenExpiredError' || error.name === "JsonWebTokenError") {
+                error = new CustomError("Invalid token", 401, "API_RESETTOKEN_ERROR")
+                return res.status(error.code).json(error.toJson())
+            }
+            error = new CustomError(error.message, 500, "API_RESETTOKEN_ERROR")
             return res.status(error.code).json(error.toJson())
         }
     }

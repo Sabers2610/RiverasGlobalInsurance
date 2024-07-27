@@ -1,32 +1,44 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
-import { useUser } from '../context/userProvider.context.jsx'
-import { changePasswordServices } from '../services/session.services.js'
-import cssLogin from '../assets/css/login.module.css'
+import { useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../context/userProvider.context";
+import { recoveryPasswordServices, validateTokenServices } from "../services/session.services";
 
-function ChangePassword() {
-    const [formData, setFormData] = useState({
+
+
+
+function RecoveryPassword() {
+    const [formData, setFormaData] = useState({
         password: "",
         password2: ""
     })
-    const { user, isAuth, setUser } = useUser()
+    const [errors, setErrors] = useState({})
+    const { isAuth } = useUser()
+
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (!isAuth) {
-            return navigate("/login")
-        }
-    }, [isAuth])
+    const { resetToken } = useParams()
 
-    const [errors, setErrors] = useState({})
+    useEffect(() => {
+        if (isAuth) {
+            navigate("/")
+        }
+        else if (!resetToken) {
+            navigate("/login")
+        }
+        const validate = async () => {
+            const response = await validateTokenServices(resetToken)
+            if (!response.success) {
+                navigate("/login")
+            }
+        }
+        validate();
+    }, [navigate])
 
     const handleChange = (event) => {
         let { name, value } = event.target
 
-        setFormData({ ...formData, [name]: value })
-
+        setFormaData({ ...formData, [name]: value })
     }
-
     const onValidate = () => {
         let isErrors = false
 
@@ -50,26 +62,19 @@ function ChangePassword() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        let validate = onValidate();
-
+        const validate = onValidate()
         if (!validate) {
-            const response = await changePasswordServices(user.userToken.token, formData.password, formData.password2)
+            const response = recoveryPasswordServices(resetToken, formData.password, formData.password2)
             if (!response.success) {
-                if (response.status === 401) {
-                    navigate("/login")
-                }
-                else {
-                    setErrors({ changePassordError: response.message })
-                }
-
+                setErrors({ recoveryPasswordError: response.message })
             }
             else {
                 alert("Password changed successfully")
-                setUser({...user, userFirstSession: false})
-                navigate("/")
+                navigate("/login")
             }
         }
     }
+
     return (
         <div className={cssLogin.loginContainer}>
             <img src="/img/logo.png" alt="Logo" />
@@ -78,7 +83,7 @@ function ChangePassword() {
                 <input
                     type="password"
                     name="password"
-                    style={errors.password || errors.changePassordError ? { border: "1px solid #fe0202" } : {}}
+                    style={errors.password || errors.recoveryPasswordError ? { border: "1px solid #fe0202" } : {}}
                     id="password"
                     placeholder="password"
                     value={formData.password}
@@ -92,7 +97,7 @@ function ChangePassword() {
                 <input
                     type="password"
                     name="password2"
-                    style={errors.password2 || errors.changePassordError ? { border: "1px solid #fe0202" } : {}}
+                    style={errors.password2 || errors.recoveryPasswordError ? { border: "1px solid #fe0202" } : {}}
                     id="password2"
                     placeholder="password"
                     value={formData.password2}
@@ -104,13 +109,11 @@ function ChangePassword() {
                     <p style={{ color: "red" }}>{errors.password2}</p>
                 )}
 
-                {errors.changePassordError && (
-                    <p style={{ color: "red" }}>{errors.changePassordError}</p>
+                {errors.recoveryPasswordError && (
+                    <p style={{ color: "red" }}>{errors.recoveryPasswordError}</p>
                 )}
                 <button type="submit">Save</button>
             </form>
         </div>
     )
 }
-
-export default ChangePassword;

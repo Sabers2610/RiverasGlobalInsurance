@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import { User } from '../models/user.model.js';
-dotenv.config()
+import config from '../config/config.js'
 
 export async function authValidator(req,res,next){
     try {
@@ -12,13 +12,13 @@ export async function authValidator(req,res,next){
         
         if (!token) return res.sendStatus(401)
 
-        const jwtSecret = process.env.JWT_SECRET;
+        const jwtSecret = config.jwt_secret;
 
         if (!jwtSecret) {
             return res.status(500).json({ message: 'Secret token is not defined' });
         }
 
-        const {uid} = jwt.verify(token, jwtSecret)
+        let {uid} = jwt.verify(token, jwtSecret)
 
         const USER = User.findOne({where: {
             userId: uid,

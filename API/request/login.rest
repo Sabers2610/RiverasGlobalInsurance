@@ -3,5 +3,5 @@ content-type: application/json
 
 {
     "email": "gio.barra@duocuc.cl", 
-    "password":"GlobalInsurance#2024"
+    "password":"Erwin123*"
 }

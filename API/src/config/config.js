@@ -10,5 +10,6 @@ export default {
     dbHost: process.env.HOST_DATABASE,
     url_base: process.env.URL_BASE,
     user_gmail: process.env.USER_GMAIL,
-    gmail_key: process.env.GMAIL_KEY
+    gmail_key: process.env.GMAIL_KEY,
+    jwt_secret: process.env.JWT_SECRET
 }

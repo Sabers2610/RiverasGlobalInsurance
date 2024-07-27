@@ -2,5 +2,5 @@ POST http://localhost:3000/api/v1/verifyEmail
 content-type: application/json
 
 {
-    "email": "gio.barra@duocuc.com"
+    "email": "gio.barra@duocuc.cl"
 }

@@ -1,6 +1,8 @@
 import JWT from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import CustomError from './exception.util.js'
+import jwt from 'jsonwebtoken'
+import { User } from '../models/user.model.js'
 dotenv.config()
 
 export function generateToken(uid, timeout){

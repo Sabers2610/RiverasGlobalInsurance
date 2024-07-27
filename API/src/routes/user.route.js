@@ -19,3 +19,9 @@ ROUTER.route("/changePassword")
 
 ROUTER.route("/verifyEmail")
     .post(verifyEmailBodyValidator, UserController.verifyEmail)
+
+ROUTER.route("/recoveryPassord/:resetToken")
+    .post(passwordBodyValidator, UserController.recoveryPassword)
+
+ROUTER.route("/verifyToken/:resetToken")
+    .get(UserController.verifyToken)
