@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import { updateUserService } from "../services/session.services.js";
 import { userContext } from "../context/userProvider.context.jsx";
+import "../../public/assets/css/modify.css"
 
 function ModifyUser() {
 
@@ -157,7 +158,7 @@ function ModifyUser() {
                             ...prev,
                             currentPassword: {
                                 ...prev.currentPassword,
-                                message: "Server internal error... please contact support", 
+                                message: "Server internal error... please contact support",
                                 activate: true,
                             }
                         }));
@@ -167,7 +168,7 @@ function ModifyUser() {
                             currentPassword: {
                                 ...prev.currentPassword,
                                 message: "Data entered incorrectly",
-                                activate: true, 
+                                activate: true,
                             }
                         }));
                     }
@@ -194,56 +195,79 @@ function ModifyUser() {
 
 
     return (
-        <div className="edit-user-container">
-            <h2>Edit User</h2>
-            <form id="editUserForm" onSubmit={modifyUser}>
-                <input type="text" name="firstName" style={formErrors.firstName.activate ? { border: "1px solid #fe0202" } : {}} placeholder="First name" required onChange={handleChange} value={formData.firstName} />
-                {formErrors.firstName.activate && <p style={{ color: "red" }}> {formErrors.firstName.message} </p>}
-                <br />
-                <br />
 
-                <input type="text" name="lastName" style={formErrors.lastName.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Last name" required onChange={handleChange} value={formData.lastName} />
-                {formErrors.lastName.activate && <p style={{ color: "red" }}> {formErrors.lastName.message} </p>}
-                <br />
-                <br />
+        <main>
+            <section class="edit-user-container">
 
-                <input type="date" name="birthDate" id="birthDate" placeholder="Birth Date" value={formData.birthDate} onChange={handleChange} required />
-                <br />
-                <br />
+                <div class="details-header">
+                    <div class="initials">{user.userFirstName[0] || ''}{user.userLastName[0] || ''}</div>
+                    <h2>{user.userFirstName} {user.userLastName}</h2>
+                </div>
 
-                <input type="text" name="address" style={formErrors.address.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Address" required onChange={handleChange} value={formData.address} />
-                {formErrors.address.activate && <p style={{ color: "red" }}> {formErrors.address.message} </p>}
-                <br />
-                <br />
+                <form id="editUserForm" onSubmit={modifyUser}>
 
-                <input type="tel" name="phone" style={formErrors.phone.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Phone" required onChange={handleChange} value={formData.phone} />
-                {formErrors.phone.activate && <p style={{ color: "red" }}> {formErrors.phone.message} </p>}
-                <br />
-                <br />
+                    <div class="data">
 
-                <input type="email" name="email" disabled placeholder="Email" required onChange={handleChange} value={formData.email} />
-                <br />
-                <br />
+                        <div class="row">
+                            <label for="FirstName">First Name</label>
+                            <input type="text" name= "firstName" id="firstName" placeholder="First Name" onChange={handleChange} value={formData.firstName} style={formErrors.firstName.activate ? { border: "1px solid #fe0202" } : {}} />
+                            {formErrors.firstName.activate && <p style={{ color: "red" }}> {formErrors.firstName.message} </p>}
+                        </div>
 
-                <input type="password" name="currentPassword" id="currentPassword" style={formErrors.currentPassword.activate ? { border: "1px solid #fe0202" } : {}} placeholder="Current Password" value={formData.currentPassword} onChange={handleChange} />
-                {formErrors.currentPassword.activate && <p style={{ color: "red" }}> {formErrors.currentPassword.message} </p>}
-                <br />
-                <br />
+                        <div class="row">
+                            <label for="LastName">LastName</label>
+                            <input type="text" name="lastName" id="lastName" placeholder="Last Name" onChange={handleChange} value={formData.lastName} style={formErrors.lastName.activate ? { border: "1px solid #fe0202" } : {}} />
+                            {formErrors.lastName.activate && <p style={{ color: "red" }}> {formErrors.lastName.message} </p>}
+                        </div>
 
-                <input type="password" name="password" id="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                <br />
-                <br />
+                        <div class="row">
+                            <label for="birthDate">Birth Date</label>
+                            <input type="date" name="birthDate" id="birthDate" placeholder="Birth Date" onChange={handleChange} value={formData.birthDate} />
+                        </div>
 
-                <input type="password" name="password2" id="password2" placeholder="Confirm Password" value={formData.password2} onChange={handleChange} />
-                {formErrors.password.activate && <p style={{ color: "red" }}> {formErrors.password.message} </p>}
-                {formErrors.password2.activate && <p style={{ color: "red" }}> {formErrors.password2.message} </p>}
-                <br />
-                <br />
+                        <div class="row">
+                            <label for="address">Address</label>
+                            <input type="text" name="address" id="address" placeholder="Address" onChange={handleChange} value={formData.address} style={formErrors.address.activate ? { border: "1px solid #fe0202" } : {}} />
+                            {formErrors.address.activate && <p style={{ color: "red" }}> {formErrors.address.message} </p>}
+                        </div>
 
-                <button type="submit">Save Changes</button>
-            </form>
-        </div>
-    );
+                        <div class="row">
+                            <label for="phone">Phone</label>
+                            <input type="tel" name="phone" id="phone" placeholder="Phone" onChange={handleChange} value={formData.phone} style={formErrors.phone.activate ? { border: "1px solid #fe0202" } : {}} />
+                            {formErrors.phone.activate && <p style={{ color: "red" }}> {formErrors.phone.message} </p>}
+                        </div>
+
+                        <div class="row">
+                            <label for="email">Email</label>
+                            <input disabled type="email" name="email" id="email" placeholder="Email" onChange={handleChange} value={formData.email} />
+                        </div>
+
+                        <div class="row">
+                            <label for="currentPassword">Enter the current Password</label>
+                            <input type="password" name="currentPassword" id="currentPassword" placeholder="Current Password" onChange={handleChange} value={formData.currentPassword} style={formErrors.currentPassword.activate ? { border: "1px solid #fe0202" } : {}} />
+                            {formErrors.currentPassword.activate && <p style={{ color: "red" }}> {formErrors.currentPassword.message} </p>}
+                        </div>
+
+                        <div class="row">
+                            <label for="password">Enter the new password</label>
+                            <input type="password" name="password" id="password" placeholder="Password" onChange={handleChange} value={formData.password} />
+                        </div>
+
+                        <div class="row">
+                            <label for="password2">Confirm the new password</label>
+                            <input type="password" name="password2" id="password2" placeholder="Confirm Password" onChange={handleChange} />
+                            {formErrors.password.activate && <p style={{ color: "red" }}> {formErrors.password.message} </p>}
+                            {formErrors.password2.activate && <p style={{ color: "red" }}> {formErrors.password2.message} </p>}
+                        </div>
+
+                    </div>
+                    <button class="more" type="submit">Save Changes</button>
+
+                </form>
+
+            </section>
+        </main>
+    )
 }
 
 export default ModifyUser;
