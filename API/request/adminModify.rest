@@ -1,0 +1,12 @@
+POST http://localhost:3000/api/v1/adminModify/56b65a76-ca72-4f77-ab12-512af1183793
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmQ4MzFmMy05Y2NjLTQ5MmQtOGEzNi0wYjFjYzMxYzc5YTQiLCJpYXQiOjE3MjI1NDY5NTQsImV4cCI6MTcyMjU0NzU1NH0.w4-72BlVJC0l1Syh4jqjCmzQbcLQTvW60ISzJgB5BI4
+
+{
+    "firstName": "giovanni",
+    "lastName": "Barra",
+    "birthDate": "",
+    "address": "",
+    "phone": "",
+    "email": ""
+}

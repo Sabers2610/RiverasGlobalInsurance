@@ -1,3 +1,7 @@
+main{
+    align-items: center;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -38,11 +42,6 @@ nav ul {
 nav ul li a {
     color: white;
     text-decoration: none;
-}
-
-nav ul li a .icon {
-    height: 20px;
-    vertical-align: middle;
 }
 
 .searchProfile {
@@ -98,16 +97,16 @@ aside {
     cursor: pointer;
 }
 
-.policyDetails {
+.editUserContainer {
     background: white;
     color: rgb(111, 109, 109);
     padding: 80px;
     border-radius: 10px;
-    margin-left: 20px;
+    margin-left: 10%;
     width: 800px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     height: 350px;
     justify-content: center;
+    align-items: center;
 }
 
 .detailsHeader {
@@ -126,13 +125,14 @@ aside {
     justify-content: center;
     font-size: 24px;
     color: white;
+    margin-bottom: 4%;
 }
 
 .detailsHeader h2 {
     margin: 0;
 }
 
-.detailsContent {
+.editUserForm {
     margin-top: 20px;
 }
 
@@ -155,14 +155,12 @@ aside {
     display: flex;
     width: 100px;
     padding: 10px;
-    margin-left: 43%;
     margin-top: 20px;
     justify-content: center;
+    align-items: center;
     background-color: #00a3ff;
     border: none;
     color: white;
     border-radius: 5px;
     cursor: pointer;
 }
-
-

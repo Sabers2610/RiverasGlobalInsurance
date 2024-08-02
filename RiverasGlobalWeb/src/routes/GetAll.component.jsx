@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
 function GetAll() {
     const { user } = useContext(userContext);
     const navigate = useNavigate();
-    const [users, setUsers] = useState({});
+    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({ email: "", firstname: "", lastname: "" });
     const [formErrors, setFormErrors] = useState({});
@@ -18,8 +18,8 @@ function GetAll() {
             try {
                 const fetchedUsers = await fetchUsersService(user.userToken.token);
                 console.log('Fetched users:', fetchedUsers);
-                if (fetchedUsers && typeof fetchedUsers === 'object' && Object.keys(fetchedUsers).length > 0) {
-                    setUsers(fetchedUsers);
+                if (fetchedUsers.success) {
+                    setUsers(fetchedUsers.users);
                 } else {
                     console.error('No users found or invalid format');
                 }
@@ -35,7 +35,7 @@ function GetAll() {
 
     const alertUserCreated = () => {
         alert("¡user found successfully!");
-    }
+    };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -54,48 +54,43 @@ function GetAll() {
             if (formData.email) {
                 data = await fetchEmailService(user.userToken.token, formData.email);
             } else if (formData.firstname) {
-                if (!formData.firstname) {
-                    setFormErrors(prev => ({
-                        ...prev,
-                        message: "First name is required",
-                        activate: true,
-                        sessionError: true
-                    }));
-                    return;
-                }
                 data = await fetchFirstNameService(user.userToken.token, formData.firstname);
             } else if (formData.lastname) {
                 data = await fetchLastNameService(user.userToken.token, formData.lastname);
+            } else {
+                setFormErrors({
+                    message: "Please fill in at least one filter field.",
+                    activate: true,
+                });
+                return;
             }
 
             if (data instanceof AxiosError) {
-                if (data.response.status === 500) {
-                    setFormErrors(prev => ({
-                        ...prev,
-                        message: "Server internal error... please contact support",
-                        activate: true,
-                        sessionError: true
-                    }));
-                } else if (data.response.status === 401) {
-                    setFormErrors(prev => ({
-                        ...prev,
-                        message: "Data entered incorrectly",
-                        activate: true,
-                        sessionError: true
-                    }));
-                }
+                handleAxiosError(data);
             } else {
-                setUsers({ [data.id]: data });
+                setUsers([data]);
                 alertUserCreated();
             }
         } catch (error) {
             console.error('Error in handleSubmit:', error);
-            setFormErrors(prev => ({
-                ...prev,
+            setFormErrors({
                 message: "An unexpected error occurred",
                 activate: true,
-                sessionError: true
-            }));
+            });
+        }
+    };
+
+    const handleAxiosError = (error) => {
+        if (error.response.status === 500) {
+            setFormErrors({
+                message: "Server internal error... please contact support",
+                activate: true,
+            });
+        } else if (error.response.status === 401) {
+            setFormErrors({
+                message: "Data entered incorrectly",
+                activate: true,
+            });
         }
     };
 
@@ -105,17 +100,25 @@ function GetAll() {
 
         try {
             const fetchedUsers = await fetchUsersService(user.userToken.token);
-            setUsers(fetchedUsers);
+            setUsers(fetchedUsers.users);
         } catch (error) {
             console.error('Error fetching users after clearing filters:', error);
         }
     };
 
+    const handleViewClick = (userId) => {
+        navigate(`/user/${userId}`);
+    };
+
+    const handleModClick = (userId)=>{
+        navigate(`/adminModify/${userId}`)
+    }
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    if (Object.keys(users).length === 0) {
+    if (users.length === 0) {
         return <div>No user data available</div>;
     }
 
@@ -157,9 +160,7 @@ function GetAll() {
                             onChange={handleInputChange}
                         />
                     </div>
-
-                    <button type="submit">Aplicar filtro</button>
-                    
+                    <button type="submit">Apply Filter</button>
                 </form>
                 <button type="button" onClick={handleClearFilters}>Clear Filters</button>
                 {formErrors.activate && (
@@ -170,21 +171,28 @@ function GetAll() {
             </aside>
 
             <section className={cssGetAll.policies}>
-                {Object.keys(users).map(key => {
-                    const user = users[key];
-                    return (
-                        <div className={cssGetAll.policyCard} key={key}>
-                            <h3>{user.userFirstName} {user.userLastName}</h3>
-                            <p>{user.userBirthDate}</p>
-                            <p>Procesado</p>
-                            <p>Wellcare</p>
-                            <div className={cssGetAll.icons}>
-                                <img src="../../public/img/ojo.png" alt="View" className={cssGetAll.icon} />
-                                <img src="../../public/img/lapiz.png" alt="Edit" className={cssGetAll.icon} />
-                            </div>
+                {users.map(user => (
+                    <div className={cssGetAll.policyCard} key={user.userId}>
+                        <h3>{user.userFirstName} {user.userLastName}</h3>
+                        <p>{user.userBirthDate}</p>
+                        <p>Processed</p>
+                        <p>Wellcare</p>
+                        <div className={cssGetAll.icons}>
+                            <img
+                                src="../../public/img/ojo.png"
+                                alt="View"
+                                className={cssGetAll.icon}
+                                onClick={() => handleViewClick(user.userId)}
+                            />
+                            <img 
+                                src="../../public/img/lapiz.png" 
+                                alt="Edit" 
+                                className={cssGetAll.icon}
+                                onClick={()=>handleModClick(user.userId)}
+                            />
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </section>
         </main>
     );

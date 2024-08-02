@@ -36,4 +36,10 @@ ROUTER.route("/findFirstName")
 ROUTER.route("/findLastName")
     .post(adminValidator ,UserController.findLastName)
 
+ROUTER.route("/user/:id")
+    .get(adminValidator, UserController.findById)
+
+ROUTER.route("/adminModify/:id") 
+    .post(adminValidator, UserController.adminModify)
+
 export default ROUTER; 

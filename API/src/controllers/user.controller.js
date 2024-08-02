@@ -8,6 +8,7 @@ import {generateRefreshToken, generateToken} from '../utils/tokenManager.util.js
 import { regexPassword } from '../utils/regexPassword.util.js'
 import config from '../config/config.js'
 import { sendEmail } from '../utils/sendEmail.util.js'
+import {ChangeHistory} from '../models/changeHistory.model.js'
 
 dotenv.config()
 
@@ -223,6 +224,8 @@ Rivera's Global Insurance Support Team
             console.log(error)
         }
     }
+
+
     static async findEmail(request, response) {
         try {
             const { email } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
@@ -242,6 +245,7 @@ Rivera's Global Insurance Support Team
             }
         }
     }
+
     static async findFirstName(request, response) {
         try {
             const { firstName } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
@@ -262,6 +266,7 @@ Rivera's Global Insurance Support Team
             }
         }
     }
+    
     static async findLastName(request, response) {
         try {
             const { lastName } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
@@ -283,5 +288,94 @@ Rivera's Global Insurance Support Team
         }
     }
 
+    static async findById(request, response) {
+        try {
+            const { id } = request.params;
+            const user = await User.findByPk(id);
+
+            if (!user) {
+                throw new CustomError("User not found", 401, "API_FINDID_VALIDATE");
+            }
+
+            return response.status(200).json(user);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json({ message: error.message });
+            }
+        }
+    }
+
+
+    static async adminModify(request, response) {
+        try {
+            let { firstName, lastName, birthDate, address, phone } = request.body
+
+            const USER = await User.findByPk(request.params.id)
+            const USER2 = await User.findByPk(request.uid)
+            console.log(USER)
+            if (!USER) {
+                throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
+            }
+
+
+            const OLDUSER = USER.toJSON()
+            let changes = []
+
+            if (firstName !== "" && firstName !== OLDUSER.userFirstName) {
+                USER.userFirstName = firstName
+                changes.push(`first name from ${OLDUSER.userFirstName} to ${firstName}`)
+            }
+
+            if (lastName !== "" && lastName !== OLDUSER.userLastName) {
+                USER.userLastName = lastName
+                changes.push(`last name from ${OLDUSER.userLastName} to ${lastName}`)
+            }
+
+            if (birthDate !== "" && birthDate !== OLDUSER.userBirthDate) {
+                USER.userBirthDate = birthDate
+                changes.push(`birth date from ${OLDUSER.userBirthDate} to ${birthDate}`)
+            }
+
+            if (address !== "" && address !== OLDUSER.userAddress) {
+                USER.userAddress = address
+                changes.push(`address from ${OLDUSER.userAddress} to ${address}`)
+            }
+
+            if (phone !== "" && phone !== OLDUSER.userPhone) {
+                USER.userPhone = phone
+                changes.push(`phone from ${OLDUSER.userPhone} to ${phone}`)
+            }
+
+            await USER.save()
+
+            if (changes.length > 0) {
+                await ChangeHistory.create({
+                    changeUserEmail: USER2.userEmail,
+                    changeDescription: `The user with email ${USER2.userEmail} has modified the following fields: ${changes.join(", ")}`
+                })
+            }
+
+            return response.status(202).json({ "msg": "User successfully modified" })
+
+        } catch (error) {
+            console.log(error)
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
+                return response.status(ERROR.code).json(ERROR.toJson())
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson())
+            } else {
+                return response.status(500).json(error.message)
+            }
+        }
+    }
+
 }
+
+
 

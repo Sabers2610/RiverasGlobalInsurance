@@ -9,6 +9,8 @@ import RequireChange from './components/RequireChange.components.jsx'
 import Register from './routes/Register.component.jsx'
 import GetAll from './routes/GetAll.component.jsx'
 import VerifyEmail from './routes/VerifyEmail.component.jsx'
+import UserDetails from './routes/UserDetails.component.jsx'
+import AdminModify from './routes/AdminModify.component.jsx'
 
 
 function App() {
@@ -28,6 +30,11 @@ function App() {
             <ChangePassword />
           </RequireChange>
         } />
+
+        <Route path="/user/:userId" element={<UserDetails />} />
+        <Route path="/adminModify/:userId" element={<AdminModify />} />
+
+
 
         <Route path='/register' element={
           <RequireAuth>
