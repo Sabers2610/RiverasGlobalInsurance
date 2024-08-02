@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useContext, useState } from "react";
 import cssGetAll from "../assets/css/polizas.module.css";
-import { fetchUsersService, fetchEmailService, fetchFirstNameService, fetchLastNameService } from "../services/session.services";
+import { fetchUsersService, fetchEmailService, fetchFirstNameService, fetchLastNameService, disableService } from "../services/session.services";
 import { userContext } from "../context/userProvider.context.jsx";
 import { AxiosError } from "axios";
 
@@ -12,6 +12,7 @@ function GetAll() {
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({ email: "", firstname: "", lastname: "" });
     const [formErrors, setFormErrors] = useState({});
+    const [click, setClick] = useState(false)
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -30,8 +31,9 @@ function GetAll() {
             }
         };
 
+        setClick(false)
         fetchUsers();
-    }, [user.userToken.token]);
+    }, [user.userToken.token, click]);
 
     const alertUserCreated = () => {
         alert("¡user found successfully!");
@@ -110,8 +112,13 @@ function GetAll() {
         navigate(`/user/${userId}`);
     };
 
-    const handleModClick = (userId)=>{
+    const handleModClick = (userId) => {
         navigate(`/adminModify/${userId}`)
+    }
+
+    const handleDisableClick = async (userId) => {
+        setClick(true)
+        const disable = await disableService(user.userToken.token, userId)
     }
 
     if (loading) {
@@ -175,22 +182,61 @@ function GetAll() {
                     <div className={cssGetAll.policyCard} key={user.userId}>
                         <h3>{user.userFirstName} {user.userLastName}</h3>
                         <p>{user.userBirthDate}</p>
-                        <p>Processed</p>
                         <p>Wellcare</p>
-                        <div className={cssGetAll.icons}>
-                            <img
-                                src="../../public/img/ojo.png"
-                                alt="View"
-                                className={cssGetAll.icon}
-                                onClick={() => handleViewClick(user.userId)}
-                            />
-                            <img 
-                                src="../../public/img/lapiz.png" 
-                                alt="Edit" 
-                                className={cssGetAll.icon}
-                                onClick={()=>handleModClick(user.userId)}
-                            />
-                        </div>
+                        {user.userEnabled && (
+                            <>
+                                <p>Enabled</p>
+                                <div className={cssGetAll.icons}>
+                                    <img
+                                        src="../../public/img/enabled.png"
+                                        alt="View"
+                                        className={cssGetAll.icon}
+                                        onClick={() => handleDisableClick(user.userId)}
+                                    />
+
+                                    <img
+                                        src="../../public/img/ojo.png"
+                                        alt="View"
+                                        className={cssGetAll.icon}
+                                        onClick={() => handleViewClick(user.userId)}
+                                    />
+                                    <img
+                                        src="../../public/img/lapiz.png"
+                                        alt="Edit"
+                                        className={cssGetAll.icon}
+                                        onClick={() => handleModClick(user.userId)}
+                                    />
+                                </div>
+                            </>
+
+                        )}
+                        {!user.userEnabled && (
+                            <>
+                                <p>Disabled</p>
+                                <div className={cssGetAll.icons}>
+                                    <img
+                                        src="../../public/img/disabled.png"
+                                        alt="View"
+                                        className={cssGetAll.icon}
+                                        onClick={() => handleDisableClick(user.userId)}
+                                    />
+
+                                    <img
+                                        src="../../public/img/ojo.png"
+                                        alt="View"
+                                        className={cssGetAll.icon}
+                                        onClick={() => handleViewClick(user.userId)}
+                                    />
+                                    <img
+                                        src="../../public/img/lapiz.png"
+                                        alt="Edit"
+                                        className={cssGetAll.icon}
+                                        onClick={() => handleModClick(user.userId)}
+                                    />
+                                </div>
+                            </>
+                        )}
+
                     </div>
                 ))}
             </section>

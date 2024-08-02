@@ -42,4 +42,7 @@ ROUTER.route("/user/:id")
 ROUTER.route("/adminModify/:id") 
     .post(adminValidator, UserController.adminModify)
 
+ROUTER.route("/userDisable/:id")
+    .get(adminValidator, UserController.disableUser)
+
 export default ROUTER; 

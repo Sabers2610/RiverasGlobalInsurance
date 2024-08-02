@@ -262,3 +262,25 @@ export async function updateAdminService(userToken, id, firstName, lastName, bir
         return { error: true, messages: 'Server error, please try again later.', status: 500 };
     }
 }
+
+
+export async function disableService(userToken, id) {
+    try {
+
+        const RESPONSE = await axios.get(`http://localhost:3000/api/v1/userDisable/${id}`, {
+            headers: {
+                "Authorization": `Bearer ${userToken}`,
+                "Content-Type": "application/json"
+            },
+            withCredentials: true,
+        });
+
+        return RESPONSE.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return { error: true, messages: error.response.data.errors, status: error.response.status };
+        }
+        return { error: true, messages: 'Server error, please try again later.', status: 500 };
+    }
+}
+

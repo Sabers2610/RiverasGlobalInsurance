@@ -375,6 +375,42 @@ Rivera's Global Insurance Support Team
         }
     }
 
+    static async disableUser(request, response) {
+
+        const USERID = request.params.id
+
+        try {
+            if (request.uid === USERID) {
+                throw new CustomError("You cannot modify your own information", 403, "API_MODIFY_SELF_ERROR")
+            }
+
+            const USER = await User.findByPk(USERID)
+
+            if (!USER) {
+                return response.status(404).json({ message: 'User not found' })
+            }
+
+            if(USER.userEnabled === false){
+                USER.userEnabled = true
+            }else{
+                USER.userEnabled = false
+            }
+
+            await USER.save()
+
+            return response.status(202).json({ "msg": 'User successfully disabled' })
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_MODIFY_VALIDATE")
+                return response.status(ERROR.code).json(ERROR.toJson())
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson())
+            } else {
+                return response.status(500).json(error.message)
+            }
+        }
+    }
+
 }
 
 
