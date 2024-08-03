@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import { updateUserService } from "../services/session.services.js";
 import { userContext } from "../context/userProvider.context.jsx";
-import "../../public/assets/css/modify.css"
+import modifyCss from '../assets/css/modify.module.css'
 
 function ModifyUser() {
 
@@ -197,71 +197,82 @@ function ModifyUser() {
     return (
 
         <main>
-            <section class="edit-user-container">
+            <section className={modifyCss.editUserContainer}>
 
-                <div class="details-header">
-                    <div class="initials">{user.userFirstName[0] || ''}{user.userLastName[0] || ''}</div>
+                <div className={modifyCss.detailsHeader}>
+                    <div className={modifyCss.initials}>{user.userFirstName[0] || ''}{user.userLastName[0] || ''}</div>
                     <h2>{user.userFirstName} {user.userLastName}</h2>
                 </div>
 
-                <form id="editUserForm" onSubmit={modifyUser}>
+                <form className={modifyCss.editUserForm} id="editUserForm" onSubmit={modifyUser}>
 
-                    <div class="data">
+                    <div className={modifyCss.data}>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="FirstName">First Name</label>
-                            <input type="text" name= "firstName" id="firstName" placeholder="First Name" onChange={handleChange} value={formData.firstName} style={formErrors.firstName.activate ? { border: "1px solid #fe0202" } : {}} />
+                            <input type="text" name="firstName" id="firstName" placeholder="First Name" onChange={handleChange} value={formData.firstName} style={formErrors.firstName.activate ? { border: "1px solid #fe0202" } : {}} />
                             {formErrors.firstName.activate && <p style={{ color: "red" }}> {formErrors.firstName.message} </p>}
                         </div>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="LastName">LastName</label>
                             <input type="text" name="lastName" id="lastName" placeholder="Last Name" onChange={handleChange} value={formData.lastName} style={formErrors.lastName.activate ? { border: "1px solid #fe0202" } : {}} />
                             {formErrors.lastName.activate && <p style={{ color: "red" }}> {formErrors.lastName.message} </p>}
                         </div>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="birthDate">Birth Date</label>
                             <input type="date" name="birthDate" id="birthDate" placeholder="Birth Date" onChange={handleChange} value={formData.birthDate} />
                         </div>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="address">Address</label>
                             <input type="text" name="address" id="address" placeholder="Address" onChange={handleChange} value={formData.address} style={formErrors.address.activate ? { border: "1px solid #fe0202" } : {}} />
                             {formErrors.address.activate && <p style={{ color: "red" }}> {formErrors.address.message} </p>}
                         </div>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="phone">Phone</label>
                             <input type="tel" name="phone" id="phone" placeholder="Phone" onChange={handleChange} value={formData.phone} style={formErrors.phone.activate ? { border: "1px solid #fe0202" } : {}} />
                             {formErrors.phone.activate && <p style={{ color: "red" }}> {formErrors.phone.message} </p>}
                         </div>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="email">Email</label>
                             <input disabled type="email" name="email" id="email" placeholder="Email" onChange={handleChange} value={formData.email} />
                         </div>
 
-                        <div class="row">
+                    </div>
+                    <button className={modifyCss.more} type="submit">Save</button>
+
+                </form>
+
+
+                <form className={modifyCss.editUserFormPassword} id="editUserFormPassword" onSubmit={modifyUser}>
+
+                    <div className={modifyCss.data}>
+
+                        <div className={modifyCss.row}>
                             <label for="currentPassword">Enter the current Password</label>
                             <input type="password" name="currentPassword" id="currentPassword" placeholder="Current Password" onChange={handleChange} value={formData.currentPassword} style={formErrors.currentPassword.activate ? { border: "1px solid #fe0202" } : {}} />
                             {formErrors.currentPassword.activate && <p style={{ color: "red" }}> {formErrors.currentPassword.message} </p>}
                         </div>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="password">Enter the new password</label>
                             <input type="password" name="password" id="password" placeholder="Password" onChange={handleChange} value={formData.password} />
                         </div>
 
-                        <div class="row">
+                        <div className={modifyCss.row}>
                             <label for="password2">Confirm the new password</label>
                             <input type="password" name="password2" id="password2" placeholder="Confirm Password" onChange={handleChange} />
                             {formErrors.password.activate && <p style={{ color: "red" }}> {formErrors.password.message} </p>}
                             {formErrors.password2.activate && <p style={{ color: "red" }}> {formErrors.password2.message} </p>}
                         </div>
 
+                        <button className={modifyCss.morePassword} type="submit">Change password</button>
+
                     </div>
-                    <button class="more" type="submit">Save Changes</button>
 
                 </form>
 

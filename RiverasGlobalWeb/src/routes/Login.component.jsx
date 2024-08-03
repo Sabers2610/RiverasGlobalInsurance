@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import "../../public/assets/css/login.css"
+import modifyCss from '../assets/css/login.module.css'
 import { loginServices } from "../services/session.services";
 import { userContext } from "../context/userProvider.context";
 import { useNavigate } from "react-router-dom";
@@ -84,8 +84,8 @@ function Login() {
 
 
     return (
-        <div className="login-container">
-            <img src="/assets/img/logo.png" alt="Logo" />
+        <div className={modifyCss.loginContainer}>
+            <img src="/img/logo.png" alt="Logo" />
             <form id="loginForm" onSubmit={login}>
             <input type="text" name="email" style={formErrors.activate ? {border: "1px solid #fe0202"} : {}} id="username" placeholder="usuario@gmail.com" value={formData.email} onChange={handleChange} required />
             <input type="password" name="password" style={formErrors.sessionError ? {border: "1px solid #fe0202"} : {}} id="password" placeholder="password" value={formData.password} onChange={handleChange} required />

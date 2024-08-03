@@ -1,0 +1,5 @@
+POST http://localhost:3000/api/v1/disableUser/56b65a76-ca72-4f77-ab12-512af1183793
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmQ4MzFmMy05Y2NjLTQ5MmQtOGEzNi0wYjFjYzMxYzc5YTQiLCJpYXQiOjE3MjI1NDAzMDIsImV4cCI6MTcyMjU0MDkwMn0.yghoynI4Sqrs30cZU8Uo5AbWQzcMnWzLQIFygi6vrfE
+
+{}
