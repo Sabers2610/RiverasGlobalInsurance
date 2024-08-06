@@ -102,11 +102,11 @@ aside {
     color: rgb(111, 109, 109);
     padding: 80px;
     border-radius: 10px;
-    margin-left: 10%;
     width: 800px;
     height: 350px;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .detailsHeader {
