@@ -248,6 +248,10 @@ function ModifyUser() {
                 </form>
 
 
+                <div className={modifyCss.detailsPassword}>
+                    <h2>Change Password</h2>
+                </div>
+
                 <form className={modifyCss.editUserFormPassword} id="editUserFormPassword" onSubmit={modifyUser}>
 
                     <div className={modifyCss.data}>

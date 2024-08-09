@@ -115,6 +115,13 @@ aside {
     gap: 20px;
 }
 
+.detailsPassword {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 5%;
+}
+
 .initials {
     background: #FFD700;
     width: 70px;
@@ -137,7 +144,7 @@ aside {
 }
 
 .editUserFormPassword {
-    margin-top: 70px;
+    margin-top: 10px;
 }
 
 .data {
