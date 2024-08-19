@@ -9,7 +9,7 @@ ROUTER.route("/login")
     .post(loginBodyValidator, UserController.login)
 
 ROUTER.route("/logout")
-    .post(tokenHeaderValidator, UserController.logout)
+    .get(tokenHeaderValidator, UserController.logout)
 
 ROUTER.route("/refreshToken")
     .get(tokenCookieValidator, UserController.refreshToken)

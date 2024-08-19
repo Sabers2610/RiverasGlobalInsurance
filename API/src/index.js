@@ -8,7 +8,7 @@ import { ROUTER } from './routes/user.route.js';
 await syncTables(); // sincronizamos la base de datos con los modelos de ./src/models/...
 
 
-const APP = express()
+export const APP = express()
 APP.use(morgan("tiny"))
 APP.use(express.json())
 APP.use(cookieParser())
