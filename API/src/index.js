@@ -5,8 +5,10 @@ import config from './config/config.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import { ROUTER } from './routes/user.route.js';
+import { REDIS_CLIENT } from './config/redis/redis.config.js';
 await syncTables(); // sincronizamos la base de datos con los modelos de ./src/models/...
 
+REDIS_CLIENT.DEL("login_attemps_::ffff:127.0.0.1")
 
 export const APP = express()
 APP.use(morgan("tiny"))

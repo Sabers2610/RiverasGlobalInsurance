@@ -143,7 +143,7 @@ User.init({
         beforeCreate: async (user, options) => {
             user.userFirstName = capitalizeAndTrim(user.userFirstName)
             user.userLastName = capitalizeAndTrim(user.userLastName)
-            user.userPassword = `GlobalInsurance`
+            user.userPassword = `GlobalInsurance#2024`
         },
 
         beforeSave: async (user, options) => {

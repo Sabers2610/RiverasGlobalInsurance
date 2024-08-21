@@ -9,5 +9,8 @@ export const SEQUELIZE = new Sequelize(
         host: config.dbHost,
         port: config.dbPort,
         dialect: "mysql",
-    }
+        dialectOptions: {
+            connectTimeout: 60000 // Tiempo de espera de conexión en milisegundos
+        }
+    },
 )

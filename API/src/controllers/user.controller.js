@@ -7,10 +7,23 @@ import { regexPassword } from '../utils/regexPassword.util.js'
 import config from '../config/config.js'
 import { sendEmail } from '../utils/sendEmail.util.js'
 import jwt from 'jsonwebtoken'
+import { REDIS_CLIENT } from '../config/redis/redis.config.js'
 
 export class UserController {
     static async login(req, res) {
         try {
+            let user_key = `login_attemps_${req.ip}`
+            let attemps = Number(await REDIS_CLIENT.get(user_key))
+
+            if(attemps === null) {
+                await REDIS_CLIENT.set(user_key, 1, {EX: 3600})
+            }
+            else if(attemps < 3) {
+                await REDIS_CLIENT.set(user_key, attemps+1, {EX: 3600})
+            }
+            else {
+                throw new CustomError("Too many attempts detected, please try again later.", 401, "API_AUTHENTICATION_ERROR")
+            }
             let { email, password } = req.body
             const USER = await User.findOne({
                 where: {
@@ -19,17 +32,18 @@ export class UserController {
                 }
             })
             if (USER === null) {
-                throw new CustomError("Email and/or password incorrect", 401, "API_AUTHENTICATION_VALIDATE")
+                throw new CustomError(`Email and/or password incorrect (attemps remaining: ${3-attemps}/3)`, 401, "API_AUTHENTICATION_VALIDATE")
             }
             let passwordValidate = await bcrypt.compare(password, USER.userPassword)
             if (!passwordValidate) {
-                throw new CustomError("Email and/or password incorrect", 401, "API_AUTHENTICATION_VALIDATE")
+                throw new CustomError(`Email and/or password incorrect (attemps remaining: ${3-attemps}/3)`, 401, "API_AUTHENTICATION_VALIDATE")
             }
             const { token, expireIn } = generateToken(USER.userId, 10, false)
             generateRefreshToken(USER.userId, res)
 
             const USEROBJECT = USER.toJSON()
             USEROBJECT.userToken = { token, expireIn }
+            await REDIS_CLIENT.DEL(user_key)
             return res.status(202).json(USEROBJECT)
         } catch (error) {
             if (error instanceof Sequelize.ValidationError) {
