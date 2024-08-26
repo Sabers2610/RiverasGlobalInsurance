@@ -36,7 +36,4 @@ APP.use((err, req, res, next) => {
 APP.use("/api/v1/", ROUTER)
 
 
-const PORT = config.port
-APP.listen(PORT, () => {
-    console.log(`Api running in port ${PORT}`)
-})
+

@@ -11,5 +11,8 @@ export default {
     url_base: process.env.URL_BASE,
     user_gmail: process.env.USER_GMAIL,
     gmail_key: process.env.GMAIL_KEY,
-    jwt_secret: process.env.JWT_SECRET
+    jwt_secret: process.env.JWT_SECRET,
+    redisUri: process.env.REDIS_URI,
+    redisPass: process.env.REDIS_PASSWORD,
+    redisPort: process.env.REDIS_PORT
 }

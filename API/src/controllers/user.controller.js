@@ -124,7 +124,7 @@ export class UserController {
         try {
             let { email } = req.body
 
-            const USER = await User.findOne({ where: { userEmail: email } })
+            const USER = await User.findOne({ where: { userEmail: email, userEnabled: true } })
 
             if (!USER) {
                 throw new CustomError("The email address doesn't exist", 401, "API_VERIFYEMAIL_ERROR")
