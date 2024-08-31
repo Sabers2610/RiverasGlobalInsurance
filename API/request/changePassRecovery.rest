@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/v1/recoveryPassord/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIwNzNiZWNlYS1kNGFkLTRmNjctYjc1OS05MmM1MDE0ZGVlZDgiLCJpYXQiOjE3MjE5NDE2NTcsImV4cCI6MTcyMTk0MjI1N30.4gNByji1-hRjOfmVepbr9UEJUK-XQfbQbc74bF6s25s
+content-type: application/json
+
+{
+    "password": "Erwin123*",
+    "password2": "Erwin123*"
+}

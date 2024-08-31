@@ -1,10 +1,10 @@
 POST http://localhost:3000/api/v1/register
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI0MzVjNjQxNS0xMmQxLTRlZWMtYTU0OS1hODJjZjdjOGY5ZTAiLCJpYXQiOjE3MjE4NTA2NjUsImV4cCI6MTcyMTg1MTI2NX0.mSl4MYc6hDOdxPWVsPP3C9jvmitJiO9S1-vIAWFUwbc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmQ4MzFmMy05Y2NjLTQ5MmQtOGEzNi0wYjFjYzMxYzc5YTQiLCJpYXQiOjE3MjUxMzcyODIsImV4cCI6MTcyNTEzNzg4Mn0.bjrLyx5m0uBnQiNAtD78MNIt9z_JAb3V73lgg89Hw3M
 
 {
-   "firstName": "Andres", 
-   "lastName": "Garcia", 
+   "firstName": "' OR '1'='1", 
+   "lastName": "' OR '1'='1", 
    "birthDate": "1992/04/24", 
    "address": "mi casita", 
    "phone": "9999999", 

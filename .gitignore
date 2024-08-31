@@ -5,3 +5,4 @@ API/.env
 # Ignorar carpetas node_modules en ambos proyectos
 WEB/node_modules/
 API/node_modules/
+node_modules/

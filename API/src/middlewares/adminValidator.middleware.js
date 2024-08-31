@@ -7,10 +7,16 @@ dotenv.config()
 export async function adminValidator(req,res,next){
     try {
         const authHeader = req.headers['authorization'];
+
+        if (!authHeader) {
+            return res.status(401).json({ message: 'Authorization header not present' });
+        }
         
         const token = authHeader.split(' ')[1];
         
-        if (!token) return res.sendStatus(401)
+        if (!token){
+            return res.status(401).json({ message: 'Token not defined' });
+        } 
 
         const jwtSecret = process.env.JWT_SECRET;
 

@@ -5,6 +5,9 @@ import { fetchUsersService, fetchEmailService, fetchFirstNameService, fetchLastN
 import { userContext } from "../context/userProvider.context.jsx";
 import { AxiosError } from "axios";
 
+import React from 'react';
+import { ProgressSpinner } from 'primereact/progressspinner';
+
 function GetAll() {
     const { user } = useContext(userContext);
     const navigate = useNavigate();
@@ -122,7 +125,9 @@ function GetAll() {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="card flex justify-content-center">
+                <ProgressSpinner />
+            </div>
     }
 
     if (users.length === 0) {
