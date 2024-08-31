@@ -5,10 +5,15 @@ import config from './config/config.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import { ROUTER } from './routes/user.route.js';
+import path from 'path'
+import {fileURLToPath} from 'url'
 await syncTables(); // sincronizamos la base de datos con los modelos de ./src/models/...
 
+// creamos la ruta del reporte de pruebas
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-const APP = express()
+export const APP = express()
 APP.use(morgan("tiny"))
 APP.use(express.json())
 APP.use(cookieParser())
@@ -22,6 +27,11 @@ APP.use(cors({
 APP.get("/", (req, res) => {
     return res.send("<h1>Api Running!</h1>")
 })
+
+APP.get("/api/v1/test-report", (req, res)=>{
+    return res.sendFile(path.join(__dirname, "/test-report.html"))
+})
+
 APP.use((err, req, res, next) => {
     console.error(err.stack);
     if (APP.get('env') === 'development') {

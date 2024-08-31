@@ -122,7 +122,7 @@ export class UserController {
             }
 
             if (password !== password2) {
-                throw new CustomError("Passwords do not match", 400, "API_LOGIN_VALIDATE")
+                throw new CustomError("Passwords do not match", 400, "API_MODIFY_ERROR")
             }
 
             const MATCH = await bcrypt.compare(currentPassword, USER.userPassword)
@@ -158,9 +158,9 @@ export class UserController {
             if (password !== "") {
                 const VALIDATION = regexPassword(password)
                 if (!VALIDATION) {
-                    throw new CustomError("Invalid password format", 400, "API_LOGIN_VALIDATE")
+                    throw new CustomError("Invalid password format", 400, "API_MODIFY_ERROR")
                 } else if (!MATCH) {
-                    throw new CustomError("Invalid password", 401, "API_LOGIN_VALIDATE")
+                    throw new CustomError("Invalid password", 401, "API_MODIFY_ERROR")
                 } else {
                     USER.userPassword = password
                     changes.push(`password updated`)
@@ -180,7 +180,7 @@ export class UserController {
 
         } catch (error) {
             if (error instanceof Sequelize.ValidationError) {
-                const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
+                const ERROR = new CustomError(error.message, 400, "API_MODIFY_ERROR")
                 return response.status(ERROR.code).json(ERROR.toJson())
             } else if (error instanceof CustomError) {
                 return response.status(error.code).json(error.toJson())
