@@ -1,4 +1,5 @@
 import request from 'supertest'
+import {describe, it, expect} from '@jest/globals'
 import { APP } from '../index.js'
 
 describe('API Endpoints', () =>{
@@ -118,7 +119,7 @@ describe('API Endpoints', () =>{
         })
     })
 
-    describe('XSS vulnerability test', ()=>{
+    describe('XSS vulnerability test (Register)', ()=>{
         let xssPayload = "<script>alert('XSS');</script>"
         it("should be protected in register", async () => {
             const data={
@@ -140,7 +141,7 @@ describe('API Endpoints', () =>{
         })
     })
 
-    describe("SQL inyection vulnerability describe", () => {
+    describe("SQL inyection vulnerability describe (Register)", () => {
         let maliciousQuery = "' OR '1'='1"
 
         it("Should not send information with a query", async () => {
@@ -162,6 +163,268 @@ describe('API Endpoints', () =>{
 
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty("msg")
+        })
+    })
+
+    describe('CSFR vulnerability test (Register)', ()=>{
+        let CSFR = `<form action="http://victim-site.com/change_password" method="POST">
+    <input type="hidden" name="password" value="newpassword">
+    <input type="submit" value="Submit">
+</form>
+<script>
+    document.forms[0].submit();
+</script>`
+
+
+        it("should be protected in register", async () => {
+            const data={
+                firstName: CSFR, 
+                lastName: CSFR, 
+                birthDate: "1992/04/24", 
+                address: CSFR, 
+                phone: "9999999", 
+                email: "prueba@gmail.com"
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/register")
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+            
+            expect(response.text).not.toContain(CSFR)
+        })
+    })
+
+    describe('GET /gelAll', () =>{
+
+        it('Get all registered users', async () => {
+
+            const response = await request(APP)
+                .get('/api/v1/getAll')
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(200);
+        });
+
+        it('Get users with filter (email)', async () =>{
+
+            const data={
+                email: "prueba@gmail.com" 
+            }
+
+            const response = await request(APP)
+                .post('/api/v1/findEmail')
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(200);
+        })
+
+        it('Get users with filter (firstName)', async () =>{
+
+            const data={
+                firstName: "prueba" 
+            }
+
+            const response = await request(APP)
+                .post('/api/v1/findFirstName')
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(200);
+        })
+
+        it('Get users with filter (lastName)', async () =>{
+
+            const data={
+                lastName: "prueba" 
+            }
+
+            const response = await request(APP)
+                .post('/api/v1/findLastName')
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(200);
+        })
+
+        it('search for a non-existing user (email)', async () =>{
+
+            const data={
+                email: "pruebamala@gmail.com" 
+            }
+
+            const response = await request(APP)
+                .post('/api/v1/findEmail')
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(404);
+        })
+    })
+
+    describe('XSS vulnerability test (GetUsers)', ()=>{
+        let xssPayload = "<script>alert('XSS');</script>"
+        it("should be protected in register", async () => {
+            const data={
+                email: xssPayload 
+            }
+
+            const response = await request(APP)
+                .post('/api/v1/findEmail')
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+            
+            expect(response.text).not.toContain(xssPayload)
+        })
+
+        it("should be protected in register", async () => {
+            const data={
+                firstName: xssPayload 
+            }
+
+            const response = await request(APP)
+                .post('/api/v1/findFirstName')
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+            
+            expect(response.text).not.toContain(xssPayload)
+        })
+
+        it("should be protected in register", async () => {
+            const data={
+                lastName: xssPayload 
+            }
+
+            const response = await request(APP)
+                .post('/api/v1/findLastName')
+                .send(data)
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKEN}`)
+            
+            expect(response.text).not.toContain(xssPayload)
+        })
+
+
+    })
+
+    describe("SQL inyection vulnerability describe (GetUsers)", () => {
+        let maliciousQuery = "' OR '1'='1"
+
+        it("Should not send information with a query", async () => {
+
+            const data={
+                email: maliciousQuery
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/findEmail")
+                .send(data)
+                .set("Accept", "application/json")
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty("msg")
+        })
+
+        it("Should not send information with a query", async () => {
+
+            const data={
+                firstName: maliciousQuery
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/findFirstName")
+                .send(data)
+                .set("Accept", "application/json")
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty("msg")
+        })
+
+        it("Should not send information with a query", async () => {
+
+            const data={
+                lastName: maliciousQuery
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/findLastName")
+                .send(data)
+                .set("Accept", "application/json")
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.status).toBe(404)
+            expect(response.body).toHaveProperty("msg")
+        })
+
+    })
+
+    describe('CSFR vulnerability test (GetUsers)', ()=>{
+        let CSFR = `<form action="http://victim-site.com/change_password" method="POST">
+                        <input type="hidden" name="password" value="newpassword">
+                        <input type="submit" value="Submit">
+                    </form>
+                    <script>
+                        document.forms[0].submit();
+                    </script>`
+
+
+        it("Should not send information with a query", async () => {
+
+            const data={
+                email: CSFR
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/findEmail")
+                .send(data)
+                .set("Accept", "application/json")
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.text).not.toContain(CSFR)
+            expect(response.status).toBe(404)
+        })
+
+        it("Should not send information with a query", async () => {
+
+            const data={
+                firstName: CSFR
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/findFirstName")
+                .send(data)
+                .set("Accept", "application/json")
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.text).not.toContain(CSFR)
+            expect(response.status).toBe(404)
+        })
+
+        it("Should not send information with a query", async () => {
+
+            const data={
+                lastName: CSFR
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/findLastName")
+                .send(data)
+                .set("Accept", "application/json")
+                .set("Authorization", `Bearer ${TOKEN}`)
+
+            expect(response.text).not.toContain(CSFR)
+            expect(response.status).toBe(404)
         })
     })
 

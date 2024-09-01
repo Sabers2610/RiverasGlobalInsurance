@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/v1/findEmail
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmQ4MzFmMy05Y2NjLTQ5MmQtOGEzNi0wYjFjYzMxYzc5YTQiLCJpYXQiOjE3MjUyMTIxNTksImV4cCI6MTcyNTIxMjc1OX0.Y0i6t4tWmq5vVcr3mPOC59Hvca_I0WcCq_XbRhs8UsE
+
+{
+    "email": "' OR '1'='1"
+}

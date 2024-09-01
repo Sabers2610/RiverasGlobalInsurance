@@ -231,7 +231,7 @@ Rivera's Global Insurance Support Team
             const { email } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
             const USERMAIl = await User.findOne({ where: { userEmail: email } });
             if (!USERMAIl) {
-                throw new CustomError("Email not found", 401, "API_FINDONE_VALIDATE");
+                throw new CustomError("Email not found", 404, "API_FINDONE_VALIDATE");
             }
             return response.status(200).json(USERMAIl);
         } catch (error) {
@@ -252,7 +252,7 @@ Rivera's Global Insurance Support Team
             const USERFIRSTNAME = await User.findOne({ where: { userFirstName: firstName } });
             console.log(USERFIRSTNAME)
             if (!USERFIRSTNAME) {
-                throw new CustomError("First Name not found", 401, "API_FINDONE_VALIDATE");
+                throw new CustomError("First Name not found", 404, "API_FINDONE_VALIDATE");
             }
             return response.status(200).json(USERFIRSTNAME);
         } catch (error) {
@@ -273,7 +273,7 @@ Rivera's Global Insurance Support Team
             const USERLASTNAME = await User.findOne({ where: { userLastName: lastName } });
             console.log(USERLASTNAME)
             if (!USERLASTNAME) {
-                throw new CustomError("First Name not found", 401, "API_FINDONE_VALIDATE");
+                throw new CustomError("First Name not found", 404, "API_FINDONE_VALIDATE");
             }
             return response.status(200).json(USERLASTNAME);
         } catch (error) {
@@ -294,7 +294,7 @@ Rivera's Global Insurance Support Team
             const user = await User.findByPk(id);
 
             if (!user) {
-                throw new CustomError("User not found", 401, "API_FINDID_VALIDATE");
+                throw new CustomError("User not found", 404, "API_FINDID_VALIDATE");
             }
 
             return response.status(200).json(user);
@@ -317,7 +317,6 @@ Rivera's Global Insurance Support Team
 
             const USER = await User.findByPk(request.params.id)
             const USER2 = await User.findByPk(request.uid)
-            console.log(USER)
             if (!USER) {
                 throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
             }
