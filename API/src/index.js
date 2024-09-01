@@ -32,6 +32,10 @@ APP.get("/", (req, res) => {
 APP.get("/api/v1/test-report", (req, res)=>{
     return res.sendFile(path.join(__dirname, '/test-report.html'));
 })
+
+APP.get("/api/v1/test-report/coverage", (req, res)=>{
+    return res.sendFile(path.join(__dirname, '/test-report.html'));
+})
 APP.use((err, req, res, next) => {
     console.error(err.stack);
     if (APP.get('env') === 'development') {
