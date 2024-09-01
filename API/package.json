@@ -21,6 +21,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.10.3",
     "nodemailer": "^6.9.14",
+    "redis": "^4.7.0",
     "sequelize": "^6.37.3",
     "supertest": "^7.0.0",
     "uuid": "^10.0.0"
