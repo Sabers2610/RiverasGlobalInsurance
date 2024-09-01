@@ -2,6 +2,6 @@ POST http://localhost:3000/api/v1/login
 content-type: application/json
 
 {
-    "email": "lu.saezd@duocuc.cl", 
-    "password":"GlobalInsurance#2024"
+    "email": "jose@gmail.com", 
+    "password":"Erwin123*"
 }

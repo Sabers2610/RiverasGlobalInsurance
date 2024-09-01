@@ -79,10 +79,10 @@ export class UserController {
             }
             const VALIDPASSWORD = regexPassword(password)
             if (!VALIDPASSWORD) {
-                throw new CustomError("Password format invalid", 401, "API_AUTHENTICATION_ERROR")
+                throw new CustomError("Password format invalid", 400, "API_AUTHENTICATION_ERROR")
             }
             else if (password !== password2) {
-                throw new CustomError("passwords don't match", 401, "API_AUTHENTICATION_ERROR")
+                throw new CustomError("passwords don't match", 400, "API_AUTHENTICATION_ERROR")
             }
             USER.userPassword = password
             USER.userFirstSession = false,
@@ -107,7 +107,7 @@ export class UserController {
             }
 
             const { uid } = jwt.verify(refreshTokenClient, config.jwt_secret)
-
+            console.log("PASAMOS EL VERIFY")
             const token = generateToken(uid, 10)
 
             res.status(200).json(token)
@@ -135,7 +135,7 @@ Dear ${USER.userFirstName} ${USER.userLastName},
 
 We have received a request to reset your password. Please click the link below to reset your password. This link will expire in 10 minutes for security reasons.
 
-${config.url_base}/recovery-password/${token}
+${config.url_base}recovery-password/${token}
 
 If you did not request a password reset, please ignore this email or contact our support team for assistance.
 
@@ -146,7 +146,7 @@ Rivera's Global Insurance Support Team
             await sendEmail(USER.userEmail, "Password Recovery Request", text)
             USER.userRecoveryToken = token
             await USER.save()
-            return res.status(200).json({ message: "Email send successfully" })
+            return res.status(200).json({ message: "Email send successfully", recoveryToken: token }) //ELIMINAR EL TOKEN CUANDO TERMINEN LAS PRUEBAS
         } catch (error) {
             if (error instanceof CustomError) {
                 return res.status(error.code).json(error.toJson())
@@ -159,12 +159,17 @@ Rivera's Global Insurance Support Team
     static async recoveryPassword(req, res) {
         try {
             let { password, password2 } = req.body
+            console.log(req.body)
             let { resetToken } = req.params
 
             const SECRET = config.jwt_secret
 
             if (password !== password2) {
                 throw new CustomError("Passwords don't match", 400, "API_RESETPASS_ERROR")
+            }
+            const VALIDPASSWORD = regexPassword(password)
+            if (!VALIDPASSWORD) {
+                throw new CustomError("Invalid format password", 400, "API_AUTHENTICATION_ERROR")
             }
             if (!SECRET) {
                 throw new CustomError("Secret token is not defined", 500, "API_SECRETOKEN_ERROR")

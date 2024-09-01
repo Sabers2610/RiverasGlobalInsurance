@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js "
   },
   "author": "Luis Saez",
   "license": "ISC",
@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "cors": "^2.8.5",
+    "jest-html-reporter": "^3.10.2",
     "nodemon": "^3.1.4"
   },
-
   "transform": {}
 }

@@ -1,8 +1,8 @@
 POST http://localhost:3000/api/v1/changePassword
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJiN2Q1MjFkMC0zZjYyLTQ3ZGQtOTgwNi0yMDA3YTZiMjc4ODgiLCJpYXQiOjE3MjE3NzI3OTAsImV4cCI6MTcyMTc3MzM5MH0.E2re3TGAI6KcXCvImyyUqxMZIJt9JnBcefq3MCC4PdY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiIyYTIzZDY0ZC0xMzJlLTQ0YWYtOTZlNS0wNmVhNWQwOTE4NGQiLCJpYXQiOjE3MjUwNjU1OTQsImV4cCI6MTcyNTA2NjE5NH0.nzXRKn0EL1naF0TJcHB4u822VshF7NQbRwXf56a-HZY
 
 {
-    "password": "Erwin123*",
-    "password2":"Erwin123*"
+    "password": "<script>alert('XSS');</script>",
+    "password2":"<script>alert('XSS');</script>"
 }
