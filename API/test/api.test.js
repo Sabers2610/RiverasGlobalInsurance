@@ -1,13 +1,13 @@
 import request from 'supertest'
 import { APP } from '../src/index.js'
-import {describe, it, expect} from '@jest/globals'
+import { describe, it, expect } from '@jest/globals'
 
 describe("Api endpoints test", () => {
     let GLOBALTOKEN = null
     let GLOBALCOOKIE = null
     let MALICIOUSQUERY = "' OR '1'='1"
     let XSS = "<script>alert('XSS');</script>"
-    let RECOVERYTOKEN=null
+    let RECOVERYTOKEN = null
     describe("POST /login", () => {
         it("Should log in with valid credentials", async () => {
             const data = {
@@ -19,7 +19,7 @@ describe("Api endpoints test", () => {
                 .post("/api/v1/login")
                 .set("Accept", "application/json")
                 .send(data)
-            
+
             expect(response.status).toBe(202)
             expect(response.body).toHaveProperty("userId")
             expect(response.body).toHaveProperty("userToken")
@@ -37,12 +37,12 @@ describe("Api endpoints test", () => {
                 .post("/api/v1/login")
                 .set("Accept", "application/json")
                 .send(data)
-            
+
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty("msg")
         })
 
-        it("should'n log in with a disabled account", async () =>{
+        it("should'n log in with a disabled account", async () => {
             const data = {
                 email: "pepito@gmail.com", // correo desactivado
                 password: "Erwin123*"
@@ -52,7 +52,7 @@ describe("Api endpoints test", () => {
                 .post("/api/v1/login")
                 .set("Accept", "application/json")
                 .send(data)
-            
+
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty("msg")
         })
@@ -77,7 +77,7 @@ describe("Api endpoints test", () => {
             expect(response.body).toHaveProperty("errors")
         })
 
-        it("should have XSS protection in log in", async () =>{
+        it("should have XSS protection in log in", async () => {
             const data = {
                 email: XSS,
                 password: XSS
@@ -96,11 +96,38 @@ describe("Api endpoints test", () => {
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty("errors")
         })
+
+        it("should have CSFR protection in log in", async () => {
+            let CSFR = `<form action="http://victim-site.com/change_password" method="POST">
+    <input type="hidden" name="password" value="newpassword">
+    <input type="submit" value="Submit">
+</form>
+<script>
+    document.forms[0].submit();
+</script>`
+            const data = {
+                email: CSFR,
+                password: CSFR
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/login")
+                .set("Accept", "application/json")
+                .send(data)
+            console.log("response failed info: ", {
+                method: response.request.method,
+                text: response.text,
+                headers: response.headers,
+                body: response.body
+            })
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty("errors")
+        })
     })
 
-    describe("POST /changePassword", () =>{
+    describe("POST /changePassword", () => {
         let CHANGETOKEN = null
-        it("should send a valid password", async()=>{
+        it("should send a valid password", async () => {
             const data_login = {
                 email: "jose@gmail.com",
                 password: "Erwin123*" // ya funciona pero coloco la misma password
@@ -125,7 +152,7 @@ describe("Api endpoints test", () => {
             expect(response.body.message).toBe("Password changed successfully")
         })
 
-        it("should send invalid password", async ()=>{
+        it("should send invalid password", async () => {
             const data = {
                 password: "invalid format password",
                 password2: "invalid format password2"
@@ -140,7 +167,7 @@ describe("Api endpoints test", () => {
             expect(response.body).toHaveProperty("errors")
         })
 
-        it("should have SQL protection in change password", async()=>{
+        it("should have SQL protection in change password", async () => {
             const data = {
                 password: MALICIOUSQUERY,
                 password2: MALICIOUSQUERY
@@ -179,9 +206,36 @@ describe("Api endpoints test", () => {
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty("errors")
         })
+
+        it("should have CSFR protection in change password", async () => {
+            let CSFR = `<form action="http://victim-site.com/change_password" method="POST">
+    <input type="hidden" name="password" value="newpassword">
+    <input type="submit" value="Submit">
+</form>
+<script>
+    document.forms[0].submit();
+</script>`
+            const data = {
+                password: CSFR,
+                password2: CSFR
+            }
+            let response = await request(APP)
+                .post("/api/v1/changePassword")
+                .send(data)
+                .set("Accept", "application/json")
+                .set("Authorization", `Bearer ${CHANGETOKEN}`)
+            console.log("response failed info: ", {
+                method: response.request.method,
+                text: response.text,
+                headers: response.headers,
+                body: response.body
+            })
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty("errors")
+        })
     })
 
-    describe("POST /verifyEmail", () =>{
+    describe("POST /verifyEmail", () => {
         it("Should send a valid and registered email", async () => {
             const data = {
                 email: "lu.saezd@duocuc.cl"
@@ -211,7 +265,7 @@ describe("Api endpoints test", () => {
             expect(response.body.msg).toBe("The email address doesn't exist")
         })
 
-        it("Should send a valid and disbale email's account", async() => {
+        it("Should send a valid and disbale email's account", async () => {
             const data = {
                 email: "pepito@gmail.com"
             }
@@ -225,7 +279,7 @@ describe("Api endpoints test", () => {
             expect(response.body.msg).toBe("The email address doesn't exist")
         })
 
-        it("Should send a invalid email", async () =>{
+        it("Should send a invalid email", async () => {
             const data = {
                 email: "pepito@gmail"
             }
@@ -276,33 +330,59 @@ describe("Api endpoints test", () => {
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty("errors")
         })
+
+        it("Should have CSFR protection  in verify email", async () => {
+            let CSFR = `<form action="http://victim-site.com/change_password" method="POST">
+    <input type="hidden" name="password" value="newpassword">
+    <input type="submit" value="Submit">
+</form>
+<script>
+    document.forms[0].submit();
+</script>`
+            const data = {
+                email: CSFR
+            }
+
+            const response = await request(APP)
+                .post("/api/v1/verifyEmail")
+                .send(data)
+                .set("Accept", "application/json")
+            console.log("response failed info: ", {
+                method: response.request.method,
+                text: response.text,
+                headers: response.headers,
+                body: response.body
+            })
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty("errors")
+        })
     })
 
-    describe("GET /refreshToken", ()=>{
+    describe("GET /refreshToken", () => {
         it("Should send a valid refreshtoken", async () => {
             const response = await request(APP)
                 .get("/api/v1/refreshtoken")
                 .set("Cookie", GLOBALCOOKIE) //REVISAR!
-            
-                expect(response.status).toBe(200)
-                expect(response.body).toHaveProperty("token")
+
+            expect(response.status).toBe(200)
+            expect(response.body).toHaveProperty("token")
         })
 
         it("Should'n send a valid refreshtoken", async () => {
             const response = await request(APP)
                 .get("/api/v1/refreshtoken")
                 .set("Cookie", "ASKLJDLAKSJDLKASJDLKASJDLKASJDLKASJDLKSAJDLKASJDLKAJDKLSJDLKJSAKLDJALKJDASLKJDALKSJDLKASJD") //REVISAR!
-            
-                expect(response.status).toBe(400)
-                expect(response.body).toHaveProperty("errors")
+
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty("errors")
         })
 
         it("Should'n send refreshtoken", async () => {
             const response = await request(APP)
                 .get("/api/v1/refreshtoken")
-            
-                expect(response.status).toBe(400)
-                expect(response.body).toHaveProperty("errors")
+
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty("errors")
         })
     })
 
@@ -311,17 +391,17 @@ describe("Api endpoints test", () => {
             const response = await request(APP)
                 .get("/api/v1/autologin")
                 .set("Authorization", `Bearer ${GLOBALTOKEN}`)
-            
+
             expect(response.status).toBe(200)
             expect(response.body).toHaveProperty("userId")
             expect(response.body).toHaveProperty("userToken")
         })
-        
+
         it("should log in with a invalid token refreshed", async () => {
             const response = await request(APP)
                 .get("/api/v1/autologin")
                 .set("Authorization", `Bearer ${GLOBALTOKEN}x`)
-            
+
             expect(response.status).toBe(401)
             expect(response.body.message).toBe("Invalid token")
         })
@@ -338,8 +418,8 @@ describe("Api endpoints test", () => {
         })
     })
 
-    describe("POST /recoveryPassword", ()=>{
-        it("should send a invalid password", async()=>{
+    describe("POST /recoveryPassword", () => {
+        it("should send a invalid password", async () => {
             const data = {
                 password: "Erwin123",
                 password2: "Erwin123"
@@ -354,7 +434,7 @@ describe("Api endpoints test", () => {
             expect(response.body.msg).toBe("Invalid format password")
         })
 
-        it("should have SQL protection in recovery password", async()=>{
+        it("should have SQL protection in recovery password", async () => {
             const data = {
                 password: MALICIOUSQUERY,
                 password2: MALICIOUSQUERY
@@ -374,7 +454,7 @@ describe("Api endpoints test", () => {
             expect(response.body.msg).toBe("Invalid format password")
         })
 
-        it("should have XSS protection in recovery password", async()=>{
+        it("should have XSS protection in recovery password", async () => {
             const data = {
                 password: XSS,
                 password2: XSS
@@ -394,7 +474,34 @@ describe("Api endpoints test", () => {
             expect(response.body).toHaveProperty("errors")
         })
 
-        it("should send a valid password", async()=>{
+        it("should have CSFR protection in recovery password", async () => {
+            let CSFR = `<form action="http://victim-site.com/change_password" method="POST">
+    <input type="hidden" name="password" value="newpassword">
+    <input type="submit" value="Submit">
+</form>
+<script>
+    document.forms[0].submit();
+</script>`
+            const data = {
+                password: CSFR,
+                password2: CSFR
+            }
+
+            const response = await request(APP)
+                .post(`/api/v1/recoveryPassword/${RECOVERYTOKEN}`)
+                .send(data)
+                .set("Accept", "application/json")
+            console.log("response failed info: ", {
+                method: response.request.method,
+                text: response.text,
+                headers: response.headers,
+                body: response.body
+            })
+            expect(response.status).toBe(400)
+            expect(response.body).toHaveProperty("errors")
+        })
+
+        it("should send a valid password", async () => {
             const data = {
                 password: "Erwin123*",
                 password2: "Erwin123*"
