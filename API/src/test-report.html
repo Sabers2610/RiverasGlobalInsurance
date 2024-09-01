@@ -257,35 +257,363 @@ header {
   font-size: 1rem;
   padding: 0 0.5rem;
 }
-</style></head><body><div class="jesthtml-content"><header><h1 id="title">Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2024-09-01 14:04:54</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (1)</div><div class="summary-passed  summary-empty">0 passed</div><div class="summary-failed ">1 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (0)</div><div class="summary-passed  summary-empty">0 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><input id="collapsible-0" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-0"><div class="suite-info"><div class="suite-path">C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js</div><div class="suite-time">0s</div></div></label><div class="suite-tests"><div class="test-result failed"><div class="failureMessages suiteFailure"> <pre class="failureMsg">  ● Test suite failed to run
-
-    Jest encountered an unexpected token
-
-    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
-
-    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
-
-    By default "node_modules" folder is ignored by transformers.
-
-    Here's what you can do:
-     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
-     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
-     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
-     • If you need a custom transformation specify a "transform" option in your config.
-     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
-
-    You'll find more details and examples of these config options in the docs:
-    https://jestjs.io/docs/configuration
-    For information about custom transformations, see:
-    https://jestjs.io/docs/code-transformation
-
-    Details:
-
-    C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:1
-    ({"Object.&lt;anonymous&gt;":function(module,exports,require,__dirname,__filename,jest){import request from 'supertest';
-                                                                                      ^^^^^^
-
-    SyntaxError: Cannot use import statement outside a module
-
-      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
-</pre></div></div></div></div></div></body></html>
+</style></head><body><div class="jesthtml-content"><header><h1 id="title">Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2024-09-01 14:21:07</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (1)</div><div class="summary-passed ">1 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (25)</div><div class="summary-passed ">25 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><input id="collapsible-0" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-0"><div class="suite-info"><div class="suite-path">C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js</div><div class="suite-time warn">13.055s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /login</div><div class="test-title">Should log in with valid credentials</div><div class="test-status">passed</div><div class="test-duration">0.693s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /login</div><div class="test-title">should'n log in with invalid credentials</div><div class="test-status">passed</div><div class="test-duration">0.443s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /login</div><div class="test-title">should'n log in with a disabled account</div><div class="test-status">passed</div><div class="test-duration">0.438s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /login</div><div class="test-title">should have SQL protection in log in</div><div class="test-status">passed</div><div class="test-duration">0.012s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /login</div><div class="test-title">should have XSS protection in log in</div><div class="test-status">passed</div><div class="test-duration">0.009s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /changePassword</div><div class="test-title">should send a valid password</div><div class="test-status">passed</div><div class="test-duration">1.363s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /changePassword</div><div class="test-title">should send invalid password</div><div class="test-status">passed</div><div class="test-duration">0.006s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /changePassword</div><div class="test-title">should have SQL protection in change password</div><div class="test-status">passed</div><div class="test-duration">0.321s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /changePassword</div><div class="test-title">should have XSS protection in change password</div><div class="test-status">passed</div><div class="test-duration">0.009s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /verifyEmail</div><div class="test-title">Should send a valid and registered email</div><div class="test-status">passed</div><div class="test-duration">3.76s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /verifyEmail</div><div class="test-title">Should send a valid and unregistered email</div><div class="test-status">passed</div><div class="test-duration">0.165s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /verifyEmail</div><div class="test-title">Should send a valid and disbale email's account</div><div class="test-status">passed</div><div class="test-duration">0.165s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /verifyEmail</div><div class="test-title">Should send a invalid email</div><div class="test-status">passed</div><div class="test-duration">0.007s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /verifyEmail</div><div class="test-title">Should have SQL protection in verify email</div><div class="test-status">passed</div><div class="test-duration">0.008s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /verifyEmail</div><div class="test-title">Should have XSS protection  in verify email</div><div class="test-status">passed</div><div class="test-duration">0.007s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; GET /refreshToken</div><div class="test-title">Should send a valid refreshtoken</div><div class="test-status">passed</div><div class="test-duration">0.009s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; GET /refreshToken</div><div class="test-title">Should'n send a valid refreshtoken</div><div class="test-status">passed</div><div class="test-duration">0.006s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; GET /refreshToken</div><div class="test-title">Should'n send refreshtoken</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /autoLogin</div><div class="test-title">should log in with a valid token refreshed</div><div class="test-status">passed</div><div class="test-duration">0.167s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /autoLogin</div><div class="test-title">should log in with a invalid token refreshed</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /logout</div><div class="test-title">should log out successfully</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /recoveryPassword</div><div class="test-title">should send a invalid password</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /recoveryPassword</div><div class="test-title">should have SQL protection in recovery password</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /recoveryPassword</div><div class="test-title">should have XSS protection in recovery password</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">Api endpoints test &gt; POST /recoveryPassword</div><div class="test-title">should send a valid password</div><div class="test-status">passed</div><div class="test-duration">0.545s</div></div></div></div><div class="suite-consolelog"><div class="suite-consolelog-header">Console Log</div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.tableExists (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:242:17)
+    at Function.sync (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1349:21)
+    at Function.UserType.syncTable (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\models\userType.model.js:24:5)
+    at syncTables (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\utils\syncDatabase.util.js:7:9)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\index.js:10:1</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'UserTypes' AND TABLE_SCHEMA = 'defaultdb'</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.showIndex (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:600:12)
+    at Function.sync (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1413:29)
+    at Function.UserType.syncTable (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\models\userType.model.js:24:5)
+    at syncTables (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\utils\syncDatabase.util.js:7:9)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\index.js:10:1</pre><pre class="suite-consolelog-item-message">Executing (default): SHOW INDEX FROM `UserTypes`</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.tableExists (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:242:17)
+    at Function.sync (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1349:21)
+    at Function.User.syncTable (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\models\user.model.js:172:5)
+    at syncTables (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\utils\syncDatabase.util.js:8:9)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\index.js:10:1</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'Users' AND TABLE_SCHEMA = 'defaultdb'</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.showIndex (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:600:12)
+    at Function.sync (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1413:29)
+    at Function.User.syncTable (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\models\user.model.js:172:5)
+    at syncTables (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\utils\syncDatabase.util.js:8:9)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\index.js:10:1</pre><pre class="suite-consolelog-item-message">Executing (default): SHOW INDEX FROM `Users`</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at login (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:28:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userEmail` = 'lu.saezd@duocuc.cl' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at login (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:28:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userEmail` = 'lu.saez@duocuc.cl' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at login (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:28:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userEmail` = 'pepito@gmail.com' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:70:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: `{"errors":[{"type":"field","value":"' OR '1'='1","msg":"Invalid email","path":"email","location":"body"}]}`,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '106',
+    etag: 'W/"6a-iayu6YD1HeppOUNz/GGBoVJmjAA"',
+    date: 'Sun, 01 Sep 2024 18:21:13 GMT',
+    connection: 'close'
+  },
+  body: { errors: [ [Object] ] }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:90:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: `{"errors":[{"type":"field","value":"&lt;script&gt;alert('XSS');&lt;/script&gt;","msg":"Invalid email","path":"email","location":"body"},{"type":"field","value":"&lt;script&gt;alert('XSS');&lt;/script&gt;","msg":"Invalid format password","path":"password","location":"body"}]}`,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '251',
+    etag: 'W/"fb-VsGt9tgR0yLSJA2E0zOAfV6bs5c"',
+    date: 'Sun, 01 Sep 2024 18:21:13 GMT',
+    connection: 'close'
+  },
+  body: { errors: [ [Object], [Object] ] }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at login (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:28:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userEmail` = 'jose@gmail.com' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = 'a9bb8084-2df4-44a1-b680-0340b51e4819' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at changePassword (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:70:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = 'a9bb8084-2df4-44a1-b680-0340b51e4819' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at MySQLQueryInterface.update (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:898:12)
+    at User.save (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:4154:35)
+    at changePassword (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:89:17)</pre><pre class="suite-consolelog-item-message">Executing (default): UPDATE `Users` SET `userPassword`=?,`updatedAt`=? WHERE `userId` = ?</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = 'a9bb8084-2df4-44a1-b680-0340b51e4819' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = 'a9bb8084-2df4-44a1-b680-0340b51e4819' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at changePassword (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:70:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = 'a9bb8084-2df4-44a1-b680-0340b51e4819' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:153:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: '{"type":"API_AUTHENTICATION_ERROR","code":400,"msg":"Password format invalid"}',
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '78',
+    etag: 'W/"4e-Xm2aj62sBEvBmVFSaw1YPP/7TIA"',
+    date: 'Sun, 01 Sep 2024 18:21:15 GMT',
+    connection: 'close'
+  },
+  body: {
+    type: 'API_AUTHENTICATION_ERROR',
+    code: 400,
+    msg: 'Password format invalid'
+  }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = 'a9bb8084-2df4-44a1-b680-0340b51e4819' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:173:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: `{"errors":[{"type":"field","value":"&lt;script&gt;alert('XSS');&lt;/script&gt;","msg":"Invalid format password","path":"password","location":"body"},{"type":"field","value":"&lt;script&gt;alert('XSS');&lt;/script&gt;","msg":"invalid format password2","path":"password2","location":"body"}]}`,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '266',
+    etag: 'W/"10a-pULXoTbkwNG0o10WJgNgFcdlrn4"',
+    date: 'Sun, 01 Sep 2024 18:21:15 GMT',
+    connection: 'close'
+  },
+  body: { errors: [ [Object], [Object] ] }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at verifyEmail (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:127:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userEmail` = 'lu.saezd@duocuc.cl' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\utils\sendEmail.util.js:21:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at verifyEmail (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:146:13)</pre><pre class="suite-consolelog-item-message">Sending email...</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.update (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:898:12)
+    at User.save (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:4154:35)
+    at verifyEmail (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:148:13)</pre><pre class="suite-consolelog-item-message">Executing (default): UPDATE `Users` SET `userRecoveryToken`=?,`updatedAt`=? WHERE `userId` = ?</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at verifyEmail (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:127:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userEmail` = 'lu.saez@duocuc.cl' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at verifyEmail (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:127:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userEmail` = 'pepito@gmail.com' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:251:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: `{"errors":[{"type":"field","value":"' OR '1'='1","msg":"Invalid email","path":"email","location":"body"}]}`,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '106',
+    etag: 'W/"6a-iayu6YD1HeppOUNz/GGBoVJmjAA"',
+    date: 'Sun, 01 Sep 2024 18:21:19 GMT',
+    connection: 'close'
+  },
+  body: { errors: [ [Object] ] }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:270:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: `{"errors":[{"type":"field","value":"&lt;script&gt;alert('XSS');&lt;/script&gt;","msg":"Invalid email","path":"email","location":"body"}]}`,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '125',
+    etag: 'W/"7d-cqeV6TMUg9UtQEk4XN9PnottFL0"',
+    date: 'Sun, 01 Sep 2024 18:21:19 GMT',
+    connection: 'close'
+  },
+  body: { errors: [ [Object] ] }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:110:21)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\middlewares\managerValidator.middleware.js:10:5)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at middleware (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express-validator\lib\middlewares\check.js:16:13)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">PASAMOS EL VERIFY</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = '2a23d64d-132e-44af-96e5-06ea5d09184d' AND `User`.`userEnabled` = true;</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at Function.findByPk (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1955:12)
+    at autoLogin (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:227:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = '2a23d64d-132e-44af-96e5-06ea5d09184d';</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\middlewares\authValidator.middleware.js:39:17)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\middlewares\managerValidator.middleware.js:10:5)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at middleware (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express-validator\lib\middlewares\check.js:16:13)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">JsonWebTokenError {
+  name: 'JsonWebTokenError',
+  message: 'invalid signature'
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:162:21)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\middlewares\managerValidator.middleware.js:10:5)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at middleware (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express-validator\lib\middlewares\check.js:16:13)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{ password: 'Erwin123', password2: 'Erwin123' }</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:162:21)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\middlewares\managerValidator.middleware.js:10:5)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at middleware (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express-validator\lib\middlewares\check.js:16:13)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  password: '&amp;#x27; OR &amp;#x27;1&amp;#x27;=&amp;#x27;1',
+  password2: '&amp;#x27; OR &amp;#x27;1&amp;#x27;=&amp;#x27;1'
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:367:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: '{"type":"API_AUTHENTICATION_ERROR","code":400,"msg":"Invalid format password"}',
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '78',
+    etag: 'W/"4e-efk4z4cwcIG3XpgtHWK/h52lwoI"',
+    date: 'Sun, 01 Sep 2024 18:21:19 GMT',
+    connection: 'close'
+  },
+  body: {
+    type: 'API_AUTHENTICATION_ERROR',
+    code: 400,
+    msg: 'Invalid format password'
+  }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\test\api.test.js:387:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">response failed info:  {
+  method: 'POST',
+  text: `{"errors":[{"type":"field","value":"&lt;script&gt;alert('XSS');&lt;/script&gt;","msg":"Invalid format password","path":"password","location":"body"},{"type":"field","value":"&lt;script&gt;alert('XSS');&lt;/script&gt;","msg":"invalid format password2","path":"password2","location":"body"}]}`,
+  headers: {
+    'x-powered-by': 'Express',
+    'access-control-allow-origin': 'http://localhost:5173',
+    vary: 'Origin',
+    'access-control-allow-credentials': 'true',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '266',
+    etag: 'W/"10a-pULXoTbkwNG0o10WJgNgFcdlrn4"',
+    date: 'Sun, 01 Sep 2024 18:21:19 GMT',
+    connection: 'close'
+  },
+  body: { errors: [ [Object], [Object] ] }
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:162:21)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\middlewares\managerValidator.middleware.js:10:5)
+    at Layer.handle [as handle_request] (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express\lib\router\route.js:149:13)
+    at middleware (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\express-validator\lib\middlewares\check.js:16:13)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{ password: 'Erwin123*', password2: 'Erwin123*' }</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at MySQLQueryInterface.select (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:1001:12)
+    at Function.findAll (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1824:21)
+    at Function.findOne (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1998:12)
+    at Function.findByPk (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:1955:12)
+    at recoveryPassword (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:179:26)</pre><pre class="suite-consolelog-item-message">Executing (default): SELECT `userId`, `userEnabled`, `userFirstName`, `userLastName`, `userBirthDate`, `userAddress`, `userPhone`, `userEmail`, `userPassword`, `userFirstSession`, `userRecoveryToken`, `createdAt`, `updatedAt`, `userTypeId` FROM `Users` AS `User` WHERE `User`.`userId` = '2a23d64d-132e-44af-96e5-06ea5d09184d';</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Sequelize.log (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:1281:15)
+    at Query._logQuery (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query.js:376:22)
+    at Query.run (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\mysql\query.js:39:27)
+    at C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\sequelize.js:650:28
+    at MySQLQueryInterface.update (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\dialects\abstract\query-interface.js:898:12)
+    at User.save (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\node_modules\sequelize\src\model.js:4154:35)
+    at recoveryPassword (C:\Users\luis saez\Desktop\riveras global insurance\RiverasGlobalInsurance\API\src\controllers\user.controller.js:188:13)</pre><pre class="suite-consolelog-item-message">Executing (default): UPDATE `Users` SET `userPassword`=?,`userRecoveryToken`=?,`updatedAt`=? WHERE `userId` = ?</pre></div></div></div></div></body></html>
