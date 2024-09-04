@@ -208,6 +208,16 @@ describe('API Endpoints', () =>{
             expect(response.status).toBe(200);
         });
 
+        it('Get all registered users but token invalid', async () => {
+
+            const response = await request(APP)
+                .get('/api/v1/getAll')
+                .set('Accept', 'application/json')
+                .set("Authorization", `Bearer ${TOKENINVALID}`)
+
+            expect(response.status).toBe(401);
+        });
+
         it('Get users with filter (email)', async () =>{
 
             const data={
