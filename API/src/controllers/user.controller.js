@@ -1,5 +1,8 @@
 import Sequelize from 'sequelize'
 import { User } from '../models/user.model.js'
+import {ChangeHistory} from '../models/changeHistory.model.js'
+import { UserType } from '../models/userType.model.js'
+import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
 import { generateRefreshToken, generateToken } from '../utils/tokenManager.util.js'
 import CustomError from '../utils/exception.util.js'
@@ -238,6 +241,238 @@ Rivera's Global Insurance Support Team
             }
             error = new CustomError(error.message, 500, "API_AUTOLOGIN_ERROR")
             return res.status(error.code).json(error.toJson())
+        }
+    }
+
+    //erwin
+
+    static async register(request, response){
+        try {
+
+            let {firstName, lastName, birthDate, address, phone, email} = request.body
+            const USERTYPE = await UserType.findOne({where: { UserTypeName: 'operador' }})
+
+            await User.create({
+                userFirstName: firstName,
+                userLastName :lastName,
+                userBirthDate: birthDate,
+                userAddress: address,
+                userPhone: phone,
+                userEmail: email,
+                userTypeId: USERTYPE.userTypeId
+            })
+
+            return response.status(202).json({"msg" : "User created sucessfully"})
+
+        } catch (error) {
+            if(error instanceof Sequelize.ValidationError){
+                const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
+                return response.status(ERROR.code).json(ERROR.toJson())
+            }
+            else if(error instanceof CustomError){
+                return response.status(401).json(error.toJson())
+            }
+            else{
+                return response.status(500).json(error.message)
+            }
+        }
+    }
+
+    static async getAll(request, response) {
+        try {
+            const USERLIST = await User.findAll()
+
+            if (USERLIST.length === 0) {
+                throw new Error("No hay usuarios registrados")
+            }
+            return response.status(200).json(USERLIST)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    static async findEmail(request, response) {
+        try {
+            const { email } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
+            const USERMAIl = await User.findOne({ where: { userEmail: email } });
+            if (!USERMAIl) {
+                throw new CustomError("Email not found", 404, "API_FINDONE_VALIDATE");
+            }
+            return response.status(200).json(USERMAIl);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json(error.message);
+            }
+        }
+    }
+
+    static async findFirstName(request, response) {
+        try {
+            const { firstName } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
+            const USERFIRSTNAME = await User.findOne({ where: { userFirstName: firstName } });
+            console.log(USERFIRSTNAME)
+            if (!USERFIRSTNAME) {
+                throw new CustomError("First Name not found", 404, "API_FINDONE_VALIDATE");
+            }
+            return response.status(200).json(USERFIRSTNAME);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json(error.message);
+            }
+        }
+    }
+    
+    static async findLastName(request, response) {
+        try {
+            const { lastName } = request.body; // Asegúrate de que estás extrayendo el valor de email correctamente
+            const USERLASTNAME = await User.findOne({ where: { userLastName: lastName } });
+            console.log(USERLASTNAME)
+            if (!USERLASTNAME) {
+                throw new CustomError("First Name not found", 404, "API_FINDONE_VALIDATE");
+            }
+            return response.status(200).json(USERLASTNAME);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json(error.message);
+            }
+        }
+    }
+
+    static async findById(request, response) {
+        try {
+            const { id } = request.params;
+            const user = await User.findByPk(id);
+
+            if (!user) {
+                throw new CustomError("User not found", 404, "API_FINDID_VALIDATE");
+            }
+
+            return response.status(200).json(user);
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_FINDONE_VALIDATE");
+                return response.status(ERROR.code).json(ERROR.toJson());
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson());
+            } else {
+                return response.status(500).json({ message: error.message });
+            }
+        }
+    }
+
+
+    static async adminModify(request, response) {
+        try {
+            let { firstName, lastName, birthDate, address, phone } = request.body
+
+            const USER = await User.findByPk(request.params.id)
+            const USER2 = await User.findByPk(request.uid)
+            if (!USER) {
+                throw new CustomError("User not found", 500, "API_MODIFY_ERROR")
+            }
+
+
+            const OLDUSER = USER.toJSON()
+            let changes = []
+
+            if (firstName !== "" && firstName !== OLDUSER.userFirstName) {
+                USER.userFirstName = firstName
+                changes.push(`first name from ${OLDUSER.userFirstName} to ${firstName}`)
+            }
+
+            if (lastName !== "" && lastName !== OLDUSER.userLastName) {
+                USER.userLastName = lastName
+                changes.push(`last name from ${OLDUSER.userLastName} to ${lastName}`)
+            }
+
+            if (birthDate !== "" && birthDate !== OLDUSER.userBirthDate) {
+                USER.userBirthDate = birthDate
+                changes.push(`birth date from ${OLDUSER.userBirthDate} to ${birthDate}`)
+            }
+
+            if (address !== "" && address !== OLDUSER.userAddress) {
+                USER.userAddress = address
+                changes.push(`address from ${OLDUSER.userAddress} to ${address}`)
+            }
+
+            if (phone !== "" && phone !== OLDUSER.userPhone) {
+                USER.userPhone = phone
+                changes.push(`phone from ${OLDUSER.userPhone} to ${phone}`)
+            }
+
+            await USER.save()
+
+            if (changes.length > 0) {
+                await ChangeHistory.create({
+                    changeUserEmail: USER2.userEmail,
+                    changeDescription: `The user with email ${USER2.userEmail} has modified the following fields: ${changes.join(", ")}`
+                })
+            }
+
+            return response.status(202).json({ "msg": "User successfully modified" })
+
+        } catch (error) {
+            console.log(error)
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_REGISTER_VALIDATE")
+                return response.status(ERROR.code).json(ERROR.toJson())
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson())
+            } else {
+                return response.status(500).json(error.message)
+            }
+        }
+    }
+
+    static async disableUser(request, response) {
+
+        const USERID = request.params.id
+
+        try {
+            if (request.uid === USERID) {
+                throw new CustomError("You cannot modify your own information", 403, "API_MODIFY_SELF_ERROR")
+            }
+
+            const USER = await User.findByPk(USERID)
+
+            if (!USER) {
+                return response.status(404).json({ message: 'User not found' })
+            }
+
+            if(USER.userEnabled === false){
+                USER.userEnabled = true
+            }else{
+                USER.userEnabled = false
+            }
+
+            await USER.save()
+
+            return response.status(202).json({ "msg": 'User successfully disabled' })
+        } catch (error) {
+            if (error instanceof Sequelize.ValidationError) {
+                const ERROR = new CustomError(error.message, 400, "API_MODIFY_VALIDATE")
+                return response.status(ERROR.code).json(ERROR.toJson())
+            } else if (error instanceof CustomError) {
+                return response.status(error.code).json(error.toJson())
+            } else {
+                return response.status(500).json(error.message)
+            }
         }
     }
 }

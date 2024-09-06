@@ -119,12 +119,7 @@ User.init({
     },
     userPassword: {
         type: DataTypes.STRING(500),
-        allowNull: false,
-        validate: {
-            notNull: {
-                msg: "Please enter a valid password"
-            }
-        }
+        allowNull: true
     },
     userFirstSession: {
         type: DataTypes.BOOLEAN,
@@ -147,11 +142,9 @@ User.init({
         },
 
         beforeSave: async (user, options) => {
-            if(user.changed("userPassword")) {
-                const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
-                user.userPassword = HASHPASSWORD
-            }
-        },
+            const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
+            user.userPassword = HASHPASSWORD
+        }
     }
 })
 
