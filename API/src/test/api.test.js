@@ -112,5 +112,36 @@ describe('API Endpoints', () => {
                 expect(response.body).toHaveProperty("msg")
             })
         })
+
+        describe("CSFR inyection vulnerability describe", () => {
+            let CSFR = `<form action="http://victim-site.com/change_password" method="POST">
+            <input type="hidden" name="password" value="newpassword">
+            <input type="submit" value="Submit">
+        </form>
+        <script>
+            document.forms[0].submit();
+        </script>`
+
+            it("Should not send information with a query", async () => {
+                const data = {
+                    firstName: CSFR,
+                    lastName: CSFR,
+                    birthDate: CSFR,
+                    address: CSFR,
+                    phone: CSFR,
+                    currentPassword: CSFR,
+                    password: CSFR,
+                    password2: CSFR
+                }
+                const response = await request(APP)
+                    .post("/api/v1/modifyUser")
+                    .set('Authorization', `Bearer ${GLOBALTOKEN}`)
+                    .send(data)
+                    .set("Accept", "application/json")
+
+                expect(response.status).toBe(400)
+                expect(response.body).toHaveProperty("msg")
+            })
+        })
     })
 });
