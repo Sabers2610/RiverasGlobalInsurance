@@ -1,0 +1,7 @@
+GET http://localhost:3000/api/v1/getAll 
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmQ4MzFmMy05Y2NjLTQ5MmQtOGEzNi0wYjFjYzMxYzc5YTQiLCJpYXQiOjE3MjE4NTQ2NzAsImV4cCI6MTcyMTg1NTI3MH0.m3yYi0YuNjg33U0mJguJnqsBHuc0GqozC0BaN2nj0XQ
+
+{
+
+}

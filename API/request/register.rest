@@ -1,0 +1,12 @@
+POST http://localhost:3000/api/v1/register
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmQ4MzFmMy05Y2NjLTQ5MmQtOGEzNi0wYjFjYzMxYzc5YTQiLCJpYXQiOjE3MjU2NDMxMjQsImV4cCI6MTcyNTY0MzcyNH0.8_ehl5mk6AgpewZuwyLjCSOu7k5Gw7p5ATiNQ6u7gYM
+
+{
+   "firstName": "luis", 
+   "lastName": "saez", 
+   "birthDate": "1992/04/24", 
+   "address": "mi casita", 
+   "phone": "9999999", 
+   "email": "lu.saezd@duocuc.cl" 
+}

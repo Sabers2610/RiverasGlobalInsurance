@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/v1/logout
+content-type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjE0MTI1ODMsImV4cCI6MTcyMTQxMzE4M30.ovhyHiPh7uF2P4O5aUWkcfcZLgJpybUoKNVbQPXKdd0",
+    "email":"juanitodios@loscielos.cl"
+}
