@@ -53,7 +53,7 @@ ROUTER.route("/adminModify/:id")
     .post(adminValidator, UserController.adminModify)
 
 ROUTER.route("/userDisable/:id")
-    .get(adminValidator, UserController.disableUser)
+    .post(adminValidator, UserController.disableUser)
 
 ROUTER.route("/modifyUser")
     .post(authValidator, UserController.modify)

@@ -236,7 +236,7 @@ describe('API Endpoints', () =>{
         it('Get users with filter (firstName)', async () =>{
 
             const data={
-                firstName: "prueba" 
+                firstName: "NewFirstName" 
             }
 
             const response = await request(APP)
@@ -251,7 +251,7 @@ describe('API Endpoints', () =>{
         it('Get users with filter (lastName)', async () =>{
 
             const data={
-                lastName: "prueba" 
+                lastName: "NewLastName" 
             }
 
             const response = await request(APP)
