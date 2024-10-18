@@ -1,6 +1,6 @@
 import request from 'supertest'
 import { APP } from '../src/index.js'
-import {describe, it, expect} from '@jest/globals'
+import { describe, it, expect } from '@jest/globals'
 
 
 
@@ -17,7 +17,7 @@ describe('API Endpoints', () => {
                 .post("/api/v1/login")
                 .send(data_login)
                 .set("Accept", "application/json")
-            
+
             GLOBALTOKEN = response.body.userToken.token
 
             const data = {
@@ -40,7 +40,7 @@ describe('API Endpoints', () => {
             expect(response.status).toBe(202);
             expect(response.body.msg).toBe('User successfully modified');
         })
-    
+
         it('should modify user details with invalid data', async () => {
             const data = {
                 firstName: 'InvalidFirstName',
@@ -144,4 +144,33 @@ describe('API Endpoints', () => {
             })
         })
     })
-});
+
+    describe("POST /userDisable/:id", () => {
+        let GLOBALTOKEN = null
+        beforeAll(async () => {
+            const data_login = {
+                email: "juan@duocuc.cl",
+                password: "GlobalInsurance#2024"
+            };
+
+            let response = await request(APP)
+                .post("/api/v1/login")
+                .send(data_login)
+                .set("Accept", "application/json");
+
+            GLOBALTOKEN = response.body.userToken.token
+        })
+
+        it('should disable a user successfully', async () => {
+            let response = await request(APP)
+                .post("/api/v1/userDisable/fd37319f-00b1-4d9b-8543-c4634676fbad")
+                .set('Authorization', `Bearer ${GLOBALTOKEN}`)
+                .set('Accept', 'application/json')
+
+
+            expect(response.status).toBe(202);
+            expect(response.body.msg).toBe('User successfully disabled');
+        })
+    })
+
+})
