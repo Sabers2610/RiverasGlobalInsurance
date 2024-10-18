@@ -142,8 +142,10 @@ User.init({
         },
 
         beforeSave: async (user, options) => {
-            const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
-            user.userPassword = HASHPASSWORD
+            if (user.changed("userPassword")) {
+                const HASHPASSWORD = await bcrypt.hash(user.userPassword, 10)
+                user.userPassword = HASHPASSWORD
+            }
         }
     }
 })
