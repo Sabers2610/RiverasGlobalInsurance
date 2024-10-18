@@ -6,6 +6,8 @@ describe('API Endpoints', () =>{
     
     let TOKEN = null
     let TOKENINVALID = null
+    let id = null
+
     describe('POST /login', () => {
         it('should log in with valid credentials', async () => {
             const credentials = {
@@ -40,6 +42,24 @@ describe('API Endpoints', () =>{
             expect(response.body).toHaveProperty("userToken")
             TOKENINVALID = response.body.userToken.token
         });
+
+        it('should log in with valid credentials', async () => {
+            const credentials = {
+                email: 'prueba@gmail.com',
+                password: 'GlobalInsurance#2024'
+            };
+
+            const response = await request(APP)
+                .post('/api/v1/login')
+                .send(credentials)
+                .set('Accept', 'application/json');
+
+            expect(response.status).toBe(202);
+            expect(response.body).toHaveProperty("userId")
+            expect(response.body).toHaveProperty("userToken")
+            id = response.body.userId
+        });
+
     });
 
     describe('POST /register', () =>{
@@ -236,7 +256,7 @@ describe('API Endpoints', () =>{
         it('Get users with filter (firstName)', async () =>{
 
             const data={
-                firstName: "prueba" 
+                firstName: "NewFirstName" 
             }
 
             const response = await request(APP)
@@ -251,7 +271,7 @@ describe('API Endpoints', () =>{
         it('Get users with filter (lastName)', async () =>{
 
             const data={
-                lastName: "prueba" 
+                lastName: "NewLastName" 
             }
 
             const response = await request(APP)
@@ -435,6 +455,27 @@ describe('API Endpoints', () =>{
 
             expect(response.text).not.toContain(CSFR)
             expect(response.status).toBe(404)
+        })
+    })
+
+    describe('should admin modify user details with valid data', ()=>{
+        it('should modify user details with valid data', async () => {
+            const data = {
+                firstName: 'NewFirstName',
+                lastName: 'NewLastName',
+                birthDate: '1991-02-02',
+                address: 'New Address',
+                phone: '0987654321',
+            };
+
+            const response = await request(APP)
+            .post(`/api/v1/adminModify/${id}`)
+                .set('Authorization', `Bearer ${TOKEN}`)
+                .send(data)
+                .set('Accept', 'application/json');
+
+            expect(response.status).toBe(202);
+            expect(response.body.msg).toBe('User successfully modified');
         })
     })
 })
